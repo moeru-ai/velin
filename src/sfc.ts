@@ -1,16 +1,17 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
+import process from 'node:process'
+import { compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
-import * as Vue from 'vue'
+import { generateComponentId, readSourceFile, resolveFilePath, validateFileExists } from './utils'
 
-// Compile Single File Component to executable component
+/**
+ * Compiles a Vue Single File Component into an executable component
+ */
 export async function compileSFC(filePath: string) {
   // Read SFC file content
-  console.log(`Reading file from: ${filePath}`)
-  const source = fs.readFileSync(filePath, 'utf-8')
-  console.log(`File content:\n${source}`)
+  const source = readSourceFile(filePath)
 
   // Parse SFC file
   const { descriptor } = parse(source)
@@ -20,12 +21,31 @@ export async function compileSFC(filePath: string) {
     throw new Error(`${filePath} has no <template> tag.`)
   }
 
-  // Generate unique ID for different parts
-  const id = `vue-component-${Date.now()}`
+  // Generate unique component ID
+  const id = generateComponentId()
 
   // Compile template to render function
+  const { ssrRender } = await compileTemplateToRenderFunction(
+    descriptor.template.content,
+    filePath,
+    id,
+  )
+
+  // Create component with SSR render function
+  return { ssrRender }
+}
+
+/**
+ * Compiles template content to SSR render function
+ */
+async function compileTemplateToRenderFunction(
+  templateContent: string,
+  filePath: string,
+  id: string,
+): Promise<{ ssrRender: (push: any) => void }> {
+  // Compile template
   const templateResult = compileTemplate({
-    source: descriptor.template.content,
+    source: templateContent,
     filename: filePath,
     id,
     ssr: true,
@@ -38,69 +58,33 @@ export async function compileSFC(filePath: string) {
   const templateFilePath = path.resolve(process.cwd(), 'temp-template.js')
   fs.writeFileSync(templateFilePath, templateResult.code)
 
-  // Dynamically import compiled template code
-  const { ssrRender } = await import(/* @vite-ignore */ `file://${templateFilePath}`)
-
-  // Parse script content
-  let setupScript = ''
-  if (descriptor.scriptSetup) {
-    // Compile <script setup> content
-    const scriptResult = compileScript(descriptor, {
-      id,
-      inlineTemplate: false,
-    })
-    setupScript = scriptResult.content
+  try {
+    // Dynamically import compiled template code
+    const { ssrRender } = await import(/* @vite-ignore */ `file://${templateFilePath}`)
+    return { ssrRender }
   }
-  else if (descriptor.script) {
-    setupScript = descriptor.script.content
+  finally {
+    // Cleanup temp file
+    if (fs.existsSync(templateFilePath)) {
+      fs.unlinkSync(templateFilePath)
+    }
   }
-
-  // Extract imports and setup code
-  // const setupFunction = new Function('Vue', `
-  //   const { ref } = Vue;
-  //   ${setupScript}
-  //   return { setup() {
-  //     ${descriptor.scriptSetup ? setupScript : ''}
-  //     return { count, message };
-  //   }};
-  // `);
-
-  // Create component with parsed setup and SSR render function
-  const Component = {
-    // ...setupFunction(Vue),
-    Vue,
-    ssrRender,
-  }
-
-  // Cleanup temp file
-  fs.unlinkSync(templateFilePath)
-
-  return Component
 }
 
-// Render SFC to HTML string
-export async function renderSFC(filePath: string) {
+/**
+ * Render SFC to HTML string
+ */
+export async function renderSFC(filePath: string): Promise<string> {
   try {
-    // Ensure absolute path
-    const absolutePath = path.isAbsolute(filePath)
-      ? filePath
-      : path.resolve(process.cwd(), filePath)
-
-    console.log(`Rendering SFC from absolute path: ${absolutePath}`)
-
-    if (!fs.existsSync(absolutePath)) {
-      throw new Error(`File does not exist: ${absolutePath}`)
-    }
+    // Ensure absolute path and validate file exists
+    const absolutePath = resolveFilePath(filePath)
+    validateFileExists(absolutePath)
 
     // Compile SFC and get component
     const Component = await compileSFC(absolutePath)
 
-    // Create SSR app
-    const app = createSSRApp(Component)
-
     // Render to HTML
-    const html = await renderToString(app)
-    return html
+    return await renderToString(createSSRApp(Component))
   }
   catch (error) {
     console.error('Error in renderSFC:', error)

@@ -5,7 +5,7 @@ import { parseMarkdownPrompt, renderMarkdown } from '../src'
   try {
     // Parse Markdown with Vue syntax as prompt template
     console.log('\n--- PARSING MARKDOWN AS PROMPT TEMPLATE ---')
-    const template = await parseMarkdownPrompt('assets/Markdown.md')
+    const template = await parseMarkdownPrompt('examples/assets/Markdown.md')
     console.log('Default data:', template.data)
 
     // Render with default data
@@ -21,7 +21,7 @@ import { parseMarkdownPrompt, renderMarkdown } from '../src'
 
     // Original render (HTML output)
     console.log('\n--- ORIGINAL MARKDOWN TO HTML RENDER ---')
-    const htmlMD = await renderMarkdown('assets/Markdown.md')
+    const htmlMD = await renderMarkdown('examples/assets/Markdown.md')
     console.log('Markdown HTML Render result:\n', htmlMD)
   }
   catch (error) {

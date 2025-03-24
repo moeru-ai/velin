@@ -1,10 +1,11 @@
+import type { SFCDescriptor } from '@vue/compiler-sfc'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
-import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
+import { compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
-import * as Vue from 'vue'
 import { createSSRApp } from 'vue'
+import { generateComponentId, readSourceFile, resolveFilePath, validateFileExists } from './utils'
 
 /**
  * Compiles a Markdown file with Vue components into an executable component
@@ -12,31 +13,47 @@ import { createSSRApp } from 'vue'
  */
 export async function compileMarkdown(filePath: string) {
   // Read Markdown file content
-  console.log(`Reading file from: ${filePath}`)
-  const source = fs.readFileSync(filePath, 'utf-8')
-  // console.log(`File content:\n${source}`);
+  const source = readSourceFile(filePath)
 
   // Parse Markdown file as if it were a Vue SFC
   const { descriptor } = parse(source)
 
-  console.log(descriptor)
+  // Process the Markdown content
+  const templateContent = extractTemplateContent(source, descriptor)
 
-  // Process the Markdown content, preserving it as is
-  let templateContent = ''
-  if (descriptor.template) {
-    templateContent = descriptor.template.content
-  }
-  else {
-    // If no template tag, treat the markdown content as template
-    // Replace custom v-if directives with proper Vue syntax
-    templateContent = source.replace(/<v-if="([^"]+)">/g, '<div v-if="$1">')
-    templateContent = templateContent.replace(/<\/v-if>/g, '</div>')
-  }
-
-  // Generate unique ID for different parts
-  const id = `vue-component-${Date.now()}`
+  // Generate unique component ID
+  const id = generateComponentId()
 
   // Compile template to render function
+  const { ssrRender } = await compileTemplateToRenderFunction(templateContent, filePath, id)
+
+  // Create component with SSR render function
+  return { ssrRender }
+}
+
+/**
+ * Extracts template content from source or descriptor
+ */
+function extractTemplateContent(source: string, descriptor: SFCDescriptor): string {
+  if (descriptor.template) {
+    return descriptor.template.content
+  }
+
+  // If no template tag, treat the markdown content as template
+  // Replace custom v-if directives with proper Vue syntax
+  const content = source.replace(/<v-if="([^"]+)">/g, '<div v-if="$1">')
+  return content.replace(/<\/v-if>/g, '</div>')
+}
+
+/**
+ * Compiles template content to SSR render function
+ */
+async function compileTemplateToRenderFunction(
+  templateContent: string,
+  filePath: string,
+  id: string,
+): Promise<{ ssrRender: (push: any) => void }> {
+  // Compile template
   const templateResult = compileTemplate({
     source: templateContent,
     filename: filePath,
@@ -51,58 +68,32 @@ export async function compileMarkdown(filePath: string) {
   const templateFilePath = path.resolve(process.cwd(), 'temp-template.js')
   fs.writeFileSync(templateFilePath, templateResult.code)
 
-  // Dynamically import compiled template code
-  const { ssrRender } = await import(/* @vite-ignore */ `file://${templateFilePath}`)
-
-  // Parse script content
-  let setupScript = ''
-  if (descriptor.scriptSetup) {
-    // Compile <script setup> content
-    const scriptResult = compileScript(descriptor, {
-      id,
-      inlineTemplate: false,
-    })
-    setupScript = scriptResult.content
+  try {
+    // Dynamically import compiled template code
+    const { ssrRender } = await import(/* @vite-ignore */ `file://${templateFilePath}`)
+    return { ssrRender }
   }
-  else if (descriptor.script) {
-    setupScript = descriptor.script.content
+  finally {
+    // Cleanup temp file
+    if (fs.existsSync(templateFilePath)) {
+      fs.unlinkSync(templateFilePath)
+    }
   }
-
-  // Create component with parsed setup and SSR render function
-  const Component = {
-    Vue,
-    ssrRender,
-  }
-
-  // Cleanup temp file
-  fs.unlinkSync(templateFilePath)
-
-  return Component
 }
 
-// Render Markdown to HTML string
-export async function renderMarkdown(filePath: string) {
+/**
+ * Render Markdown to HTML string
+ */
+export async function renderMarkdown(filePath: string): Promise<string> {
   try {
-    // Ensure absolute path
-    const absolutePath = path.isAbsolute(filePath)
-      ? filePath
-      : path.resolve(process.cwd(), filePath)
-
-    console.log(`Rendering Markdown from absolute path: ${absolutePath}`)
-
-    if (!fs.existsSync(absolutePath)) {
-      throw new Error(`File does not exist: ${absolutePath}`)
-    }
+    const absolutePath = resolveFilePath(filePath)
+    validateFileExists(absolutePath)
 
     // Compile Markdown and get component
     const Component = await compileMarkdown(absolutePath)
 
-    // Create SSR app
-    const app = createSSRApp(Component)
-
     // Render to HTML
-    const html = await renderToString(app)
-    return html
+    return await renderToString(createSSRApp(Component))
   }
   catch (error) {
     console.error('Error in renderMarkdown:', error)
