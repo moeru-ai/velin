@@ -3,16 +3,16 @@
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@10.6.5",
-  "description": "",
+  "description": "Parse Vue SFC or Markdown to prompt for LLM.",
   "author": "RainbowBird <rbxin2003@outlook.com>",
   "license": "MIT",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs"
     }
   },
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "example:sfc": "tsx examples/sfc.ts",
@@ -32,6 +32,7 @@
     "eslint": "^9.23.0",
     "eslint-plugin-format": "^1.0.1",
     "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
     "unbuild": "^3.5.0"
   }
 }

@@ -1,10 +1,9 @@
+import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc';
+import { renderToString } from '@vue/server-renderer';
 import fs from 'node:fs';
 import path from 'node:path';
-import { parse, compileTemplate, compileScript } from '@vue/compiler-sfc';
-import { createSSRApp, ref } from 'vue';
-import { renderToString } from '@vue/server-renderer';
 import * as Vue from 'vue';
-import { reactive } from 'vue';
+import { createSSRApp } from 'vue';
 
 /**
  * Compiles a Markdown file with Vue components into an executable component
