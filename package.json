@@ -5,7 +5,8 @@
   "main": "src/main.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/main.ts"
+    "dev": "tsx src/main.ts",
+    "dev:md": "tsx src/md.ts"
   },
   "keywords": [],
   "author": "",

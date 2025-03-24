@@ -6,7 +6,7 @@ import { renderToString } from '@vue/server-renderer';
 import * as Vue from 'vue';
 
 // Compile Single File Component to executable component
-async function compileSFC(filePath: string) {
+export async function compileSFC(filePath: string) {
   // Read SFC file content
   console.log(`Reading file from: ${filePath}`);
   const source = fs.readFileSync(filePath, 'utf-8');
@@ -78,7 +78,7 @@ async function compileSFC(filePath: string) {
 }
 
 // Render SFC to HTML string
-async function renderSFC(filePath: string) {
+export async function renderSFC(filePath: string) {
   try {
     // Ensure absolute path
     const absolutePath = path.isAbsolute(filePath) 
@@ -109,8 +109,8 @@ async function renderSFC(filePath: string) {
 // Usage example
 (async () => {
   try {
-    const html = await renderSFC('src/MyComponent.vue');
-    console.log('Render result:', html);
+    const html = await renderSFC('examples/MyComponent.vue');
+    console.log('Render result:\n', html);
   } catch (error) {
     console.error('Failed to render SFC:', error);
   }
