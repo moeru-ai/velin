@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const count = ref(10);
-const message = ref('Hello from Vue!');
+const count = ref(10)
+const message = ref('Hello from Vue!')
 </script>
 
 <template>
@@ -21,4 +21,3 @@ const message = ref('Hello from Vue!');
     </div>
   </div>
 </template>
-

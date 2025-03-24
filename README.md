@@ -15,24 +15,24 @@ Parse Vue SFC or Markdown to prompt for LLM.
 ### Parsing Markdown with Vue Syntax
 
 ```typescript
-import { parseMarkdownPrompt } from './src/md';
+import { parseMarkdownPrompt } from './src/md'
 
 // Parse Markdown file with Vue template syntax
-const template = await parseMarkdownPrompt('examples/Markdown.md');
+const template = await parseMarkdownPrompt('examples/Markdown.md')
 
 // View the extracted data
-console.log('Variables:', template.data);
+console.log('Variables:', template.data)
 
 // Render with default values from the template
-const defaultPrompt = template.render();
-console.log(defaultPrompt);
+const defaultPrompt = template.render()
+console.log(defaultPrompt)
 
 // Render with custom values
-const customPrompt = template.render({ 
-  language: 'TypeScript', 
-  userQuestion: 'How do I create an interface?' 
-});
-console.log(customPrompt);
+const customPrompt = template.render({
+  language: 'TypeScript',
+  userQuestion: 'How do I create an interface?'
+})
+console.log(customPrompt)
 ```
 
 ### Markdown Template Example
@@ -62,11 +62,11 @@ You are a coding assistant. Please use {{language}} to answer questions.
 You can also render Markdown to HTML with the original functionality:
 
 ```typescript
-import { renderMarkdown } from './src/md';
+import { renderMarkdown } from './src/md'
 
 // Render Markdown to HTML
-const html = await renderMarkdown('examples/Markdown.md');
-console.log(html);
+const html = await renderMarkdown('examples/Markdown.md')
+console.log(html)
 ```
 
 ## Installation

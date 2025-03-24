@@ -105,13 +105,3 @@ export async function renderSFC(filePath: string) {
     throw error;
   }
 }
-
-// Usage example
-(async () => {
-  try {
-    const html = await renderSFC('examples/MyComponent.vue');
-    console.log('Render result:\n', html);
-  } catch (error) {
-    console.error('Failed to render SFC:', error);
-  }
-})();
