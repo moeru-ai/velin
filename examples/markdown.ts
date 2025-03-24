@@ -1,4 +1,4 @@
-import { parseMarkdownPrompt, renderMarkdown } from '../src/md';
+import { parseMarkdownPrompt, renderMarkdown } from '../src'
 
 // Usage example
 (async () => {
