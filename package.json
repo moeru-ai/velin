@@ -18,6 +18,7 @@
     "example:sfc": "tsx examples/sfc.ts",
     "example:md": "tsx examples/md.ts",
     "build": "unbuild",
+    "stub": "unbuild --stub",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
