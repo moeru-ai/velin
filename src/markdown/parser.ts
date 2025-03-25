@@ -5,7 +5,7 @@ import process from 'node:process'
 import { compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
-import { generateComponentId, readSourceFile, resolveFilePath, validateFileExists } from './utils'
+import { generateComponentId, readSourceFileSync, resolveFilePath, validateFileExists } from '../utils'
 
 /**
  * Compiles a Markdown file with Vue components into an executable component
@@ -13,7 +13,7 @@ import { generateComponentId, readSourceFile, resolveFilePath, validateFileExist
  */
 export async function compileMarkdown(filePath: string) {
   // Read Markdown file content
-  const source = readSourceFile(filePath)
+  const source = readSourceFileSync(filePath)
 
   // Parse Markdown file as if it were a Vue SFC
   const { descriptor } = parse(source)

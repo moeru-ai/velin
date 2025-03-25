@@ -1,5 +1,5 @@
 import { parse } from '@vue/compiler-sfc'
-import { evaluateCondition, evaluateExpression, readSourceFile, resolveFilePath, validateFileExists } from './utils'
+import { evaluateCondition, evaluateExpression, readSourceFileSync, resolveFilePath, validateFileExists } from './utils'
 
 /**
  * Parses a Markdown file with Vue template syntax for use as a prompt
@@ -15,7 +15,7 @@ export async function parseMarkdownPrompt(filePath: string): Promise<{
   validateFileExists(absolutePath)
 
   // Read Markdown file content
-  const source = readSourceFile(absolutePath)
+  const source = readSourceFileSync(absolutePath)
 
   // Parse Markdown file as if it were a Vue SFC
   const { descriptor } = parse(source)

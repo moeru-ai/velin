@@ -65,11 +65,10 @@ export function generateComponentId(): string {
   return `vue-component-${Date.now()}`
 }
 
-
 /**
  * Reads source file content
  */
-export function readSourceFile(filePath: string): string {
+export function readSourceFileSync(filePath: string): string {
   console.log(`Reading file from: ${filePath}`)
   return fs.readFileSync(filePath, 'utf-8')
 }
