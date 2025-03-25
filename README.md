@@ -1,4 +1,4 @@
-# Vue Prompt
+# @vellum-dev/ml
 
 Parse Vue SFC or Markdown to prompt for LLM.
 
