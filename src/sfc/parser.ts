@@ -5,7 +5,6 @@ import process from 'node:process'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
-import { generateComponentId } from '../utils'
 
 /**
  * Compiles a Vue Single File Component into an executable component
@@ -22,7 +21,7 @@ export async function compileSFC(source: string): Promise<Component> {
   const templateResult = compileTemplate({
     source: descriptor.template.content,
     filename: 'temp.vue',
-    id: generateComponentId(),
+    id: `vue-component-${Date.now()}`,
     ssr: true,
     compilerOptions: {
       runtimeModuleName: 'vue',
@@ -30,7 +29,7 @@ export async function compileSFC(source: string): Promise<Component> {
   })
 
   const scriptResult = compileScript(descriptor, {
-    id: generateComponentId(),
+    id: `vue-component-${Date.now()}`,
   })
 
   // Store compiled template code in temp file

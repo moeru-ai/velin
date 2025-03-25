@@ -1,1 +1,1 @@
-export * from './parser'
+export { processMarkdown } from './parser'

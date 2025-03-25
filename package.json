@@ -16,8 +16,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "example:sfc": "tsx examples/sfc.ts",
-    "example:md": "tsx examples/markdown.ts",
-    "example:grok": "tsx examples/grok.ts",
+    "example:md": "tsx examples/md.ts",
     "build": "unbuild",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."

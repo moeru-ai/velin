@@ -1,3 +1,2 @@
-export * from './markdown/parser'
-export * from './prompt'
-export * from './sfc/parser'
+export { processMarkdown } from './markdown'
+export { compileSFC, renderSFC } from './sfc'
