@@ -1,10 +1,8 @@
 import type { Component } from 'vue'
-import fs from 'node:fs'
-import path from 'node:path'
-import process from 'node:process'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
+import { evaluateAnyModule } from './import'
 
 /**
  * Compiles a Vue Single File Component into an executable component
@@ -32,50 +30,30 @@ export async function compileSFC(source: string): Promise<Component> {
     id: `vue-component-${Date.now()}`,
   })
 
-  // Store compiled template code in temp file
-  const templateFilePath = path.resolve(process.cwd(), 'temp-template.js')
-  const scriptFilePath = path.resolve(process.cwd(), 'temp-script.js')
-
-  fs.writeFileSync(templateFilePath, templateResult.code)
-  fs.writeFileSync(scriptFilePath, scriptResult.content)
-
   try {
-    // Dynamically import compiled template code
-    // Import template and script modules
-    const templateModule = await import(`file://${templateFilePath}`)
-    const scriptModule = await import(`file://${scriptFilePath}`)
+    const ssrRender = await evaluateAnyModule<{
+      ssrRender: (ctx: any, push: any, parent: any, attrs: any) => void
+    }>(templateResult.code)
+    const component = await evaluateAnyModule<{
+      setup: (ctx: any, options: any) => Promise<any>
+    }>(scriptResult.content)
 
-    // Extract render function from template module
-    const { ssrRender } = templateModule
-
-    // Get component definition from script module
-    const component = scriptModule.default
-
-    // Create component instance with setup function
+    // Create component instance
     const instance = {}
-    if (component && component.setup) {
-      const setupResult = component.setup({}, { expose: () => {} })
+    if (component?.setup) {
+      const setupResult = await component.setup({}, { expose: () => {} })
       Object.assign(instance, setupResult)
     }
 
-    // console.log(instance)
-
     return {
       ssrRender,
-      // Pass the setup data to be used during rendering
-      data: () => {
-        return instance
-      },
+      data: () => instance,
+      ...component,
     }
   }
-  finally {
-    // Cleanup temp file
-    if (fs.existsSync(templateFilePath)) {
-      fs.unlinkSync(templateFilePath)
-    }
-    if (fs.existsSync(scriptFilePath)) {
-      fs.unlinkSync(scriptFilePath)
-    }
+  catch (error) {
+    console.error('Error in compile SFC:', error)
+    throw error
   }
 }
 

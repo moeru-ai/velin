@@ -28,6 +28,7 @@
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",
     "markdown-it": "^14.1.0",
+    "ofetch": "^1.4.1",
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.0",
     "remark-stringify": "^11.0.0",
@@ -38,7 +39,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.13.13",
     "eslint": "^9.23.0",
     "eslint-plugin-format": "^1.0.1",
     "tsx": "^4.19.3",
