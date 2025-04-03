@@ -12,5 +12,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  {{ result }}
+  <main>
+    <code>
+      {{ result }}
+    </code>
+  </main>
 </template>
