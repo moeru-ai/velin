@@ -17,6 +17,7 @@
   "scripts": {
     "example:sfc": "tsx examples/sfc.ts",
     "example:md": "tsx examples/md.ts",
+    "demo": "vite examples/demo",
     "build": "unbuild",
     "stub": "unbuild --stub",
     "lint": "eslint .",
