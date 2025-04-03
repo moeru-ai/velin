@@ -24,8 +24,5 @@ export async function processMarkdown(source: string): Promise<string> {
   // Convert HTML back to Markdown
   const markdownResult = await convertHtmlToMarkdown(renderedHTML)
 
-  // console.log(renderedHTML)
-  console.log(markdownResult)
-
   return markdownResult
 }

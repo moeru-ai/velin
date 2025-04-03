@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-// Import a markdown file as a component
+import { onMounted, ref } from 'vue'
+// Import a markdown file as a string
 import PromptTemplate from './PromptTemplate.md'
-// Import raw markdown content
-import rawMarkdown from './RawContent.raw.md'
-// Import another markdown file as a string (requires wrapComponent: false in plugin config)
-import stringMarkdown from './StringExample.mdx'
 
 const language = ref('TypeScript')
 const question = ref('How to create a Vite plugin?')
 
-// 示例：客户端处理原始 Markdown 内容
-const processedRawMarkdown = computed(() => {
-  // 简单的模板变量替换实现
-  return rawMarkdown.replace(/\{\{(\w+)\}\}/g, (_, name) => {
-    if (name === 'message')
-      return '你好，世界！'
-    return `{{${name}}}`
-  })
+// 确保我们处理的是字符串类型
+const promptTemplateString = ref(typeof PromptTemplate === 'string' ? PromptTemplate : JSON.stringify(PromptTemplate))
+
+// 在控制台输出处理后的Markdown
+onMounted(() => {
+  console.log('=== Markdown Processing Results ===')
+  console.log('Prompt Template Markdown:')
+  console.log(promptTemplateString.value)
 })
 </script>
 
@@ -44,24 +40,14 @@ const processedRawMarkdown = computed(() => {
     </div>
 
     <div class="template-output">
-      <!-- 组件导入方式 - 作为 Vue 组件使用 -->
-      <h3>作为组件使用:</h3>
-      <PromptTemplate />
+      <h3>原始 Markdown:</h3>
+      <pre class="raw-content">{{ promptTemplateString }}</pre>
     </div>
 
-    <div class="template-output">
-      <!-- 字符串导入方式 - 使用 v-html 渲染 -->
-      <h3>作为字符串使用:</h3>
-      <div v-html="stringMarkdown" />
-    </div>
-
-    <div class="template-output">
-      <!-- 原始内容导入方式 -->
-      <h3>原始 Markdown 内容:</h3>
-      <pre class="raw-content">{{ rawMarkdown }}</pre>
-
-      <h3>客户端处理后的内容:</h3>
-      <div class="processed-content" v-html="processedRawMarkdown" />
+    <div class="debug-info">
+      <h3>调试信息:</h3>
+      <p>打开浏览器控制台查看更多输出信息</p>
+      <p><strong>当前变量:</strong> language = {{ language }}, question = {{ question }}</p>
     </div>
   </div>
 </template>
@@ -128,5 +114,13 @@ select {
   padding: 1rem;
   background-color: #f0f8ff;
   border-radius: 0.25rem;
+}
+
+.debug-info {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #fff8dc;
+  border: 1px dashed #ccc;
+  border-radius: 0.5rem;
 }
 </style>

@@ -44,6 +44,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",
     "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.14.0",
     "@vitejs/plugin-vue": "^5.0.0",
     "eslint": "^9.23.0",
     "eslint-plugin-format": "^1.0.1",

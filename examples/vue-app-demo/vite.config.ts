@@ -7,16 +7,6 @@ export default defineConfig({
     vue(),
     vitePluginMarkdownTemplate({
       extensions: ['.md'],
-      includeRuntimeCompiler: true,
-    }),
-    vitePluginMarkdownTemplate({
-      extensions: ['.mdx'],
-      wrapComponent: false,
-    }),
-    vitePluginMarkdownTemplate({
-      extensions: ['.raw.md'],
-      rawContent: true,
-      wrapComponent: false,
     }),
   ],
 

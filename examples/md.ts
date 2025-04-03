@@ -5,5 +5,6 @@ import { processMarkdown } from '../src'
   // Read Markdown file
   const markdownString = await fs.readFile('examples/assets/Markdown.md', 'utf-8')
 
-  await processMarkdown(markdownString)
+  const result = await processMarkdown(markdownString)
+  console.log(result)
 })()

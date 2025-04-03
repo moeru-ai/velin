@@ -1,19 +1,20 @@
 ## Prompt Template
 
 <script setup>
-// Access parent component's reactive variables
-// No need to re-declare them
+import { ref } from 'vue';
+const showSystemPrompt = ref(true);
+const language = ref('JavaScript');
+const userQuestion = ref('How to implement a simple counter?');
 </script>
 
-<div class="template-preview">
+<div v-if="showSystemPrompt">
 
 ## System Prompt
 
-You are a professional code assistant, please answer the question using **{{language}}** language.
-Include type annotations and examples in your answers.
+You are a professional code assistant, please answer the question using {{language}} language.
+
+</div>
 
 ## User Prompt
 
-{{question}}
-
-</div>
+{{userQuestion}}

@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import { extname } from 'path'
+import { extname } from 'node:path'
 import { processMarkdown } from '../markdown/parser'
 
 export interface MarkdownTemplateOptions {
@@ -28,7 +28,7 @@ export interface MarkdownTemplateOptions {
    * @default true
    */
   includeRuntimeCompiler?: boolean
-  
+
   /**
    * Whether to skip Vue template processing and just return raw markdown
    * Useful if you want to get the raw markdown content
@@ -43,7 +43,7 @@ export interface MarkdownTemplateOptions {
 export function vitePluginMarkdownTemplate(options: MarkdownTemplateOptions = {}): Plugin {
   const extensions = options.extensions || ['.md']
   const wrapComponent = options.wrapComponent !== false
-  const includeRuntimeCompiler = options.includeRuntimeCompiler !== false
+  const _includeRuntimeCompiler = options.includeRuntimeCompiler !== false
   const rawContent = options.rawContent === true
 
   return {
@@ -57,43 +57,20 @@ export function vitePluginMarkdownTemplate(options: MarkdownTemplateOptions = {}
 
       try {
         // 如果选择直接输出原始内容，则跳过处理模板的步骤
-        let result = rawContent ? code : await processMarkdown(code, true)
+        let result = rawContent ? code : await processMarkdown(code)
+        console.log('Raw content:\n', code)
 
         // Apply custom transformation if provided
         if (options.transform) {
           result = await options.transform(result)
         }
 
-        if (wrapComponent) {
-          // Return the processed content as a Vue component
-          return {
-            code: `
-import { h, defineComponent } from 'vue'
-${includeRuntimeCompiler ? 'import { compile } from \'vue/dist/vue.esm-browser.js\'' : ''}
+        console.log(result)
 
-const template = ${JSON.stringify(result)}
-
-export default defineComponent({
-  name: 'MarkdownTemplate',
-  ${includeRuntimeCompiler
-      ? `setup() {
-        const render = compile(template)
-        return () => render()
-      }`
-      : `render() {
-        return h('div', { innerHTML: template, class: 'markdown-template' })
-      }`
-  }
-})`,
-            map: null,
-          }
-        }
-        else {
-          // Just return the markdown as a string
-          return {
-            code: `export default ${JSON.stringify(result)}`,
-            map: null,
-          }
+        // 简单地导出处理后的Markdown内容作为字符串
+        return {
+          code: `export default ${JSON.stringify(result)}`,
+          map: null,
         }
       }
       catch (error) {
