@@ -7,12 +7,13 @@ import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptF
  * Processes a Markdown file by converting it to HTML, extracting script content,
  * creating an SFC, rendering it, and converting back to Markdown.
  *
- * @param inputFile - Path to the input Markdown file
- * @returns Promise that resolves when processing is complete
+ * @param input - Path to the input Markdown file or Markdown content
+ * @param isContent - Whether the input is content rather than a file path
+ * @returns Promise that resolves to the processed Markdown string
  */
-export async function processMarkdown(inputFile: string): Promise<string> {
-  // Read Markdown file
-  const markdownString = await fs.readFile(inputFile, 'utf-8')
+export async function processMarkdown(input: string, isContent: boolean = false): Promise<string> {
+  // Get Markdown string from file or use input directly
+  const markdownString = isContent ? input : await fs.readFile(input, 'utf-8')
 
   // Convert Markdown to HTML
   const html = convertMarkdownToHtml(markdownString)
