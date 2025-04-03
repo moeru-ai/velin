@@ -13,6 +13,9 @@ const modulesCache = new Map<string, Promise<unknown> | unknown>()
 // eslint-disable-next-line no-new-func
 const nativeImport = new Function('a', 'return import(a);')
 
+// Check if we're in a browser environment
+const isBrowser = typeof window !== 'undefined'
+
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L31-L33
 async function fetchAndImportAnyModuleWithCDNCapabilities(name: string) {
   if (name.endsWith('.json')) {
@@ -21,6 +24,10 @@ async function fetchAndImportAnyModuleWithCDNCapabilities(name: string) {
   }
 
   try {
+    // In browser, always use CDN for external modules
+    if (isBrowser && !name.startsWith('data:') && !name.startsWith('blob:')) {
+      return nativeImport(CDN_BASE + name)
+    }
     return nativeImport(name)
   }
   catch {

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Markdown in Browser</title>
+  <style>
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+    }
+    #output {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Vue Markdown in Browser Example</h1>
+  
+  <div>
+    <h2>Input Markdown (with Vue script)</h2>
+    <textarea id="markdown-input">
+# Hello Vue Markdown
+
+This is a **Markdown** document with embedded Vue functionality.
+
+<div v-if="count > 5">
+  Count is greater than 5: {{ count }}
+</div>
+
+<button @click="increment">Increment</button>
+
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(1)
+
+function increment() {
+  count.value += 1
+}
+</script>
+    </textarea>
+    
+    <button id="render-btn">Render</button>
+  </div>
+  
+  <div id="output"></div>
+  
+  <script type="module">
+    import { mountMarkdown } from '../../dist/index.mjs';
+    
+    const inputElement = document.getElementById('markdown-input');
+    const renderButton = document.getElementById('render-btn');
+    const outputElement = document.getElementById('output');
+    
+    renderButton.addEventListener('click', async () => {
+      const markdownContent = inputElement.value;
+      outputElement.innerHTML = 'Rendering...';
+      
+      try {
+        // Clear previous content
+        outputElement.innerHTML = '';
+        
+        // Mount the markdown as a Vue component
+        await mountMarkdown(markdownContent, outputElement);
+      } catch (error) {
+        console.error('Failed to render markdown:', error);
+        outputElement.innerHTML = `<div style="color: red">Error: ${error.message}</div>`;
+      }
+    });
+    
+    // Initial render
+    renderButton.click();
+  </script>
+</body>
+</html> 

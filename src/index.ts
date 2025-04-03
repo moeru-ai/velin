@@ -1,2 +1,2 @@
-export { processMarkdown } from './markdown'
-export { compileSFC, renderSFC } from './sfc'
+export { processMarkdown, mountMarkdown } from './markdown'
+export { compileSFC, renderSFC, mountSFC } from './sfc'

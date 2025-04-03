@@ -19,6 +19,7 @@
     "example:md": "tsx examples/md.ts",
     "build": "unbuild",
     "stub": "unbuild --stub",
+    "serve": "vite --config examples/browser/vite.config.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -43,6 +44,7 @@
     "eslint-plugin-format": "^1.0.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
-    "unbuild": "^3.5.0"
+    "unbuild": "^3.5.0",
+    "vite": "^5.4.17"
   }
 }

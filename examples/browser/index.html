@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue SFC in Browser</title>
+</head>
+<body>
+  <h1>Vue SFC in Browser Example</h1>
+  
+  <div id="app"></div>
+  
+  <script type="module">
+    import { mountSFC } from '../../dist/index.mjs';
+    
+    // Vue SFC as a string
+    const vueComponent = `
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(10)
+const message = ref('Hello from Browser!')
+
+function increment() {
+  count.value++
+}
+</script>
+
+<template>
+  <div>
+    <h1>{{ message }}</h1>
+    <p>Count: {{ count }}</p>
+    <button @click="increment">Increment</button>
+    
+    <div v-if="count > 15">
+      <p>Count is greater than 15!</p>
+    </div>
+  </div>
+</template>
+`;
+    
+    // Mount the component to the DOM
+    mountSFC(vueComponent, '#app')
+      .catch(error => {
+        console.error('Failed to mount component:', error);
+        document.getElementById('app').innerHTML = `<div style="color: red">Error: ${error.message}</div>`;
+      });
+  </script>
+</body>
+</html> 
