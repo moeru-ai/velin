@@ -1,5 +1,3 @@
-import fs from 'node:fs/promises'
-
 import { renderSFC } from '../sfc/parser'
 import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptFromHtml } from './utils'
 
@@ -7,15 +5,12 @@ import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptF
  * Processes a Markdown file by converting it to HTML, extracting script content,
  * creating an SFC, rendering it, and converting back to Markdown.
  *
- * @param inputFile - Path to the input Markdown file
+ * @param source - Markdown content or file path
  * @returns Promise that resolves when processing is complete
  */
-export async function processMarkdown(inputFile: string): Promise<string> {
-  // Read Markdown file
-  const markdownString = await fs.readFile(inputFile, 'utf-8')
-
+export async function processMarkdown(source: string): Promise<string> {
   // Convert Markdown to HTML
-  const html = convertMarkdownToHtml(markdownString)
+  const html = convertMarkdownToHtml(source)
 
   // Process HTML and extract script content
   const { remainingHTML, scriptContent } = extractScriptFromHtml(html)
