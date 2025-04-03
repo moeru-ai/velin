@@ -1,5 +1,9 @@
+import fs from 'node:fs/promises'
 import { processMarkdown } from '../src'
 
 (async () => {
-  await processMarkdown('examples/assets/Markdown.md')
+  // Read Markdown file
+  const markdownString = await fs.readFile('examples/assets/Markdown.md', 'utf-8')
+
+  await processMarkdown(markdownString)
 })()
