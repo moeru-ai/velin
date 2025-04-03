@@ -1,9 +1,8 @@
-import { type RenderFunction } from 'vue'
+import type { RenderFunction } from 'vue'
+import { renderToString } from '@vue/server-renderer'
 import { evaluateAnyModule } from '../sfc/import'
 import { compileSFCForRaw, renderSFC, resolveDataFromScriptComponent } from '../sfc/parser'
 import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptFromHtml } from './utils'
-import { fromDom } from 'hast-util-from-dom'
-import { renderToString } from '@vue/server-renderer'
 
 /**
  * Processes a Markdown file by converting it to HTML, extracting script content,

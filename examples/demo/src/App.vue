@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { processMarkdownToVDom } from '../../../src/markdown/parser';
-import { markdown } from './Markdown';
+import { onMounted, ref } from 'vue'
+import { processMarkdownToVDom } from '../../../src/markdown/parser'
+import { markdown } from './Markdown'
 
 // const result = computed(async () => await processMarkdownToVDom(markdown))
 const result = ref('')

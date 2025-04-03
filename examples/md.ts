@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises'
-import { processMarkdown, processMarkdownToVDom } from '../src/markdown/parser'
+import { processMarkdownToVDom } from '../src/markdown/parser'
 
 (async () => {
   // Read Markdown file
