@@ -1,4 +1,7 @@
-import { renderSFC } from '../sfc/parser'
+import type { RenderFunction } from 'vue'
+import { renderToString } from '@vue/server-renderer'
+import { evaluateAnyModule } from '../sfc/import'
+import { compileSFCForRaw, renderSFC, resolveDataFromScriptComponent } from '../sfc/parser'
 import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptFromHtml } from './utils'
 
 /**
@@ -24,8 +27,26 @@ export async function processMarkdown(source: string): Promise<string> {
   // Convert HTML back to Markdown
   const markdownResult = await convertHtmlToMarkdown(renderedHTML)
 
-  // console.log(renderedHTML)
-  console.log(markdownResult)
+  return markdownResult
+}
 
+export async function processMarkdownToVDom(source: string) {
+  const html = convertMarkdownToHtml(source)
+  const { remainingHTML, scriptContent } = extractScriptFromHtml(html)
+  const sfcString = createSFC(remainingHTML, scriptContent)
+
+  const { templateResult, scriptResult } = await compileSFCForRaw(sfcString, false)
+
+  // TODO: type
+  const script = await evaluateAnyModule(scriptResult.content)
+  const render = await evaluateAnyModule(templateResult.code) as RenderFunction
+
+  const ctx = await resolveDataFromScriptComponent(script)
+
+  const dom = render.call(ctx, ctx, [])
+
+  const renderedHTML = await renderToString(dom)
+
+  const markdownResult = await convertHtmlToMarkdown(renderedHTML)
   return markdownResult
 }

@@ -4,10 +4,7 @@ import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
 import { evaluateAnyModule } from './import'
 
-/**
- * Compiles a Vue Single File Component into an executable component
- */
-export async function compileSFC(source: string): Promise<Component> {
+export async function compileSFCForRaw(source: string, ssr = true) {
   // Parse SFC file
   const { descriptor } = parse(source)
 
@@ -20,7 +17,7 @@ export async function compileSFC(source: string): Promise<Component> {
     source: descriptor.template.content,
     filename: 'temp.vue',
     id: `vue-component-${Date.now()}`,
-    ssr: true,
+    ssr,
     compilerOptions: {
       runtimeModuleName: 'vue',
     },
@@ -30,6 +27,29 @@ export async function compileSFC(source: string): Promise<Component> {
     id: `vue-component-${Date.now()}`,
   })
 
+  return {
+    templateResult,
+    scriptResult,
+  }
+}
+
+export async function resolveDataFromScriptComponent(component: any) {
+  // Create component instance
+  const instance = {}
+  if (component?.setup) {
+    const setupResult = await component.setup({}, { expose: () => {} })
+    Object.assign(instance, setupResult)
+  }
+
+  return instance
+}
+
+/**
+ * Compiles a Vue Single File Component into an executable component
+ */
+export async function compileSFC(source: string): Promise<Component> {
+  const { templateResult, scriptResult } = await compileSFCForRaw(source)
+
   try {
     const ssrRender = await evaluateAnyModule<{
       ssrRender: (ctx: any, push: any, parent: any, attrs: any) => void
@@ -38,12 +58,7 @@ export async function compileSFC(source: string): Promise<Component> {
       setup: (ctx: any, options: any) => Promise<any>
     }>(scriptResult.content)
 
-    // Create component instance
-    const instance = {}
-    if (component?.setup) {
-      const setupResult = await component.setup({}, { expose: () => {} })
-      Object.assign(instance, setupResult)
-    }
+    const instance = await resolveDataFromScriptComponent(component)
 
     return {
       ssrRender,

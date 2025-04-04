@@ -20,13 +20,11 @@ async function fetchAndImportAnyModuleWithCDNCapabilities(name: string) {
     return { default: response }
   }
 
-  try {
-    return nativeImport(name)
-  }
-  catch {
+  // [FIXME]: vite
+  return nativeImport(name).catch(() => {
     // node --experimental-network-imports
     return nativeImport(CDN_BASE + name)
-  }
+  })
 }
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L27-L37
