@@ -1,10 +1,8 @@
 import fs from 'node:fs/promises'
-import { processMarkdownToVDom } from '../src/markdown/parser'
+import { processMarkdown } from '../src/markdown/parser'
 
 (async () => {
-  // Read Markdown file
   const markdownString = await fs.readFile('examples/assets/Markdown.md', 'utf-8')
 
-  // await processMarkdown(markdownString)
-  await processMarkdownToVDom(markdownString)
+  await processMarkdown(markdownString)
 })()

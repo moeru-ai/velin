@@ -1,1 +1,1 @@
-export { compileSFC, renderSFC } from './parser'
+export * from './parser'

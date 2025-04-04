@@ -11,7 +11,7 @@ import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptF
  * @param source - Markdown content or file path
  * @returns Promise that resolves when processing is complete
  */
-export async function processMarkdown(source: string): Promise<string> {
+export async function processMarkdownSSR(source: string): Promise<string> {
   // Convert Markdown to HTML
   const html = convertMarkdownToHtml(source)
 
@@ -26,11 +26,10 @@ export async function processMarkdown(source: string): Promise<string> {
 
   // Convert HTML back to Markdown
   const markdownResult = await convertHtmlToMarkdown(renderedHTML)
-
   return markdownResult
 }
 
-export async function processMarkdownToVDom(source: string) {
+export async function processMarkdown(source: string): Promise<string> {
   const html = convertMarkdownToHtml(source)
   const { remainingHTML, scriptContent } = extractScriptFromHtml(html)
   const sfcString = createSFC(remainingHTML, scriptContent)

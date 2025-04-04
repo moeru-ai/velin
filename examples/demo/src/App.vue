@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { processMarkdown } from '@velin-dev/ml'
 import { onMounted, ref } from 'vue'
-import { processMarkdownToVDom } from '../../../src/markdown/parser'
 import { markdown } from './Markdown'
 
-// const result = computed(async () => await processMarkdownToVDom(markdown))
+// const result = computed(async () => await processMarkdown(markdown))
 const result = ref('')
 
 onMounted(async () => {
-  result.value = await processMarkdownToVDom(markdown)
+  result.value = await processMarkdown(markdown)
 })
 </script>
 
