@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "@velin-dev/ml-demo",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@velin-dev/ml": "link:../..",
+    "@velin-dev/ml": "workspace:^",
     "vue": "^3.5.13"
   },
   "devDependencies": {

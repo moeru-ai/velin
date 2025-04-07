@@ -3,3 +3,5 @@ dist
 
 temp-template.js
 temp-script.js
+
+.DS_Store

@@ -11,5 +11,7 @@ Parse Vue SFC or Markdown to prompt for LLM.
 ```ts
 import { processMarkdown } from '@velin-dev/ml'
 
-const markdown = await processMarkdown(markdownString)
+const markdown = await processMarkdown(markdownString, {
+  language: ref('TypeScript'), // The data to be passed to the prompt
+})
 ```
