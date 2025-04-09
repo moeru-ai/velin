@@ -1,14 +1,22 @@
-import type { Component } from 'vue'
+import type { RenderFunction, SetupContext } from 'vue'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
-import { createSSRApp } from 'vue'
+import defu from 'defu'
+import ErrorStackParser from 'error-stack-parser'
+import path from 'path-browserify-esm'
+import { convertHtmlToMarkdown } from '../markdown/utils'
 import { evaluateAnyModule } from './import'
 
-export async function compileSFCForRaw(source: string, ssr = true) {
-  // Parse SFC file
+export type Component = any
+export type Data = Record<string, any>
+export interface CompiledResult {
+  templateResult: ReturnType<typeof compileTemplate>
+  scriptResult: ReturnType<typeof compileScript>
+}
+
+export async function compileSFC(source: string): Promise<CompiledResult> {
   const { descriptor } = parse(source)
 
-  // Check for template tag
   if (!descriptor.template) {
     throw new Error(`source has no <template> tag.`)
   }
@@ -17,7 +25,6 @@ export async function compileSFCForRaw(source: string, ssr = true) {
     source: descriptor.template.content,
     filename: 'temp.vue',
     id: `vue-component-${Date.now()}`,
-    ssr,
     compilerOptions: {
       runtimeModuleName: 'vue',
     },
@@ -33,8 +40,8 @@ export async function compileSFCForRaw(source: string, ssr = true) {
   }
 }
 
-export async function resolveDataFromScriptComponent(component: any) {
-  // Create component instance
+export async function resolveDataFromScriptComponent(component: Component): Promise<Data> {
+  // TODO: only support setup now
   const instance = {}
   if (component?.setup) {
     const setupResult = await component.setup({}, { expose: () => {} })
@@ -44,54 +51,29 @@ export async function resolveDataFromScriptComponent(component: any) {
   return instance
 }
 
-/**
- * Compiles a Vue Single File Component into an executable component
- */
-export async function compileSFC(source: string): Promise<Component> {
-  const { templateResult, scriptResult } = await compileSFCForRaw(source)
+export async function renderSFC(source: string, data?: Data): Promise<string> {
+  const { templateResult, scriptResult } = await compileSFC(source)
 
-  try {
-    const ssrRender = await evaluateAnyModule<{
-      ssrRender: (ctx: any, push: any, parent: any, attrs: any) => void
-    }>(templateResult.code)
-    const component = await evaluateAnyModule<{
-      setup: (ctx: any, options: any) => Promise<any>
-    }>(scriptResult.content)
+  // eslint-disable-next-line unicorn/error-message
+  const stack = ErrorStackParser.parse(new Error())
+  const entranceDir = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
 
-    const instance = await resolveDataFromScriptComponent(component)
+  const script = await evaluateAnyModule<SetupContext>(scriptResult.content, entranceDir)
+  const render = await evaluateAnyModule<RenderFunction>(templateResult.code)
 
-    return {
-      ssrRender,
-      data: () => instance,
-      ...component,
-    }
+  if (!script || !render) {
+    throw new Error('Failed to evaluate script or render function')
   }
-  catch (error) {
-    console.error('Error in compile SFC:', error)
-    throw error
-  }
+
+  let ctx = await resolveDataFromScriptComponent(script)
+  ctx = defu(data || {}, ctx)
+
+  const dom = render.call(ctx, ctx, [])
+  const renderedHTML = await renderToString(dom)
+  return renderedHTML
 }
 
-/**
- * Render SFC to HTML string
- */
-export async function renderSFC(source: string): Promise<string> {
-  try {
-    // Compile SFC and get component
-    const component = await compileSFC(source)
-
-    // console.log(component)
-
-    // Render to HTML
-    return await renderToString(
-      createSSRApp(component),
-      {
-        cssVars: [],
-      },
-    )
-  }
-  catch (error) {
-    console.error('Error in render SFC:', error)
-    throw error
-  }
+export async function renderSFCToMarkdown(source: string, data?: Data): Promise<string> {
+  const dom = await renderSFC(source, data)
+  return convertHtmlToMarkdown(dom)
 }

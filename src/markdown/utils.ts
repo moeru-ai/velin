@@ -7,17 +7,11 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import { remove } from 'unist-util-remove'
 
-/**
- * Converts Markdown string to HTML
- */
 export function convertMarkdownToHtml(markdownString: string): string {
   const md = markdownIt({ html: true })
   return md.render(markdownString)
 }
 
-/**
- * Extracts script content from HTML and returns the remaining HTML
- */
 export function extractScriptFromHtml(html: string): { remainingHTML: string, scriptContent: string } {
   const hastProcessor = unified().use(rehypeParse)
   const hastTree = hastProcessor.parse(html)
@@ -39,17 +33,11 @@ export function extractScriptFromHtml(html: string): { remainingHTML: string, sc
   return { remainingHTML, scriptContent }
 }
 
-/**
- * Creates a Vue Single File Component string
- */
 export function createSFC(html: string, scriptContent: string): string {
   return `<template>${html}</template>\n
 <script setup>${scriptContent}</script>`
 }
 
-/**
- * Converts HTML back to Markdown
- */
 export async function convertHtmlToMarkdown(html: string): Promise<string> {
   const htmlToMarkdownProcessor = unified()
     .use(rehypeParse)
