@@ -1,3 +1,7 @@
 packages:
   - src/**
   - examples/**
+
+onlyBuiltDependencies:
+  - esbuild
+  - unrs-resolver
