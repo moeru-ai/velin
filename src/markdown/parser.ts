@@ -1,4 +1,5 @@
 import type { Data } from '../sfc/parser'
+
 import { renderSFC } from '../sfc/parser'
 import { convertHtmlToMarkdown, convertMarkdownToHtml, createSFC, extractScriptFromHtml } from './utils'
 
