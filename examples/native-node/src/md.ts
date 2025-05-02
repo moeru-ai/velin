@@ -1,10 +1,9 @@
-import fs from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
+import { processMarkdown } from '@velin-dev/core'
 import { ref } from 'vue'
 
-import { processMarkdown } from '../src/markdown/parser'
-
 (async () => {
-  const markdownString = await fs.readFile('examples/assets/Markdown.md', 'utf-8')
+  const markdownString = await readFile('./src/assets/markdown.md', 'utf-8')
   // const composableString = await fs.readFile('examples/assets/Composable.md', 'utf-8')
 
   const result1 = await processMarkdown(markdownString, {

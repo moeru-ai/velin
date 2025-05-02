@@ -1,4 +1,4 @@
-# @velin-dev/ml
+# @velin-dev/core
 
 Parse Vue SFC or Markdown to prompt for LLM.
 
@@ -11,7 +11,7 @@ Parse Vue SFC or Markdown to prompt for LLM.
 ### Markdown
 
 ```ts
-import { processMarkdown } from '@velin-dev/ml'
+import { processMarkdown } from '@velin-dev/core'
 
 const markdown = await processMarkdown(markdownString, {
   language: ref('TypeScript'), // The data to be passed to the prompt
@@ -21,7 +21,7 @@ const markdown = await processMarkdown(markdownString, {
 ### Vue SFC
 
 ```ts
-import { renderSFC } from '@velin-dev/ml'
+import { renderSFC } from '@velin-dev/core'
 
 const html = await renderSFC(source, {
   language: ref('TypeScript'), // The data to be passed to the prompt
@@ -29,7 +29,7 @@ const html = await renderSFC(source, {
 ```
 
 ```ts
-import { renderSFCToMarkdown } from '@velin-dev/ml'
+import { renderSFCToMarkdown } from '@velin-dev/core'
 
 const markdown = await renderSFCToMarkdown(source, {
   language: ref('TypeScript'), // The data to be passed to the prompt
