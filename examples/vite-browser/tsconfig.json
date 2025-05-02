@@ -12,7 +12,8 @@
     "moduleResolution": "bundler",
     "types": [
       "vite/client",
-      "unplugin-vue-router/client"
+      "unplugin-vue-router/client",
+      "./env.d.ts"
     ],
     "noEmit": true,
     "esModuleInterop": true,

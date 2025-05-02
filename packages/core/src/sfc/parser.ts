@@ -53,14 +53,16 @@ export async function resolveDataFromScriptComponent(component: Component): Prom
   return instance
 }
 
-export async function renderSFC(source: string, data?: Data): Promise<string> {
+export async function renderSFC(source: string, data?: Data, basePath?: string): Promise<string> {
   const { templateResult, scriptResult } = await compileSFC(source)
 
+  if (!basePath) {
   // eslint-disable-next-line unicorn/error-message
-  const stack = ErrorStackParser.parse(new Error())
-  const entranceDir = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
+    const stack = ErrorStackParser.parse(new Error())
+    basePath = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
+  }
 
-  const script = await evaluateAnyModule<SetupContext>(scriptResult.content, entranceDir)
+  const script = await evaluateAnyModule<SetupContext>(scriptResult.content, basePath)
   const render = await evaluateAnyModule<RenderFunction>(templateResult.code)
 
   if (!script || !render) {
