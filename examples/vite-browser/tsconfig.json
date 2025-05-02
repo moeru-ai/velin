@@ -1,31 +1,28 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "target": "ESNext",
+    "jsx": "preserve",
     "lib": [
-      "ESNext",
       "DOM",
+      "ESNext",
       "DOM.Iterable",
-      "WebWorker"
+      "DOM.AsyncIterable"
     ],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "types": [
+      "vitest",
       "vite/client",
-      "unplugin-vue-router/client",
-      "./env.d.ts"
+      "vite-plugin-vue-layouts/client",
+      "unplugin-vue-router/client"
     ],
-    "noEmit": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "strict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.mts",
-    "src/**/*.vue"
-  ]
+  "vueCompilerOptions": {
+    "plugins": [
+      "@vue-macros/volar/define-models",
+      "@vue-macros/volar/define-slots"
+    ]
+  }
 }

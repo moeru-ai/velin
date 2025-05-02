@@ -16,18 +16,11 @@
     "directory": "packages/core"
   },
   "bugs": "https://github.com/luoling819/velin/issues",
-  "publishConfig": {
-    "exports": {
-      ".": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/index.mjs"
-      }
-    },
-    "main": "dist/index.mjs",
-    "types": "dist/index.d.ts"
-  },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
   },
   "files": [
     "README.md",
@@ -35,7 +28,9 @@
     "package.json"
   ],
   "scripts": {
-    "build": "pkgroll",
+    "dev": "unbuild --stub",
+    "stub": "unbuild --stub",
+    "build": "unbuild",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
