@@ -1,0 +1,57 @@
+{
+  "name": "@velin-dev/core",
+  "type": "module",
+  "version": "0.0.5",
+  "description": "Develop prompts with Vue SFC or Markdown like pro.",
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling819"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/luoling819/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luoling819/velin.git",
+    "directory": "packages/core"
+  },
+  "bugs": "https://github.com/luoling819/velin/issues",
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs"
+      }
+    },
+    "main": "dist/index.mjs",
+    "types": "dist/index.d.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "pkgroll",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.5.13",
+    "defu": "^6.1.4",
+    "error-stack-parser": "^2.1.4",
+    "hast-util-select": "^6.0.4",
+    "hast-util-to-html": "^9.0.5",
+    "markdown-it": "^14.1.0",
+    "ofetch": "^1.4.1",
+    "path-browserify-esm": "^1.0.6",
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.1",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-remove": "^4.0.0",
+    "vue": "^3.5.13"
+  }
+}

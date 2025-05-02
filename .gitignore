@@ -5,3 +5,5 @@ temp-template.js
 temp-script.js
 
 .DS_Store
+
+**/tsconfig.tsbuildinfo

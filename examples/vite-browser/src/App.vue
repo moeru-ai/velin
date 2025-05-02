@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { processMarkdown } from '@velin-dev/ml'
+import { processMarkdown } from '@velin-dev/core'
 import { onMounted, ref } from 'vue'
 
 import { markdown } from './assets/Markdown'

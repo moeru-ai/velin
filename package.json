@@ -1,51 +1,63 @@
 {
-  "name": "@velin-dev/ml",
+  "name": "velin-dev",
   "type": "module",
   "version": "1.3.0",
   "packageManager": "pnpm@10.10.0",
   "description": "Parse Vue SFC or Markdown to prompt for LLM.",
-  "author": "RainbowBird <rbxin2003@outlook.com>",
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling819"
+  },
   "license": "MIT",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
-    }
-  },
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "example:sfc": "tsx examples/sfc.ts",
-    "example:md": "tsx examples/md.ts",
-    "demo": "nr -F @velin-dev/ml-demo dev",
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
-  },
-  "dependencies": {
-    "@vue/compiler-sfc": "^3.5.13",
-    "defu": "^6.1.4",
-    "error-stack-parser": "^2.1.4",
-    "hast-util-select": "^6.0.4",
-    "hast-util-to-html": "^9.0.5",
-    "markdown-it": "^14.1.0",
-    "ofetch": "^1.4.1",
-    "path-browserify-esm": "^1.0.6",
-    "rehype-parse": "^9.0.1",
-    "rehype-remark": "^10.0.1",
-    "remark-stringify": "^11.0.0",
-    "unified": "^11.0.5",
-    "unist-util-remove": "^4.0.0",
-    "vue": "^3.5.13"
+    "dev": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run --parallel dev",
+    "build": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run build",
+    "packages:build": "pnpm -rF=\"./packages/*\" run build",
+    "example:sfc": "pnpm -F @velin-dev/native-node run:sfc",
+    "example:md": "pnpm -F @velin-dev/native-node run:md",
+    "demo": "nr -F @velin-dev/vite-browser dev",
+    "test": "vitest --coverage",
+    "test:run": "vitest run",
+    "lint": "eslint --cache .",
+    "lint:fix": "eslint --cache --fix .",
+    "typecheck": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" -F run --parallel typecheck",
+    "sizecheck": "npx vite-bundle-visualizer",
+    "up": "taze major -I",
+    "changelogithub": "changelogithub",
+    "nolyfill": "pnpm dlx nolyfill"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.12.0",
+    "@antfu/ni": "^24.3.0",
+    "@antfu/nip": "^0.1.0",
+    "@pnpm/find-workspace-dir": "^1000.1.0",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.15.3",
+    "@unocss/eslint-config": "^66.1.0-beta.12",
+    "@unocss/eslint-plugin": "^66.1.0-beta.12",
+    "bumpp": "^10.1.0",
+    "changelogithub": "^13.13.0",
     "eslint": "^9.25.1",
+    "pkgroll": "^2.12.2",
+    "rollup": "^4.40.0",
+    "taze": "^19.0.4",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "unbuild": "^3.5.0"
+    "vite": "^6.3.2",
+    "vite-plugin-inspect": "^11.0.1",
+    "vitest": "^3.1.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "array-flatten": "npm:@nolyfill/array-flatten@^1.0.44",
+      "axios": "npm:feaxios@^0.0.23",
+      "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39",
+      "isarray": "npm:@nolyfill/isarray@^1.0.44",
+      "safe-buffer": "npm:@nolyfill/safe-buffer@^1.0.44",
+      "safer-buffer": "npm:@nolyfill/safer-buffer@^1.0.44",
+      "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
+      "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1.0.44"
+    }
   }
 }
