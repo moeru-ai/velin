@@ -2,7 +2,7 @@
   "name": "@velin-dev/ml",
   "type": "module",
   "version": "1.3.0",
-  "packageManager": "pnpm@10.9.0",
+  "packageManager": "pnpm@10.10.0",
   "description": "Parse Vue SFC or Markdown to prompt for LLM.",
   "author": "RainbowBird <rbxin2003@outlook.com>",
   "license": "MIT",
@@ -42,10 +42,9 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.12.0",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.3",
     "eslint": "^9.25.1",
-    "eslint-plugin-format": "^1.0.1",
-    "tsx": "^4.19.3",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "unbuild": "^3.5.0"
   }

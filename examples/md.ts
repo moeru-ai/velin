@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import { ref } from 'vue'
+
 import { processMarkdown } from '../src/markdown/parser'
 
 (async () => {
@@ -14,5 +15,6 @@ import { processMarkdown } from '../src/markdown/parser'
   //   markdown: ref(result1),
   // })
 
+  // eslint-disable-next-line no-console
   console.log(result1)
 })()
