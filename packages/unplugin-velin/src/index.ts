@@ -34,6 +34,13 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = () => {
         }
       },
     },
+    vite: {
+      config() {
+        return {
+          assetsInclude: ['**/*.velin.md'],
+        }
+      },
+    },
   }
 }
 
