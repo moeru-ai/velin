@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref, type DefineComponent, type ComponentPropsOptions, type ExtractPropTypes, watchEffect, type Reactive, type MaybeRef, isReactive, watch, isRef, type Ref, toRef } from 'vue'
-import { renderToString } from 'vue/server-renderer'
+// eslint-disable-next-line vue/prefer-import-from-vue
 import type { LooseRequired } from '@vue/shared'
+import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRef, Reactive, Ref } from 'vue'
+
+import { isReactive, isRef, onMounted, ref, toRef, watch, watchEffect } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 
 // import markdown from './assets/Markdown.velin.md'
 import Prompt from './assets/Prompt.velin.vue'
@@ -10,28 +13,29 @@ function usePrompt<
   RawProps,
   ComponentProps = ComponentPropsOptions<RawProps>,
   ResolvedProps = ComponentProps extends ComponentPropsOptions<RawProps>
-  ? ExtractPropTypes<ComponentProps>
-  : ComponentProps,
+    ? ExtractPropTypes<ComponentProps>
+    : ComponentProps,
 >(
+  // eslint-disable-next-line ts/no-empty-object-type
   promptComponent: DefineComponent<ResolvedProps, {}, {}, {}, {}, {}, {}>,
   props:
     ResolvedProps |
     Reactive<ResolvedProps> |
     MaybeRef<ResolvedProps> |
     Record<string, Reactive<any>> |
-    Record<string, MaybeRef<any>>
+    Record<string, MaybeRef<any>>,
 ) {
   const setupData = promptComponent.setup?.(
     props as unknown as LooseRequired<Readonly<
       ResolvedProps extends ComponentPropsOptions<Record<string, unknown>>
-      ? ExtractPropTypes<ResolvedProps>
-      : ResolvedProps
+        ? ExtractPropTypes<ResolvedProps>
+        : ResolvedProps
     > & {}>,
     {
       attrs: {},
       slots: {},
       emit: () => { },
-      expose: () => { }
+      expose: () => { },
     },
   )
 
@@ -47,25 +51,30 @@ function usePrompt<
 
     renderToString(renderResult).then((result) => {
       prompt.value = result
-      onPromptedCallbacks.value.forEach((cb) => cb())
+      onPromptedCallbacks.value.forEach(cb => cb())
     })
   }
 
   if (isReactive(props)) {
     watch(props as unknown as Reactive<ResolvedProps>, renderEffect)
-  } else if (isRef(props)) {
+  }
+  else if (isRef(props)) {
     watch(props as unknown as Ref<ResolvedProps>, renderEffect)
-  } else if (typeof props === 'object' && props !== null) {
+  }
+  else if (typeof props === 'object' && props !== null) {
     watch(Object.values(props).map((val) => {
       if (isReactive(val)) {
         return val
-      } else if (isRef(val)) {
+      }
+      else if (isRef(val)) {
         return val
-      } else {
+      }
+      else {
         return toRef(val)
       }
     }), renderEffect)
-  } else {
+  }
+  else {
     watchEffect(renderEffect)
   }
 
@@ -93,7 +102,7 @@ onMounted(async () => {
 
 <template>
   <main>
-    <input v-model="promptVariable" />
+    <input v-model="promptVariable">
     <div class="content">
       {{ promptResult }} {{ ready }}
     </div>
