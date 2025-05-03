@@ -1,4 +1,5 @@
-import type { RenderFunction, SetupContext } from 'vue'
+import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
+import type { DefineComponent, RenderFunction, SetupContext } from 'vue'
 
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import defu from 'defu'
@@ -9,11 +10,10 @@ import { renderToString } from 'vue/server-renderer'
 import { convertHtmlToMarkdown } from '../markdown/utils'
 import { evaluateAnyModule } from './import'
 
-export type Component = any
 export type Data = Record<string, any>
 export interface CompiledResult {
-  templateResult: ReturnType<typeof compileTemplate>
-  scriptResult: ReturnType<typeof compileScript>
+  template: SFCTemplateCompileResults
+  script: SFCScriptBlock
 }
 
 export async function compileSFC(source: string): Promise<CompiledResult> {
@@ -37,16 +37,16 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
   })
 
   return {
-    templateResult,
-    scriptResult,
+    template: templateResult,
+    script: scriptResult,
   }
 }
 
-export async function resolveDataFromScriptComponent(component: Component): Promise<Data> {
+export async function resolveDataFromScriptComponent(component: SFCScriptBlock): Promise<Data> {
   // TODO: only support setup now
   const instance = {}
   if (component?.setup) {
-    const setupResult = await component.setup({}, { expose: () => {} })
+    const setupResult = (component as unknown as DefineComponent).setup({}, { attrs: {}, slots: {}, emit: () => {}, expose: () => {} })
     Object.assign(instance, setupResult)
   }
 
@@ -54,7 +54,7 @@ export async function resolveDataFromScriptComponent(component: Component): Prom
 }
 
 export async function renderSFC(source: string, data?: Data, basePath?: string): Promise<string> {
-  const { templateResult, scriptResult } = await compileSFC(source)
+  const { template, script } = await compileSFC(source)
 
   if (!basePath) {
   // eslint-disable-next-line unicorn/error-message
@@ -62,17 +62,17 @@ export async function renderSFC(source: string, data?: Data, basePath?: string):
     basePath = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
   }
 
-  const script = await evaluateAnyModule<SetupContext>(scriptResult.content, basePath)
-  const render = await evaluateAnyModule<RenderFunction>(templateResult.code)
+  const scriptResult = await evaluateAnyModule<SetupContext>(script.content, basePath)
+  const renderResult = await evaluateAnyModule<RenderFunction>(template.code)
 
-  if (!script || !render) {
+  if (!scriptResult || !renderResult) {
     throw new Error('Failed to evaluate script or render function')
   }
 
   let ctx = await resolveDataFromScriptComponent(script)
   ctx = defu(data || {}, ctx)
 
-  const dom = render.call(ctx, ctx, [])
+  const dom = renderResult.call(ctx, ctx, [], ctx, ctx)
   const renderedHTML = await renderToString(dom)
   return renderedHTML
 }
