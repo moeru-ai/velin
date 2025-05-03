@@ -11,31 +11,26 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = () => {
     transform: {
       filter: {
         id: {
-          include: [/\.velin\.md$/, '**/*.velin.md'],
+          include: [
+            /\\.velin\.md$/,
+            '**/*.velin.md',
+            /\\.velin\.vue$/,
+            '**/*.velin.vue',
+            /\\.velin\.ts$/,
+            '**/*.velin.ts',
+          ],
         },
       },
       handler: async (code, id) => {
-        try {
-          const pathname = path.dirname(id)
-          const parsed = await processMarkdown(code, {}, pathname)
+        const pathname = path.dirname(id)
+        const parsed = await processMarkdown(code, {}, pathname) // Parse content
 
-          return {
-            code: `export default function (args) {
-              return \`${parsed}\`
-            }`,
-            map: null,
-          }
-        }
-        catch (error) {
-          console.error(`Failed to parse ${id}: ${(error as Error).message}`)
-          return null
-        }
-      },
-    },
-    vite: {
-      config() {
+        // Return transformed module as ES module
         return {
-          assetsInclude: ['**/*.velin.md'],
+          code: `export default function (args) {
+  return \`${parsed}\`
+}`,
+          map: null, // Add source map support if needed
         }
       },
     },
