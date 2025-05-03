@@ -1,10 +1,12 @@
-export const markdown = `## Prompt Template
+## Prompt Template
 
 <script setup>
 import { ref } from 'vue';
 const showSystemPrompt = ref(true);
 const language = ref('JavaScript');
 const userQuestion = ref('How to implement a simple counter?');
+import { useTask } from './task';
+const { task } = useTask();
 </script>
 
 <div v-if="showSystemPrompt">
@@ -18,4 +20,7 @@ You are a professional code assistant, please answer the question using {{langua
 ## User Prompt
 
 {{userQuestion}}
-`
+
+## Task
+
+{{task}}

@@ -1,2 +1,2 @@
-export * from './markdown'
+export * from './markdown/index'
 export * from './sfc'

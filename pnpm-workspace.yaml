@@ -1,5 +1,4 @@
 packages:
-  - src/**
   - examples/**
   - packages/**
 

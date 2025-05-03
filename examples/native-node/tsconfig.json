@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "lib": [
+      "ESNext"
+    ],
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -15,7 +13,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "**/*.config.ts",
-    "**/scripts/*.ts"
+    "src/**/*.ts"
   ]
 }
