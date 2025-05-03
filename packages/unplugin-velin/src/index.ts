@@ -5,18 +5,23 @@ import { processMarkdown } from '@velin-dev/core'
 import path from 'path-browserify-esm'
 import { createUnplugin } from 'unplugin'
 
-export const unpluginFactory: UnpluginFactory<Options | undefined> = (options) => {
-  const { extension = 'velin.md' } = options || {}
-  const filter = new RegExp(`\\.${extension}$`)
-
+export const unpluginFactory: UnpluginFactory<Options | undefined> = () => {
   return {
-    name: 'unplugin-custom-format',
-    // Transform hook to process .custom files
-    async transform(code, id) {
-      if (!filter.test(id))
-        return null // Early return for non-matching files
-
-      try {
+    name: 'unplugin-velin',
+    transform: {
+      filter: {
+        id: {
+          include: [
+            /\\.velin\.md$/,
+            '**/*.velin.md',
+            /\\.velin\.vue$/,
+            '**/*.velin.vue',
+            /\\.velin\.ts$/,
+            '**/*.velin.ts',
+          ],
+        },
+      },
+      handler: async (code, id) => {
         const pathname = path.dirname(id)
         // eslint-disable-next-line no-console
         console.log(`Processing file: ${id}, ${pathname}`) // Log file path
@@ -25,15 +30,11 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (options) =
         // Return transformed module as ES module
         return {
           code: `export default function (args) {
-              return \`${parsed}\`
-            }`,
+  return \`${parsed}\`
+}`,
           map: null, // Add source map support if needed
         }
-      }
-      catch (error) {
-        this.error(`Failed to parse ${id}: ${(error as Error).message}`)
-        return null
-      }
+      },
     },
   }
 }

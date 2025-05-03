@@ -4,8 +4,15 @@ import markdown from './assets/Markdown.velin.md'
 
 <template>
   <main>
-    <code>
+    <div class="content">
       {{ markdown() }}
-    </code>
+    </div>
   </main>
 </template>
+
+<style scoped>
+.content {
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+</style>

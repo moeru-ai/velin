@@ -1,8 +1,9 @@
 ## Prompt Template
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 const showSystemPrompt = ref(true);
+
 const language = ref('JavaScript');
 const userQuestion = ref('How to implement a simple counter?');
 import { useTask } from './task';
