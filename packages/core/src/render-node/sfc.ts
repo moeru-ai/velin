@@ -1,9 +1,11 @@
 import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
 import type { DefineComponent, RenderFunction } from '@vue/runtime-core'
+import type { InputProps } from '../types'
 
 import { evaluateAnyModule } from '@velin-dev/utils/import'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
+import { toValue } from '@vue/reactivity'
 import { renderToString } from '@vue/server-renderer'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
@@ -53,7 +55,11 @@ export async function setupSFC(component: DefineComponent): Promise<Record<strin
   return instance
 }
 
-export async function renderSFC(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
+export async function renderSFC<RawProps = any>(
+  source: string,
+  data?: InputProps<RawProps>,
+  basePath?: string,
+): Promise<string> {
   const { template, script } = await compileSFC(source)
 
   if (!basePath) {
@@ -69,13 +75,17 @@ export async function renderSFC(source: string, data?: Record<string, unknown>, 
   }
 
   const ctx = defu(data || {}, await setupSFC(scriptResult))
-  const html = renderResult.call(ctx, ctx, { ...ctx, ...data }, ctx, ctx)
+  const html = renderResult.call(ctx, ctx, { ...ctx, ...toValue(data) }, ctx, ctx)
   const renderedHTML = await renderToString(html)
 
   return renderedHTML
 }
 
-export async function renderSFCString(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
+export async function renderSFCString<RawProps = any>(
+  source: string,
+  data?: InputProps<RawProps>,
+  basePath?: string,
+): Promise<string> {
   const html = await renderSFC(source, data, basePath)
   return toMarkdown(html)
 }

@@ -1,12 +1,12 @@
 import type {
+  InputProps,
   RenderComponentInputComponent,
-  RenderComponentInputProps,
   ResolveRenderComponentInputProps,
 } from '@velin-dev/core'
 import type { ComponentPropsOptions, Reactive, Ref } from 'vue'
 
 import { renderComponent } from '@velin-dev/core/browser'
-import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
+import { isReactive, isRef, ref, toRef, watch, watchEffect } from 'vue'
 
 export function usePrompt<
   RawProps = any,
@@ -14,7 +14,7 @@ export function usePrompt<
   ResolvedProps = ResolveRenderComponentInputProps<RawProps, ComponentProps>,
 >(
   promptComponent: RenderComponentInputComponent<ResolvedProps>,
-  props: RenderComponentInputProps<ResolvedProps>,
+  props: InputProps<ResolvedProps>,
 ) {
   const prompt = ref('')
 
@@ -60,7 +60,7 @@ export function usePrompt<
     }), renderEffect)
   }
   else {
-    watch(renderEffect)
+    watchEffect(renderEffect)
   }
 
   // immediate: true

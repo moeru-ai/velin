@@ -1,5 +1,6 @@
+import type { MaybeRefOrGetter, Reactive } from '@vue/reactivity'
+import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes } from '@vue/runtime-core'
 import type { LooseRequired } from '@vue/shared'
-import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRefOrGetter, Reactive } from 'vue'
 
 export type RenderComponentInputComponent<T> =
   // eslint-disable-next-line ts/no-empty-object-type
@@ -7,7 +8,7 @@ export type RenderComponentInputComponent<T> =
   | DefineComponent<any, any, any, any, any, any>
   | DefineComponent<object, object, any>
 
-export type RenderComponentInputProps<T> =
+export type InputProps<T> =
   | T
   | MaybeRefOrGetter<T>
   | Record<string, Reactive<any>>

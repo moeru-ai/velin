@@ -14,7 +14,7 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@unocss/reset": "^66.1.0-beta.12",
+    "@unocss/reset": "^66.1.0",
     "@velin-dev/vue": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue-macros/volar": "^3.0.0-beta.10",
@@ -24,7 +24,7 @@
     "unplugin-vue-macros": "^2.14.5",
     "unplugin-vue-markdown": "^28.3.1",
     "unplugin-vue-router": "^0.12.0",
-    "vite-plugin-vue-devtools": "^7.7.5",
+    "vite-plugin-vue-devtools": "^7.7.6",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vue-tsc": "^2.2.10"
   }

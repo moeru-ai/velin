@@ -1,14 +1,14 @@
-import type { ComponentPropsOptions } from 'vue'
+import type { ComponentPropsOptions } from '@vue/runtime-core'
 import type {
+  InputProps,
   LooseRequiredRenderComponentInputProps,
   RenderComponentInputComponent,
-  RenderComponentInputProps,
   ResolveRenderComponentInputProps,
 } from '../types'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { toValue } from '@vue/reactivity'
-import { renderToString } from 'vue/server-renderer'
+import { renderToString } from '@vue/server-renderer'
 
 export function renderComponent<
   RawProps = any,
@@ -16,7 +16,7 @@ export function renderComponent<
   ResolvedProps = ResolveRenderComponentInputProps<RawProps, ComponentProps>,
 >(
   promptComponent: RenderComponentInputComponent<ResolvedProps>,
-  props: RenderComponentInputProps<ResolvedProps>,
+  props: InputProps<ResolvedProps>,
 ) {
   return new Promise<string>((resolve, reject) => {
     const setupData = promptComponent.setup?.(

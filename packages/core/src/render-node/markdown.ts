@@ -1,10 +1,16 @@
+import type { InputProps } from '../types'
+
 import { fromMarkdown, scriptFrom } from '@velin-dev/utils/from-md'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { createSFC } from '@velin-dev/utils/vue-sfc'
 
 import { renderSFC } from './sfc'
 
-export async function renderMarkdownString(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
+export async function renderMarkdownString<RawProps = any>(
+  source: string,
+  data?: InputProps<RawProps>,
+  basePath?: string,
+): Promise<string> {
   const html = fromMarkdown(source)
 
   const { remainingHTML, scriptContent } = scriptFrom(html)
