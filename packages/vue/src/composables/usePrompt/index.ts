@@ -1,6 +1,7 @@
 import type { LooseRequired } from '@vue/shared'
 import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRef, Reactive, Ref } from 'vue'
 
+import { toMarkdown } from '@velin-dev/utils/to-md'
 import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
 import { renderToString } from 'vue/server-renderer'
 
@@ -51,8 +52,10 @@ export function usePrompt<
     const renderResult = promptComponent.render?.(setupData, setupData, [], setupData, setupData)
 
     renderToString(renderResult).then((result) => {
-      prompt.value = result
-      onPromptedCallbacks.value.forEach(cb => cb())
+      toMarkdown(result).then((md) => {
+        prompt.value = md
+        onPromptedCallbacks.value.forEach(cb => cb())
+      })
     })
   }
 

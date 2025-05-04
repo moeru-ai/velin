@@ -200,6 +200,9 @@ importers:
       '@velin-dev/core':
         specifier: workspace:^
         version: link:../core
+      '@velin-dev/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@vue/reactivity':
         specifier: ^3.5.13
         version: 3.5.13
