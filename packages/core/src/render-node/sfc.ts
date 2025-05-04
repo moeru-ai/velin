@@ -69,7 +69,7 @@ export async function renderSFC(source: string, data?: Record<string, unknown>, 
   }
 
   const ctx = defu(data || {}, await setupSFC(scriptResult))
-  const html = renderResult.call(ctx, ctx, [], ctx, ctx)
+  const html = renderResult.call(ctx, ctx, { ...ctx, ...data }, ctx, ctx)
   const renderedHTML = await renderToString(html)
 
   return renderedHTML

@@ -3,7 +3,7 @@ import { useCounter } from '@vueuse/core'
 
 import Promptv2 from './Promptv2.velin.vue'
 
-const props = defineProps<{
+defineProps<{
   language: string
 }>()
 
@@ -12,7 +12,7 @@ const { count } = useCounter()
 
 <template>
   <div>
-    <div>{{ props?.language }}</div>
+    <div>{{ language }}</div>
     <div>{{ count }}</div>
     <Promptv2 />
   </div>

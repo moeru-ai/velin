@@ -24,7 +24,7 @@ export function renderComponent<
       { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
     )
 
-    const renderResult = promptComponent.render?.(setupData, setupData, [], setupData, setupData)
+    const renderResult = promptComponent.render?.(setupData, setupData, { ...setupData, ...toValue(props) }, setupData, setupData)
     renderToString(renderResult).then(toMarkdown).then(resolve).catch(reject)
   })
 }
