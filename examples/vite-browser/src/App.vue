@@ -9,6 +9,10 @@ const state = ref([
     title: 'language',
     type: 'text',
   },
+  {
+    title: 'theme',
+    type: 'switch',
+  },
 ])
 </script>
 
