@@ -1,27 +1,11 @@
-## Prompt Template
+# Prompt template
 
 <script setup>
-import { ref, onMounted } from 'vue';
-const showSystemPrompt = ref(true);
-
-const language = ref('JavaScript');
-const userQuestion = ref('How to implement a simple counter?');
-import { useTask } from './task';
-const { task } = useTask();
+const props = defineProps({
+  language: String
+})
 </script>
-
-<div v-if="showSystemPrompt">
 
 ## System Prompt
 
-You are a professional code assistant, please answer the question using {{language}} language.
-
-</div>
-
-## User Prompt
-
-{{userQuestion}}
-
-## Task
-
-{{task}}
+You are a professional code assistant, please answer the question using {{ props?.language }} language.
