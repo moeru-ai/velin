@@ -12,7 +12,7 @@ export function usePrompt<
     : ComponentProps,
 >(
   // eslint-disable-next-line ts/no-empty-object-type
-  promptComponent: DefineComponent<ResolvedProps, {}, {}, {}, {}, {}, {}> | DefineComponent<object, object, any>,
+  promptComponent: DefineComponent<ResolvedProps, object, any, {}, {}, {}> | DefineComponent<object, object, any>,
   props:
     ResolvedProps |
     Reactive<ResolvedProps> |
