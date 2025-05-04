@@ -1,64 +1,39 @@
 // https://github.com/nolebase/obsidian-plugin-vue/blob/main/src/import.ts
 
-import { $fetch } from 'ofetch'
-import path from 'path-browserify-esm'
+import { createRequire } from 'node:module'
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L5
 const AsyncFunction = Object.getPrototypeOf(async () => { }).constructor
 
-// https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L7-L9
-const CDN_BASE = 'https://esm.sh/'
-const modulesCache = new Map<string, Promise<unknown> | unknown>()
-
-// https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L26
-// eslint-disable-next-line no-new-func
-const nativeImport = new Function('a', 'return import(a);')
-
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L31-L33
-async function fetchAndImportAnyModuleWithCDNCapabilities(name: string, basePath?: string) {
-  if (name.endsWith('.json')) {
-    const response = await $fetch(CDN_BASE + name, { responseType: 'json' })
-    return { default: response }
-  }
-
-  // [FIXME]: vite
+async function wrappedImport(name: string, basePath?: string) {
+  // REVIEW: What about Windows?
   const isLocalModule = name.startsWith('./') || name.startsWith('../')
 
-  if (!isLocalModule) {
-    try {
-      return await nativeImport(name)
-    }
-    catch {
-      // node --experimental-network-imports
-      return await nativeImport(CDN_BASE + name)
-    }
+  if (isLocalModule) {
+    const require = createRequire(basePath)
+    return require(name)
   }
-
-  const resolvedPath = path.resolve(basePath || '', name)
-
-  return nativeImport(`${resolvedPath}.ts`)
+  else {
+    return import(name)
+  }
 }
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L27-L37
 // bypass vite interop
 async function dynamicImportAnyModule(name: string, basePath?: string): Promise<any> {
-  if (modulesCache.has(name))
-    return modulesCache.get(name)
-
   try {
-    const module = await fetchAndImportAnyModuleWithCDNCapabilities(name, basePath)
+    const module = await wrappedImport(name, basePath)
 
     if (module && module.__esModule) {
       const finalModule = module['module.exports'] || module
-      modulesCache.set(name, finalModule)
       return finalModule
     }
 
-    modulesCache.set(name, module)
     return module
   }
   catch (error) {
-    console.error(`Failed to import module ${name} from CDN`, error)
+    console.error(`Failed to import module ${name}`, error)
   }
 }
 
@@ -85,6 +60,8 @@ export async function evaluateAnyModule<T>(configCode: string, basePath?: string
     .replace(importRegex, '__import(')
     .replace(exportRegex, 'return function ')
 
+  console.log('transformedCode', transformedCode)
   const wrappedDynamicImport = new AsyncFunction('__import', transformedCode)
+  console.log('wrappedDynamicImport', wrappedDynamicImport)
   return await wrappedDynamicImport(name => dynamicImportAnyModule(name, basePath))
 }

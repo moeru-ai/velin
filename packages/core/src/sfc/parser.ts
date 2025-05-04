@@ -1,5 +1,5 @@
 import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
-import type { DefineComponent, RenderFunction, SetupContext } from 'vue'
+import type { DefineComponent, RenderFunction } from 'vue'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
@@ -42,7 +42,7 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
   }
 }
 
-export async function resolveDataFromScriptComponent(component: SFCScriptBlock): Promise<Data> {
+export async function resolveDataFromScriptComponent(component: DefineComponent): Promise<Data> {
   // TODO: only support setup now
   const instance = {}
   if (component?.setup) {
@@ -62,14 +62,14 @@ export async function renderSFC(source: string, data?: Data, basePath?: string):
     basePath = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
   }
 
-  const scriptResult = await evaluateAnyModule<SetupContext>(script.content, basePath)
+  const scriptResult = await evaluateAnyModule<DefineComponent>(script.content, basePath)
   const renderResult = await evaluateAnyModule<RenderFunction>(template.code)
 
   if (!scriptResult || !renderResult) {
     throw new Error('Failed to evaluate script or render function')
   }
 
-  let ctx = await resolveDataFromScriptComponent(script)
+  let ctx = await resolveDataFromScriptComponent(scriptResult)
   ctx = defu(data || {}, ctx)
 
   const dom = renderResult.call(ctx, ctx, [], ctx, ctx)
