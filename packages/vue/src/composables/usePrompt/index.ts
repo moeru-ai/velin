@@ -2,7 +2,7 @@ import type { LooseRequired } from '@vue/shared'
 import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRef, Reactive, Ref } from 'vue'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
-import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
+import { isReactive, isRef, ref, toRef, toValue, watch } from '@vue/reactivity'
 import { renderToString } from 'vue/server-renderer'
 
 export function usePrompt<
@@ -21,20 +21,6 @@ export function usePrompt<
     Record<string, Reactive<any>> |
     Record<string, MaybeRef<any>>,
 ) {
-  const setupData = promptComponent.setup?.(
-    props as unknown as LooseRequired<Readonly<
-      ResolvedProps extends ComponentPropsOptions<Record<string, unknown>>
-        ? ExtractPropTypes<ResolvedProps>
-        : ResolvedProps
-    > & {}>,
-    {
-      attrs: {},
-      slots: {},
-      emit: () => { },
-      expose: () => { },
-    },
-  )
-
   const prompt = ref('')
 
   const onPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
@@ -49,6 +35,20 @@ export function usePrompt<
   }
 
   function renderEffect() {
+    const setupData = promptComponent.setup?.(
+      toValue(props) as unknown as LooseRequired<Readonly<
+        ResolvedProps extends ComponentPropsOptions<Record<string, unknown>>
+          ? ExtractPropTypes<ResolvedProps>
+          : ResolvedProps
+      > & {}>,
+      {
+        attrs: {},
+        slots: {},
+        emit: () => { },
+        expose: () => { },
+      },
+    )
+
     const renderResult = promptComponent.render?.(setupData, setupData, [], setupData, setupData)
 
     renderToString(renderResult).then((result) => {
