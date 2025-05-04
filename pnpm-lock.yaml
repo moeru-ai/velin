@@ -110,6 +110,9 @@ importers:
       '@vue-macros/volar':
         specifier: ^3.0.0-beta.10
         version: 3.0.0-beta.10(typescript@5.8.3)(vue-tsc@2.2.10(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
+      '@vue/shared':
+        specifier: ^3.5.13
+        version: 3.5.13
       '@vueuse/core':
         specifier: ^13.1.0
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
