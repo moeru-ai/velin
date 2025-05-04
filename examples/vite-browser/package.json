@@ -1,5 +1,5 @@
 {
-  "name": "@velin-dev/vite-browser",
+  "name": "@velin-dev/example-vite-browser",
   "type": "module",
   "private": true,
   "scripts": {
