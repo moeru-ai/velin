@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { usePrompt } from '@velin-dev/vue'
 import { ref } from 'vue'
 
-// import Prompt from './assets/Markdown.velin.md'
 import Prompt from './assets/Prompt.velin.vue'
+import Playground from './Playground.vue'
 
-const promptVariable = ref('')
-const { prompt } = usePrompt(Prompt, { language: promptVariable })
+const state = ref([
+  {
+    title: 'language',
+    type: 'text',
+  },
+])
 </script>
 
 <template>
   <main>
-    <input v-model="promptVariable">
-    <div class="content">
-      {{ prompt }}
-    </div>
+    <Playground
+      v-model="state"
+      :prompt-component="Prompt"
+    />
   </main>
 </template>
 
