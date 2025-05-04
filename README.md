@@ -1,6 +1,6 @@
 # Velin
 
-Develop prompts with Vue SFC or Markdown like pro.
+> Develop prompts with Vue SFC or Markdown like pro.
 
 Have you wondered how it feels if you can develop the prompts of agents and MCP servers with the power of Vue?
 
