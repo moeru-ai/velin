@@ -25,6 +25,10 @@
       "types": "./dist/from-md/index.d.ts",
       "import": "./dist/from-md/index.mjs"
     },
+    "./import": {
+      "types": "./dist/import/index.d.ts",
+      "import": "./dist/import/index.mjs"
+    },
     "./to-md": {
       "types": "./dist/to-md/index.d.ts",
       "import": "./dist/to-md/index.mjs"

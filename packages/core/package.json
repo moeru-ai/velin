@@ -20,10 +20,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
-    },
-    "./render": {
-      "types": "./dist/render/index.d.ts",
-      "import": "./dist/render/index.mjs"
     }
   },
   "files": [

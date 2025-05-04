@@ -1,6 +1,7 @@
 import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
 import type { DefineComponent, RenderFunction } from '@vue/runtime-core'
 
+import { evaluateAnyModule } from '@velin-dev/utils/import'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import { renderToString } from '@vue/server-renderer'
@@ -8,9 +9,6 @@ import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
 
-import { evaluateAnyModule } from './import'
-
-export type Data = Record<string, any>
 export interface CompiledResult {
   template: SFCTemplateCompileResults
   script: SFCScriptBlock
@@ -40,22 +38,22 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
   }
 }
 
-export async function resolveDataFromScriptComponent(component: DefineComponent): Promise<Data> {
+export async function setupSFC(component: DefineComponent): Promise<Record<string, unknown>> {
   // TODO: only support setup now
-  const instance: unknown = {}
+  const instance: Record<string, unknown> = {}
   if (component?.setup) {
     const setupResult = await (component).setup(
       {},
       { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
     )
 
-    return defu(instance, setupResult as unknown)
+    return defu(instance, setupResult as Record<string, unknown>)
   }
 
   return instance
 }
 
-export async function renderSFC(source: string, data?: Data, basePath?: string): Promise<string> {
+export async function renderSFC(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
   const { template, script } = await compileSFC(source)
 
   if (!basePath) {
@@ -70,14 +68,14 @@ export async function renderSFC(source: string, data?: Data, basePath?: string):
     throw new Error('Failed to evaluate script or render function')
   }
 
-  const ctx = defu(data || {}, await resolveDataFromScriptComponent(scriptResult))
+  const ctx = defu(data || {}, await setupSFC(scriptResult))
   const html = renderResult.call(ctx, ctx, [], ctx, ctx)
   const renderedHTML = await renderToString(html)
 
   return renderedHTML
 }
 
-export async function renderSFCToMarkdown(source: string, data?: Data): Promise<string> {
-  const dom = await renderSFC(source, data)
-  return toMarkdown(dom)
+export async function renderSFCString(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
+  const html = await renderSFC(source, data, basePath)
+  return toMarkdown(html)
 }

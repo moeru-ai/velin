@@ -1,12 +1,10 @@
-import type { Data } from '../sfc/parser'
-
 import { fromMarkdown, scriptFrom } from '@velin-dev/utils/from-md'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { createSFC } from '@velin-dev/utils/vue-sfc'
 
-import { renderSFC } from '../sfc/parser'
+import { renderSFC } from './sfc'
 
-export async function processMarkdown(source: string, data?: Data, basePath?: string): Promise<string> {
+export async function renderMarkdownString(source: string, data?: Record<string, unknown>, basePath?: string): Promise<string> {
   const html = fromMarkdown(source)
 
   const { remainingHTML, scriptContent } = scriptFrom(html)
