@@ -60,8 +60,6 @@ export async function evaluateAnyModule<T>(configCode: string, basePath?: string
     .replace(importRegex, '__import(')
     .replace(exportRegex, 'return function ')
 
-  console.log('transformedCode', transformedCode)
   const wrappedDynamicImport = new AsyncFunction('__import', transformedCode)
-  console.log('wrappedDynamicImport', wrappedDynamicImport)
   return await wrappedDynamicImport(name => dynamicImportAnyModule(name, basePath))
 }
