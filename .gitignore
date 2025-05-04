@@ -7,3 +7,5 @@ temp-script.js
 .DS_Store
 
 **/tsconfig.tsbuildinfo
+
+.eslintcache
