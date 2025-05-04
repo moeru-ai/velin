@@ -44,3 +44,20 @@ jobs:
       - name: Build
         run: |
           pnpm run build
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install
+
+      - name: Typecheck
+        run: pnpm run typecheck
