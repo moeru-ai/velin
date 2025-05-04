@@ -1,25 +1,27 @@
 import type { LooseRequired } from '@vue/shared'
-import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRef, Reactive, Ref } from 'vue'
+import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRefOrGetter, Reactive, Ref } from 'vue'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { isReactive, isRef, ref, toRef, toValue, watch } from '@vue/reactivity'
 import { renderToString } from 'vue/server-renderer'
 
 export function usePrompt<
-  RawProps,
+  RawProps = any,
   ComponentProps = ComponentPropsOptions<RawProps>,
   ResolvedProps = ComponentProps extends ComponentPropsOptions<RawProps>
     ? ExtractPropTypes<ComponentProps>
     : ComponentProps,
 >(
-  // eslint-disable-next-line ts/no-empty-object-type
-  promptComponent: DefineComponent<ResolvedProps, object, any, {}, {}, {}> | DefineComponent<object, object, any>,
+  promptComponent:
+    // eslint-disable-next-line ts/no-empty-object-type
+    | DefineComponent<ResolvedProps, object, any, {}, {}, {}>
+    | DefineComponent<any, any, any, any, any, any>
+    | DefineComponent<object, object, any>,
   props:
-    ResolvedProps |
-    Reactive<ResolvedProps> |
-    MaybeRef<ResolvedProps> |
-    Record<string, Reactive<any>> |
-    Record<string, MaybeRef<any>>,
+    | ResolvedProps
+    | MaybeRefOrGetter<ResolvedProps>
+    | Record<string, Reactive<any>>
+    | Record<string, MaybeRefOrGetter<any>>,
 ) {
   const prompt = ref('')
 

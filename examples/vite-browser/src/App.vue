@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { Component } from './types'
+
 import { ref } from 'vue'
 
 import Prompt from './assets/Prompt.velin.vue'
 import Playground from './Playground.vue'
 
-const state = ref([
+const state = ref<Component[]>([
   {
     title: 'language',
     type: 'text',
@@ -18,10 +20,7 @@ const state = ref([
 
 <template>
   <main>
-    <Playground
-      v-model="state"
-      :prompt-component="Prompt"
-    />
+    <Playground v-model="state" :prompt="Prompt" />
   </main>
 </template>
 

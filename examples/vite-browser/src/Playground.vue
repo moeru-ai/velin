@@ -1,23 +1,19 @@
-<script setup lang="ts">
+<script
+  setup
+  lang="ts"
+  generic="
+    RawProps = any,
+    RawPropsComponent = DefineComponent<RawProps, any, any, any, any, any>
+  "
+>
+import type { DefineComponent } from 'vue'
+import type { Component } from './types'
+
 import { usePrompt } from '@velin-dev/vue'
 import { computed } from 'vue'
 
-interface CompoText {
-  type: 'text'
-  value?: string
-}
-
-interface CompoBool {
-  type: 'switch'
-  value?: boolean
-}
-
-type Component = (CompoText | CompoBool) & {
-  title: string
-}
-
 const props = defineProps<{
-  promptComponent: Parameters<typeof usePrompt>[0]
+  prompt: RawPropsComponent
 }>()
 const components = defineModel<Component[]>()
 const componentsComputed = computed(() =>
@@ -25,7 +21,7 @@ const componentsComputed = computed(() =>
 )
 
 const { prompt, onPrompted } = usePrompt(
-  props.promptComponent,
+  props.prompt as DefineComponent<any, any, any, any, any, any>,
   componentsComputed,
 )
 
