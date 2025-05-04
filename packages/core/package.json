@@ -20,6 +20,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
+    },
+    "./render": {
+      "types": "./dist/render/index.d.ts",
+      "import": "./dist/render/index.mjs"
     }
   },
   "files": [
@@ -36,10 +40,13 @@
   "dependencies": {
     "@velin-dev/utils": "workspace:^",
     "@vue/compiler-sfc": "^3.5.13",
+    "@vue/reactivity": "^3.5.13",
     "@vue/runtime-core": "^3.5.13",
     "@vue/server-renderer": "^3.5.13",
+    "@vue/shared": "^3.5.13",
     "defu": "^6.1.4",
     "error-stack-parser": "^2.1.4",
-    "path-browserify-esm": "^1.0.6"
+    "path-browserify-esm": "^1.0.6",
+    "vue": "^3.5.13"
   }
 }

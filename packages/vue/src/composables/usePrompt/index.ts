@@ -1,27 +1,20 @@
-import type { LooseRequired } from '@vue/shared'
-import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRefOrGetter, Reactive, Ref } from 'vue'
+import type {
+  RenderComponentInputComponent,
+  RenderComponentInputProps,
+  ResolveRenderComponentInputProps,
+} from '@velin-dev/core/render'
+import type { ComponentPropsOptions, Reactive, Ref } from 'vue'
 
-import { toMarkdown } from '@velin-dev/utils/to-md'
-import { isReactive, isRef, ref, toRef, toValue, watch } from '@vue/reactivity'
-import { renderToString } from 'vue/server-renderer'
+import { renderComponent } from '@velin-dev/core/render'
+import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
 
 export function usePrompt<
   RawProps = any,
   ComponentProps = ComponentPropsOptions<RawProps>,
-  ResolvedProps = ComponentProps extends ComponentPropsOptions<RawProps>
-    ? ExtractPropTypes<ComponentProps>
-    : ComponentProps,
+  ResolvedProps = ResolveRenderComponentInputProps<RawProps, ComponentProps>,
 >(
-  promptComponent:
-    // eslint-disable-next-line ts/no-empty-object-type
-    | DefineComponent<ResolvedProps, object, any, {}, {}, {}>
-    | DefineComponent<any, any, any, any, any, any>
-    | DefineComponent<object, object, any>,
-  props:
-    | ResolvedProps
-    | MaybeRefOrGetter<ResolvedProps>
-    | Record<string, Reactive<any>>
-    | Record<string, MaybeRefOrGetter<any>>,
+  promptComponent: RenderComponentInputComponent<ResolvedProps>,
+  props: RenderComponentInputProps<ResolvedProps>,
 ) {
   const prompt = ref('')
 
@@ -37,27 +30,9 @@ export function usePrompt<
   }
 
   function renderEffect() {
-    const setupData = promptComponent.setup?.(
-      toValue(props) as unknown as LooseRequired<Readonly<
-        ResolvedProps extends ComponentPropsOptions<Record<string, unknown>>
-          ? ExtractPropTypes<ResolvedProps>
-          : ResolvedProps
-      > & {}>,
-      {
-        attrs: {},
-        slots: {},
-        emit: () => { },
-        expose: () => { },
-      },
-    )
-
-    const renderResult = promptComponent.render?.(setupData, setupData, [], setupData, setupData)
-
-    renderToString(renderResult).then((result) => {
-      toMarkdown(result).then((md) => {
-        prompt.value = md
-        onPromptedCallbacks.value.forEach(cb => cb())
-      })
+    renderComponent(promptComponent, props).then((md) => {
+      prompt.value = md
+      onPromptedCallbacks.value.forEach(cb => cb())
     })
   }
 

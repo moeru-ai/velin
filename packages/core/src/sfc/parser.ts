@@ -27,9 +27,7 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
     source: descriptor.template.content,
     filename: 'temp.vue',
     id: `vue-component-${Date.now()}`,
-    compilerOptions: {
-      runtimeModuleName: 'vue',
-    },
+    compilerOptions: { runtimeModuleName: 'vue' },
   })
 
   const scriptResult = compileScript(descriptor, {
@@ -44,10 +42,14 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
 
 export async function resolveDataFromScriptComponent(component: DefineComponent): Promise<Data> {
   // TODO: only support setup now
-  const instance = {}
+  const instance: unknown = {}
   if (component?.setup) {
-    const setupResult = (component as unknown as DefineComponent).setup({}, { attrs: {}, slots: {}, emit: () => {}, expose: () => {} })
-    Object.assign(instance, setupResult)
+    const setupResult = await (component).setup(
+      {},
+      { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
+    )
+
+    return defu(instance, setupResult as unknown)
   }
 
   return instance
@@ -57,23 +59,21 @@ export async function renderSFC(source: string, data?: Data, basePath?: string):
   const { template, script } = await compileSFC(source)
 
   if (!basePath) {
-  // eslint-disable-next-line unicorn/error-message
+    // eslint-disable-next-line unicorn/error-message
     const stack = ErrorStackParser.parse(new Error())
     basePath = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
   }
 
   const scriptResult = await evaluateAnyModule<DefineComponent>(script.content, basePath)
   const renderResult = await evaluateAnyModule<RenderFunction>(template.code)
-
   if (!scriptResult || !renderResult) {
     throw new Error('Failed to evaluate script or render function')
   }
 
-  let ctx = await resolveDataFromScriptComponent(scriptResult)
-  ctx = defu(data || {}, ctx)
+  const ctx = defu(data || {}, await resolveDataFromScriptComponent(scriptResult))
+  const html = renderResult.call(ctx, ctx, [], ctx, ctx)
+  const renderedHTML = await renderToString(html)
 
-  const dom = renderResult.call(ctx, ctx, [], ctx, ctx)
-  const renderedHTML = await renderToString(dom)
   return renderedHTML
 }
 
