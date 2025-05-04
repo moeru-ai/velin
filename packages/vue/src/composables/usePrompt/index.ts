@@ -35,10 +35,16 @@ export function usePrompt<
   )
 
   const prompt = ref('')
+
   const onPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
+  const onUnPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
 
   function onPrompted(cb: () => Promise<void> | void) {
     onPromptedCallbacks.value.push(cb)
+  }
+
+  function onUnprompted(cb: () => Promise<void> | void) {
+    onUnPromptedCallbacks.value.push(cb)
   }
 
   function renderEffect() {
@@ -48,6 +54,10 @@ export function usePrompt<
       prompt.value = result
       onPromptedCallbacks.value.forEach(cb => cb())
     })
+  }
+
+  function dispose() {
+    onUnPromptedCallbacks.value.forEach(cb => cb())
   }
 
   if (isReactive(props)) {
@@ -78,6 +88,8 @@ export function usePrompt<
 
   return {
     prompt,
+    dispose,
     onPrompted,
+    onUnprompted,
   }
 }
