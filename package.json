@@ -1,7 +1,7 @@
 {
   "name": "@velin-dev/root",
   "type": "module",
-  "version": "1.3.0",
+  "version": "0.0.1",
   "packageManager": "pnpm@10.10.0",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
@@ -9,7 +9,20 @@
     "email": "rbxin2003@outlook.com",
     "url": "https://github.com/luoling8192"
   },
+  "contributors": [
+    {
+      "name": "Neko Ayaka",
+      "email": "neko@ayaka.moe",
+      "url": "https://github.com/nekomeowww"
+    }
+  ],
   "license": "MIT",
+  "homepage": "https://github.com/luoling8192/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luoling8192/velin.git"
+  },
+  "bugs": "https://github.com/luoling8192/velin/issues",
   "scripts": {
     "dev": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run --parallel dev",
     "build": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run build",

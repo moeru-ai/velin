@@ -1,13 +1,20 @@
 {
   "name": "@velin-dev/core",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.1",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
     "name": "RainbowBird",
     "email": "rbxin2003@outlook.com",
     "url": "https://github.com/luoling8192"
   },
+  "contributors": [
+    {
+      "name": "Neko Ayaka",
+      "email": "neko@ayaka.moe",
+      "url": "https://github.com/nekomeowww"
+    }
+  ],
   "license": "MIT",
   "homepage": "https://github.com/luoling8192/velin",
   "repository": {
