@@ -1,7 +1,7 @@
 import type { LooseRequired } from '@vue/shared'
 import type { ComponentPropsOptions, DefineComponent, ExtractPropTypes, MaybeRef, Reactive, Ref } from 'vue'
 
-import { isReactive, isRef, ref, toRef, watch, watchEffect } from 'vue'
+import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
 import { renderToString } from 'vue/server-renderer'
 
 export function usePrompt<
@@ -80,7 +80,7 @@ export function usePrompt<
     }), renderEffect)
   }
   else {
-    watchEffect(renderEffect)
+    watch(renderEffect)
   }
 
   // immediate: true

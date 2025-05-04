@@ -1,12 +1,12 @@
 import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
-import type { DefineComponent, RenderFunction } from 'vue'
+import type { DefineComponent, RenderFunction } from '@vue/runtime-core'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
+import { renderToString } from '@vue/server-renderer'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
-import { renderToString } from 'vue/server-renderer'
 
 import { evaluateAnyModule } from './import'
 

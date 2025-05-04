@@ -146,6 +146,12 @@ importers:
       '@vue/compiler-sfc':
         specifier: ^3.5.13
         version: 3.5.13
+      '@vue/runtime-core':
+        specifier: ^3.5.13
+        version: 3.5.13
+      '@vue/server-renderer':
+        specifier: ^3.5.13
+        version: 3.5.13(vue@3.5.13(typescript@5.8.3))
       defu:
         specifier: ^6.1.4
         version: 6.1.4
@@ -155,9 +161,6 @@ importers:
       path-browserify-esm:
         specifier: ^1.0.6
         version: 1.0.6
-      vue:
-        specifier: ^3.5.13
-        version: 3.5.13(typescript@5.8.3)
 
   packages/utils:
     dependencies:
@@ -194,9 +197,13 @@ importers:
       '@velin-dev/core':
         specifier: workspace:^
         version: link:../core
+      '@vue/reactivity':
+        specifier: ^3.5.13
+        version: 3.5.13
       '@vue/shared':
         specifier: ^3.5.13
         version: 3.5.13
+    devDependencies:
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
