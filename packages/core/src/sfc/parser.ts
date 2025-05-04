@@ -1,13 +1,13 @@
 import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
 import type { DefineComponent, RenderFunction, SetupContext } from 'vue'
 
+import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
 import { renderToString } from 'vue/server-renderer'
 
-import { convertHtmlToMarkdown } from '../markdown/utils'
 import { evaluateAnyModule } from './import'
 
 export type Data = Record<string, any>
@@ -79,5 +79,5 @@ export async function renderSFC(source: string, data?: Data, basePath?: string):
 
 export async function renderSFCToMarkdown(source: string, data?: Data): Promise<string> {
   const dom = await renderSFC(source, data)
-  return convertHtmlToMarkdown(dom)
+  return toMarkdown(dom)
 }

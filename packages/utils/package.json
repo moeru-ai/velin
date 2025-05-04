@@ -1,5 +1,5 @@
 {
-  "name": "@velin-dev/core",
+  "name": "@velin-dev/utils",
   "type": "module",
   "version": "0.0.5",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
@@ -20,6 +20,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
+    },
+    "./from-md": {
+      "types": "./dist/from-md/index.d.ts",
+      "import": "./dist/from-md/index.mjs"
+    },
+    "./to-md": {
+      "types": "./dist/to-md/index.d.ts",
+      "import": "./dist/to-md/index.mjs"
+    },
+    "./vue-sfc": {
+      "types": "./dist/vue-sfc/index.d.ts",
+      "import": "./dist/vue-sfc/index.mjs"
     }
   },
   "files": [
@@ -34,13 +46,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@velin-dev/utils": "workspace:^",
-    "@vue/compiler-sfc": "^3.5.13",
-    "defu": "^6.1.4",
     "error-stack-parser": "^2.1.4",
-    "ofetch": "^1.4.1",
-    "path-browserify-esm": "^1.0.6",
-    "vue": "^3.5.13",
-    "vue-sfc-transformer": "^0.1.14"
+    "hast-util-select": "^6.0.4",
+    "hast-util-to-html": "^9.0.5",
+    "markdown-it": "^14.1.0",
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.1",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-remove": "^4.0.0"
   }
 }

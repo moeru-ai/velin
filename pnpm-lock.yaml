@@ -104,18 +104,12 @@ importers:
       '@unocss/reset':
         specifier: ^66.1.0-beta.12
         version: 66.1.0-beta.13
-      '@velin-dev/unplugin-velin':
-        specifier: workspace:^
-        version: link:../../packages/unplugin-velin
       '@vitejs/plugin-vue':
         specifier: ^5.2.3
         version: 5.2.3(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
       '@vue-macros/volar':
         specifier: ^3.0.0-beta.10
         version: 3.0.0-beta.10(typescript@5.8.3)(vue-tsc@2.2.10(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
-      '@vue/shared':
-        specifier: ^3.5.13
-        version: 3.5.13
       '@vueuse/core':
         specifier: ^13.1.0
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
@@ -140,6 +134,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@velin-dev/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@vue/compiler-sfc':
         specifier: ^3.5.13
         version: 3.5.13
@@ -149,12 +146,24 @@ importers:
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4
-      esbuild:
-        specifier: ^0.25.3
-        version: 0.25.3
-      esbuild-wasm:
-        specifier: ^0.25.3
-        version: 0.25.3
+      ofetch:
+        specifier: ^1.4.1
+        version: 1.4.1
+      path-browserify-esm:
+        specifier: ^1.0.6
+        version: 1.0.6
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.13(typescript@5.8.3)
+      vue-sfc-transformer:
+        specifier: ^0.1.14
+        version: 0.1.14(@vue/compiler-core@3.5.13)(esbuild@0.25.3)(vue@3.5.13(typescript@5.8.3))
+
+  packages/utils:
+    dependencies:
+      error-stack-parser:
+        specifier: ^2.1.4
+        version: 2.1.4
       hast-util-select:
         specifier: ^6.0.4
         version: 6.0.4
@@ -164,12 +173,6 @@ importers:
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
-      ofetch:
-        specifier: ^1.4.1
-        version: 1.4.1
-      path-browserify-esm:
-        specifier: ^1.0.6
-        version: 1.0.6
       rehype-parse:
         specifier: ^9.0.1
         version: 9.0.1
@@ -185,34 +188,6 @@ importers:
       unist-util-remove:
         specifier: ^4.0.0
         version: 4.0.0
-      vue:
-        specifier: ^3.5.13
-        version: 3.5.13(typescript@5.8.3)
-      vue-sfc-transformer:
-        specifier: ^0.1.14
-        version: 0.1.14(@vue/compiler-core@3.5.13)(esbuild@0.25.3)(vue@3.5.13(typescript@5.8.3))
-
-  packages/unplugin-velin:
-    dependencies:
-      '@velin-dev/core':
-        specifier: workspace:^
-        version: link:../core
-      defu:
-        specifier: ^6.1.4
-        version: 6.1.4
-      path-browserify-esm:
-        specifier: ^1.0.6
-        version: 1.0.6
-      unplugin:
-        specifier: ^2.3.2
-        version: 2.3.2
-      vue-sfc-transformer:
-        specifier: ^0.1.14
-        version: 0.1.14(@vue/compiler-core@3.5.13)(esbuild@0.25.3)(vue@3.5.13(typescript@5.8.3))
-    devDependencies:
-      vue:
-        specifier: ^3.5.13
-        version: 3.5.13(typescript@5.8.3)
 
 packages:
 
@@ -1982,11 +1957,6 @@ packages:
 
   es-module-lexer@1.6.0:
     resolution: {integrity: sha512-qqnD1yMU6tk/jnaMosogGySTZP8YtUgAffA9nMN+E/rjxcfRQ6IEk7IiozUjgxKoFHBGjTLnrHB/YC45r/59EQ==}
-
-  esbuild-wasm@0.25.3:
-    resolution: {integrity: sha512-60mFpAU4iQMVIP9tSd5EEbxZUDsqSKAjAJ7r1OK073lG/ctnVidThvbcU+M2B55jMFntCFJlqksubXMpYIcbfg==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   esbuild@0.25.3:
     resolution: {integrity: sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q==}
@@ -5934,8 +5904,6 @@ snapshots:
     optional: true
 
   es-module-lexer@1.6.0: {}
-
-  esbuild-wasm@0.25.3: {}
 
   esbuild@0.25.3:
     optionalDependencies:

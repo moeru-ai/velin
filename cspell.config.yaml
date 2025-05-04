@@ -2,11 +2,13 @@ words:
   - bumpp
   - changelogithub
   - defu
+  - frommd
   - nolyfill
   - ofetch
   - pkgroll
   - sizecheck
   - taze
+  - tomd
   - unocss
   - unplugin
   - velin
