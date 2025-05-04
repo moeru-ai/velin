@@ -5,16 +5,16 @@
   "author": {
     "name": "RainbowBird",
     "email": "rbxin2003@outlook.com",
-    "url": "https://github.com/luoling819"
+    "url": "https://github.com/luoling8192"
   },
   "license": "MIT",
-  "homepage": "https://github.com/luoling819/velin",
+  "homepage": "https://github.com/luoling8192/velin",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luoling819/velin.git",
+    "url": "git+https://github.com/luoling8192/velin.git",
     "directory": "packages/vue"
   },
-  "bugs": "https://github.com/luoling819/velin/issues",
+  "bugs": "https://github.com/luoling8192/velin/issues",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
