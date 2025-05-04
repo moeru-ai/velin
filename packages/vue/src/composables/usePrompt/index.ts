@@ -5,7 +5,7 @@ import type {
 } from '@velin-dev/core'
 import type { ComponentPropsOptions, Reactive, Ref } from 'vue'
 
-import { renderComponent } from '@velin-dev/core'
+import { renderComponent } from '@velin-dev/core/browser'
 import { isReactive, isRef, ref, toRef, watch } from '@vue/reactivity'
 
 export function usePrompt<

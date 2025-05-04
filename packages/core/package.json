@@ -21,9 +21,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
-    "./node": {
-      "types": "./dist/node.d.ts",
-      "import": "./dist/node.mjs"
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.mjs"
     }
   },
   "files": [

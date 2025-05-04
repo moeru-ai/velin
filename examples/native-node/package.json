@@ -2,6 +2,7 @@
   "name": "@velin-dev/example-native-node",
   "type": "module",
   "private": true,
+  "description": "Velin Example - Native Node",
   "scripts": {
     "run:sfc": "tsx src/sfc.ts",
     "run:md": "tsx src/md.ts"

@@ -1,39 +1,75 @@
-# @velin-dev/core
+# Velin
 
-Parse Vue SFC or Markdown to prompt for LLM.
+Develop prompts with Vue SFC or Markdown like pro.
 
-## Preview
+Have you wondered how it feels if you can develop the prompts of agents and MCP servers with the power of Vue?
 
-![Preview](https://github.com/user-attachments/assets/5810c1ee-55cf-42bc-963a-a870b0849bfb)
+- No longer need to fight and format with the non-supported DSL of templating language!
+- Use HTML elements like `<div>` for block elements, `<span>` for inline elements.
+- Directives with native Vue template syntax, `v-if`, `v-else` all works.
+- Compositing other open sourced prompt component or composables over memory system.
 
-## Usage
+All included...
 
-### Markdown
+## Install
 
-```ts
-import { processMarkdown } from '@velin-dev/core'
+```shell
+# For browser users
+npm i @velin-dev/vue
 
-const markdown = await processMarkdown(markdownString, {
-  language: ref('TypeScript'), // The data to be passed to the prompt
-})
+# For Node.js, CI, server rendering and backend users
+npm i @velin-dev/core
 ```
 
-### Vue SFC
+## How it feels
 
-```ts
-import { renderSFC } from '@velin-dev/core'
+```html
+<!-- Prompt.vue -->
+<script setup lang="ts">
+defineProps<{
+  name: string
+}>()
+</script>
 
-const html = await renderSFC(source, {
-  language: ref('TypeScript'), // The data to be passed to the prompt
-})
+<template>
+  <div>
+    Hello world, this is {{ name }}!
+  </div>
+</template>
 ```
 
-```ts
-import { renderSFCToMarkdown } from '@velin-dev/core'
+### In Node.js
 
-const markdown = await renderSFCToMarkdown(source, {
-  language: ref('TypeScript'), // The data to be passed to the prompt
+```ts
+import { readFile } from 'node:fs/promises'
+import { usePrompt } from '@velin-dev/core'
+import { ref } from 'vue'
+
+const source = await readFile('./Prompt.vue', 'utf-8')
+const name = ref<string>('Velin')
+const result = await renderSFCString(source, { name })
+
+console.log(result)
+// Hello world, this is Velin!
+```
+
+### In Vue / Browser
+
+```vue
+<script setup lang="ts">
+import { usePrompt } from '@velin-dev/vue'
+import { ref, watch } from 'vue'
+
+import Prompt from './Prompt.vue'
+
+const language = ref<string>('Velin')
+const { prompt, onPrompted } = usePrompt(Prompt, { name })
+
+watch(prompt, () => {
+  console.log(prompt)
+  // // Hello world, this is Velin!
 })
+</script>
 ```
 
 ## License

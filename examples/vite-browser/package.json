@@ -2,6 +2,7 @@
   "name": "@velin-dev/example-vite-browser",
   "type": "module",
   "private": true,
+  "description": "Velin Example - Vite + Browser",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",

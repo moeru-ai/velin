@@ -1,1 +1,0 @@
-export { renderComponent } from './component'
