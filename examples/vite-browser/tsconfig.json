@@ -13,8 +13,7 @@
       "vitest",
       "vite/client",
       "vite-plugin-vue-layouts/client",
-      "unplugin-vue-router/client",
-      "@velin-dev/unplugin-velin/client"
+      "unplugin-vue-router/client"
     ],
     "allowJs": true,
     "strict": true,
