@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@unocss/reset": "^66.1.0-beta.12",
+    "@velin-dev/vue": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue-macros/volar": "^3.0.0-beta.10",
     "@vue/shared": "^3.5.13",

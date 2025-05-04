@@ -1,0 +1,43 @@
+{
+  "name": "@velin-dev/vue",
+  "type": "module",
+  "private": true,
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling819"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/luoling819/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luoling819/velin.git",
+    "directory": "packages/vue"
+  },
+  "bugs": "https://github.com/luoling819/velin/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "unbuild",
+    "stub": "unbuild",
+    "build": "unbuild",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@velin-dev/core": "workspace:^",
+    "@vue/shared": "^3.5.13",
+    "vue": "^3.5.13"
+  }
+}
