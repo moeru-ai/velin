@@ -63,7 +63,7 @@ export async function renderSFC(source: string, data?: Record<string, unknown>, 
   }
 
   const scriptResult = await evaluateAnyModule<DefineComponent>(script.content, basePath)
-  const renderResult = await evaluateAnyModule<RenderFunction>(template.code)
+  const renderResult = await evaluateAnyModule<RenderFunction>(template.code, basePath)
   if (!scriptResult || !renderResult) {
     throw new Error('Failed to evaluate script or render function')
   }

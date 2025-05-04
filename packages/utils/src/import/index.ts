@@ -1,14 +1,20 @@
 // https://github.com/nolebase/obsidian-plugin-vue/blob/main/src/import.ts
+import { createRequire } from 'node:module'
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L5
 const AsyncFunction = Object.getPrototypeOf(async () => { }).constructor
+
+// https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L31-L33
+async function wrappedImport(name: string, basePath?: string) {
+  const require = createRequire(basePath)
+  return require(name)
+}
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L27-L37
 // bypass vite interop
 async function dynamicImportAnyModule(name: string, basePath?: string): Promise<any> {
   try {
-    const moduleUrl = new URL(name, basePath)
-    const module = await import(moduleUrl.toString())
+    const module = await wrappedImport(name, basePath)
 
     if (module && module.__esModule) {
       const finalModule = module['module.exports'] || module

@@ -53,6 +53,7 @@
     "error-stack-parser": "^2.1.4",
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",
+    "local-pkg": "^1.1.1",
     "markdown-it": "^14.1.0",
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.1",

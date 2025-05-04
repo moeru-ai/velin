@@ -4,7 +4,7 @@ import type {
   RenderComponentInputComponent,
   RenderComponentInputProps,
   ResolveRenderComponentInputProps,
-} from './types'
+} from '../types'
 
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { toValue } from '@vue/reactivity'
