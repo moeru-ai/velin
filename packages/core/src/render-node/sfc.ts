@@ -1,19 +1,31 @@
-import type { SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
-import type { DefineComponent, RenderFunction } from '@vue/runtime-core'
+import type { SFCDescriptor, SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
+import type { DefineComponent } from '@vue/runtime-core'
 import type { InputProps } from '../types'
 
 import { evaluateAnyModule } from '@velin-dev/utils/import'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
-import { toValue } from '@vue/reactivity'
-import { renderToString } from '@vue/server-renderer'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
 
+import { onlyRender } from '../render-shared'
+
 export interface CompiledResult {
   template: SFCTemplateCompileResults
   script: SFCScriptBlock
+}
+
+// Check if we can use compile template as inlined render function
+// inside <script setup>. This can only be done for build because
+// inlined template cannot be individually hot updated.
+export function isUseInlineTemplate(
+  descriptor: SFCDescriptor,
+): boolean {
+  return (
+    !!descriptor.scriptSetup
+    && !descriptor.template?.src
+  )
 }
 
 export async function compileSFC(source: string): Promise<CompiledResult> {
@@ -23,15 +35,19 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
     throw new Error(`source has no <template> tag.`)
   }
 
-  const templateResult = compileTemplate({
+  const templateOptions = {
     source: descriptor.template.content,
     filename: 'temp.vue',
     id: `vue-component-${Date.now()}`,
     compilerOptions: { runtimeModuleName: 'vue' },
-  })
+  }
+
+  const templateResult = compileTemplate(templateOptions)
 
   const scriptResult = compileScript(descriptor, {
     id: `vue-component-${Date.now()}`,
+    inlineTemplate: isUseInlineTemplate(descriptor),
+    templateOptions,
   })
 
   return {
@@ -60,7 +76,7 @@ export async function renderSFC<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<string> {
-  const { template, script } = await compileSFC(source)
+  const { script } = await compileSFC(source)
 
   if (!basePath) {
     // eslint-disable-next-line unicorn/error-message
@@ -68,17 +84,9 @@ export async function renderSFC<RawProps = any>(
     basePath = path.dirname(stack[1].fileName?.replace('async', '').trim() || '')
   }
 
-  const scriptResult = await evaluateAnyModule<DefineComponent>(script.content, basePath)
-  const renderResult = await evaluateAnyModule<RenderFunction>(template.code, basePath)
-  if (!scriptResult || !renderResult) {
-    throw new Error('Failed to evaluate script or render function')
-  }
-
-  const ctx = defu(data || {}, await setupSFC(scriptResult))
-  const html = renderResult.call(ctx, ctx, { ...ctx, ...toValue(data) }, ctx, ctx)
-  const renderedHTML = await renderToString(html)
-
-  return renderedHTML
+  // TODO: evaluate setup when not <script setup>
+  const evaluatedComponent = await evaluateAnyModule<DefineComponent>(`${script.content}`, basePath)
+  return await onlyRender(evaluatedComponent, data)
 }
 
 export async function renderSFCString<RawProps = any>(

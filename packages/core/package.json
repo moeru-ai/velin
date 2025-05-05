@@ -28,6 +28,18 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./render-browser": {
+      "types": "./dist/render-browser/index.d.ts",
+      "import": "./dist/render-browser/index.mjs"
+    },
+    "./render-node": {
+      "types": "./dist/render-node/index.d.ts",
+      "import": "./dist/render-node/index.mjs"
+    },
+    "./render-shared": {
+      "types": "./dist/render-shared/index.d.ts",
+      "import": "./dist/render-shared/index.mjs"
+    },
     "./browser": {
       "types": "./dist/browser.d.ts",
       "import": "./dist/browser.mjs"
@@ -53,6 +65,7 @@
     "@vue/shared": "^3.5.13",
     "defu": "^6.1.4",
     "error-stack-parser": "^2.1.4",
-    "path-browserify-esm": "^1.0.6"
+    "path-browserify-esm": "^1.0.6",
+    "vue": "^3.5.13"
   }
 }

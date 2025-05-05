@@ -92,10 +92,6 @@ importers:
         version: 3.1.2(@types/debug@4.1.12)(@types/node@22.15.3)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.0)
 
   apps/playground:
-    dependencies:
-      '@proj-airi/ui':
-        specifier: ^0.4.27
-        version: 0.4.27(@nuxt/kit@3.17.1)(typescript@5.8.3)
     devDependencies:
       '@iconify-json/carbon':
         specifier: ^1.2.8
@@ -109,9 +105,18 @@ importers:
       '@iconify-json/svg-spinners':
         specifier: ^1.2.2
         version: 1.2.2
+      '@proj-airi/ui':
+        specifier: ^0.4.27
+        version: 0.4.27(@nuxt/kit@3.17.1)(typescript@5.8.3)
       '@unocss/reset':
         specifier: ^66.1.0-beta.12
         version: 66.1.0
+      '@velin-dev/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@velin-dev/vue':
+        specifier: workspace:^
+        version: link:../../packages/vue
       '@vitejs/plugin-vue':
         specifier: ^5.2.3
         version: 5.2.3(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.3))
@@ -234,6 +239,9 @@ importers:
       path-browserify-esm:
         specifier: ^1.0.6
         version: 1.0.6
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.13(typescript@5.8.3)
 
   packages/utils:
     dependencies:

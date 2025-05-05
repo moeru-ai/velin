@@ -1,1 +1,1 @@
-export { renderComponent } from '../render-shared/component'
+export { renderComponent } from '../render-shared'

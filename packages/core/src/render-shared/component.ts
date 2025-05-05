@@ -9,6 +9,33 @@ import type {
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { toValue } from '@vue/reactivity'
 import { renderToString } from '@vue/server-renderer'
+import { createSSRApp } from 'vue'
+
+export function onlySetup<
+  RawProps = any,
+  ComponentProps = ComponentPropsOptions<RawProps>,
+  ResolvedProps = ResolveRenderComponentInputProps<RawProps, ComponentProps>,
+>(
+  promptComponent: RenderComponentInputComponent<ResolvedProps>,
+  props: InputProps<ResolvedProps>,
+) {
+  return promptComponent.setup?.(
+    toValue(props) as unknown as LooseRequiredRenderComponentInputProps<ResolvedProps>,
+    { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
+  )
+}
+
+export function onlyRender<
+  RawProps = any,
+  ComponentProps = ComponentPropsOptions<RawProps>,
+  ResolvedProps = ResolveRenderComponentInputProps<RawProps, ComponentProps>,
+>(
+  promptComponent: RenderComponentInputComponent<ResolvedProps>,
+  props: InputProps<ResolvedProps>,
+) {
+  const renderResult = createSSRApp(promptComponent, toValue(props) as Record<string, unknown>)
+  return renderToString(renderResult)
+}
 
 export function renderComponent<
   RawProps = any,
@@ -19,12 +46,9 @@ export function renderComponent<
   props: InputProps<ResolvedProps>,
 ) {
   return new Promise<string>((resolve, reject) => {
-    const setupData = promptComponent.setup?.(
-      toValue(props) as unknown as LooseRequiredRenderComponentInputProps<ResolvedProps>,
-      { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
-    )
-
-    const renderResult = promptComponent.render?.(setupData, setupData, { ...setupData, ...toValue(props) }, setupData, setupData)
-    renderToString(renderResult).then(toMarkdown).then(resolve).catch(reject)
+    onlyRender(promptComponent, props)
+      .then(toMarkdown)
+      .then(resolve)
+      .catch(reject)
   })
 }
