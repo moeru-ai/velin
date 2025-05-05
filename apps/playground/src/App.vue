@@ -1,35 +1,48 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
+import { RouterView } from 'vue-router'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 </script>
 
 <template>
-  <div mx-auto max-w-screen-lg flex flex-col gap-2 p-4>
-    <header flex flex-row items-center justify-between>
-      <h1 text-2xl>
+  <div mx-auto h-full max-w-screen-2xl flex flex-row gap-2 w-full>
+    <div flex flex-col items-center gap-2 h-full py-4 px-3>
+      <h1 text-xl write-vertical-left text="neutral-500 dark:neutral-500" font-jura flex-1 text-nowrap py-2 h-full text-right scale--100>
         Velin Playground
       </h1>
-      <div flex flex-row items-center gap-2>
-        <button text-lg @click="() => toggleDark()">
+      <div
+        flex flex-col items-center
+        bg="white dark:neutral-900"
+        rounded-full h-fit
+        border="2 solid neutral-100 dark:neutral-900"
+      >
+        <a
+          href="https://github.com/luoling8192/velin"
+          shadow="none hover:md dark:hover:neutral-100/5"
+          bg="dark:hover:neutral-400/10"
+          p-2 rounded-full
+          transition="all duration-300 ease-in-out"
+        >
+          <div i-simple-icons:github />
+        </a>
+        <button
+          text-lg
+          shadow="none hover:md dark:hover:neutral-100/5"
+          bg="dark:hover:neutral-400/10"
+          p-2 rounded-full
+          transition="all duration-300 ease-in-out"
+          @click="() => toggleDark()"
+        >
           <div v-if="isDark" i-solar:moon-stars-bold-duotone />
           <div v-else i-solar:sun-bold />
         </button>
-        <a href="https://github.com/luoling8192/velin">
-          <div i-simple-icons:github />
-        </a>
       </div>
-    </header>
-    <nav bg="neutral-100 dark:neutral-800" w-fit flex items-center of-hidden rounded-lg>
-      <RouterLink
-        to="/" px-3 py-2 bg="hover:neutral-200 dark:hover:neutral-700"
-        transition="all duration-250 ease-in-out"
-      >
-        <h1>Prompt</h1>
-      </RouterLink>
-    </nav>
-    <RouterView />
+    </div>
+    <div flex-1 w-full py-5 pr-5>
+      <RouterView />
+    </div>
   </div>
 </template>
 
