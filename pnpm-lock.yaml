@@ -126,12 +126,18 @@ importers:
       '@vueuse/core':
         specifier: ^13.1.0
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
+      '@vueuse/motion':
+        specifier: ^3.0.3
+        version: 3.0.3(vue@3.5.13(typescript@5.8.3))
       defu:
         specifier: ^6.1.4
         version: 6.1.4
       es-toolkit:
         specifier: ^1.35.0
         version: 1.37.2
+      reka-ui:
+        specifier: ^2.2.1
+        version: 2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       superjson:
         specifier: ^2.2.2
         version: 2.2.2
@@ -3866,8 +3872,8 @@ packages:
   rehype-remark@10.0.1:
     resolution: {integrity: sha512-EmDndlb5NVwXGfUa4c9GPK+lXeItTilLhE6ADSaQuHr4JUlKw9MidzGzx4HpqZrNCt6vnHmEifXQiiA+CEnjYQ==}
 
-  reka-ui@2.2.0:
-    resolution: {integrity: sha512-eeRrLI4LwJ6dkdwks6KFNKGs0+beqZlHO3JMHen7THDTh+yJ5Z0KNwONmOhhV/0hZC2uJCEExgG60QPzGstkQg==}
+  reka-ui@2.2.1:
+    resolution: {integrity: sha512-oLHiyBn6gTIQGnTnv8G5LQuFp9j8HuUNl0qdnW3XPhFb/07hrxzFpjo2kt/jxOZive+n/XWDbOjSj2h9Hih3qA==}
     peerDependencies:
       vue: '>= 3.2.0'
 
@@ -5330,7 +5336,7 @@ snapshots:
     dependencies:
       '@vueuse/core': 13.1.0(vue@3.5.13(typescript@5.8.3))
       floating-vue: 5.2.2(@nuxt/kit@3.17.1)(vue@3.5.13(typescript@5.8.3))
-      reka-ui: 2.2.0(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
+      reka-ui: 2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       vue: 3.5.13(typescript@5.8.3)
     transitivePeerDependencies:
       - '@nuxt/kit'
@@ -8854,7 +8860,7 @@ snapshots:
       unified: 11.0.5
       vfile: 6.0.3
 
-  reka-ui@2.2.0(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)):
+  reka-ui@2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       '@floating-ui/dom': 1.7.0
       '@floating-ui/vue': 1.1.6(vue@3.5.13(typescript@5.8.3))
