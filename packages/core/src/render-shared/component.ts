@@ -33,8 +33,7 @@ export function onlyRender<
   promptComponent: RenderComponentInputComponent<ResolvedProps>,
   props: InputProps<ResolvedProps>,
 ) {
-  const renderResult = createSSRApp(promptComponent, toValue(props) as Record<string, unknown>)
-  return renderToString(renderResult)
+  return createSSRApp(promptComponent, toValue(props) as Record<string, unknown>)
 }
 
 export function renderComponent<
@@ -46,7 +45,7 @@ export function renderComponent<
   props: InputProps<ResolvedProps>,
 ) {
   return new Promise<string>((resolve, reject) => {
-    onlyRender(promptComponent, props)
+    renderToString(onlyRender(promptComponent, props))
       .then(toMarkdown)
       .then(resolve)
       .catch(reject)

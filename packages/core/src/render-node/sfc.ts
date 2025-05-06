@@ -5,12 +5,13 @@ import type { InputProps } from '../types'
 import { evaluateAnyModule } from '@velin-dev/utils/import'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
+import { renderToString } from '@vue/server-renderer'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
 import { fromHtml } from 'hast-util-from-html'
 import path from 'path-browserify-esm'
 
-import { onlyRender } from '../render-shared'
+import { onlyRender, resolveProps } from '../render-shared'
 
 export interface CompiledResult {
   template: SFCTemplateCompileResults
@@ -72,11 +73,10 @@ export async function setupSFC(component: DefineComponent): Promise<Record<strin
   return instance
 }
 
-export async function renderSFC<RawProps = any>(
+export async function evaluateSFC(
   source: string,
-  data?: InputProps<RawProps>,
   basePath?: string,
-): Promise<string> {
+) {
   const { script } = await compileSFC(source)
 
   if (!basePath) {
@@ -86,8 +86,22 @@ export async function renderSFC<RawProps = any>(
   }
 
   // TODO: evaluate setup when not <script setup>
-  const evaluatedComponent = await evaluateAnyModule<DefineComponent>(`${script.content}`, basePath)
-  return await onlyRender(evaluatedComponent, data)
+  return await evaluateAnyModule<DefineComponent>(`${script.content}`, basePath)
+}
+
+export async function resolvePropsFromString(content: string) {
+  const component = await evaluateSFC(content)
+  const renderedComponent = onlyRender(component, {})
+  return resolveProps(renderedComponent as any)
+}
+
+export async function renderSFC<RawProps = any>(
+  source: string,
+  data?: InputProps<RawProps>,
+  basePath?: string,
+): Promise<string> {
+  const evaluatedComponent = await evaluateSFC(source, basePath)
+  return await renderToString(onlyRender(evaluatedComponent, data))
 }
 
 export async function renderSFCString<RawProps = any>(
