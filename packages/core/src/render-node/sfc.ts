@@ -7,6 +7,7 @@ import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 import defu from 'defu'
 import ErrorStackParser from 'error-stack-parser'
+import { fromHtml } from 'hast-util-from-html'
 import path from 'path-browserify-esm'
 
 import { onlyRender } from '../render-shared'
@@ -94,6 +95,12 @@ export async function renderSFCString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<string> {
+  const hastRoot = fromHtml(source, { fragment: true })
+  const hasScript = hastRoot.children.some(node => node.type === 'element' && node.tagName === 'script')
+  if (!hasScript) {
+    source = `${source}\n<script setup>// EMPTY</script>`
+  }
+
   const html = await renderSFC(source, data, basePath)
   return toMarkdown(html)
 }
