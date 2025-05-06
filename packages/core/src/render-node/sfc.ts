@@ -98,7 +98,7 @@ export async function renderSFCString<RawProps = any>(
   const hastRoot = fromHtml(source, { fragment: true })
   const hasScript = hastRoot.children.some(node => node.type === 'element' && node.tagName === 'script')
   if (!hasScript) {
-    source = `${source}\n<script setup>// EMPTY</script>`
+    source = `${source}\n<script setup>/* EMPTY */</script>`
   }
 
   const html = await renderSFC(source, data, basePath)
