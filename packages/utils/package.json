@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "error-stack-parser": "^2.1.4",
+    "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",
     "local-pkg": "^1.1.1",
