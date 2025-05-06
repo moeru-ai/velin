@@ -92,13 +92,6 @@ importers:
         version: 3.1.2(@types/debug@4.1.12)(@types/node@22.15.3)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.0)
 
   apps/playground:
-    dependencies:
-      '@vueuse/motion':
-        specifier: ^3.0.3
-        version: 3.0.3(vue@3.5.13(typescript@5.8.3))
-      reka-ui:
-        specifier: ^2.2.1
-        version: 2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
     devDependencies:
       '@iconify-json/carbon':
         specifier: ^1.2.8
@@ -133,12 +126,18 @@ importers:
       '@vueuse/core':
         specifier: ^13.1.0
         version: 13.1.0(vue@3.5.13(typescript@5.8.3))
+      '@vueuse/motion':
+        specifier: ^3.0.3
+        version: 3.0.3(vue@3.5.13(typescript@5.8.3))
       defu:
         specifier: ^6.1.4
         version: 6.1.4
       es-toolkit:
         specifier: ^1.35.0
         version: 1.37.2
+      reka-ui:
+        specifier: ^2.2.1
+        version: 2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       superjson:
         specifier: ^2.2.2
         version: 2.2.2
