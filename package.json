@@ -24,8 +24,8 @@
   },
   "bugs": "https://github.com/luoling8192/velin/issues",
   "scripts": {
-    "dev": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run --parallel dev",
-    "build": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" run build",
+    "dev": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" -F=\"./apps/*\" run --parallel dev",
+    "build": "pnpm -rF=\"./packages/*\" -F=\"./examples/*\" -F=\"./apps/*\" run build",
     "packages:build": "pnpm -rF=\"./packages/*\" run build",
     "example:browser-dev": "nr -F @velin-dev/example-vite-browser dev",
     "example:node-sfc": "pnpm -F @velin-dev/example-native-node run:sfc",
