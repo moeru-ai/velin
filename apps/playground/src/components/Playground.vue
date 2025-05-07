@@ -94,7 +94,7 @@ watch([resolvedProps, formValues], () => {
         <div font-mono opacity-70>
           {{ component.key }}
         </div>
-        <template v-if="component.type === 'string'">
+        <template v-if="component.type === 'string' || component.type === 'unknown'">
           <Input
             type="text"
             :model-value="formValues[component.title]"

@@ -33,11 +33,11 @@ watch([route], async () => {
 </script>
 
 <template>
-  <div flex flex-col gap-2>
+  <div flex flex-col gap-2 relative h-full>
     <div w-full flex flex-row gap-2>
       <Playground :prompt="Prompt" />
     </div>
-    <div ref="pageTitleRef" text="neutral-300 dark:neutral-700 30" absolute bottom--10 right-0 opacity-20 filter="blur-[5px]">
+    <div ref="pageTitleRef" text="neutral-300 dark:neutral-700 30" absolute bottom--18 right--10 opacity-20 filter="blur-[5px]" select-none>
       Editor
     </div>
   </div>

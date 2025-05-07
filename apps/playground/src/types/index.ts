@@ -13,7 +13,12 @@ export interface CompoNumber {
   value?: number
 }
 
-export type Component = (CompoText | CompoBool | CompoNumber) & {
+export interface CompoUnknown {
+  type: 'unknown'
+  value?: unknown
+}
+
+export type Component = (CompoText | CompoBool | CompoNumber | CompoUnknown) & {
   title: string
   key: string
 }
