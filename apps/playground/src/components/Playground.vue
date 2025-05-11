@@ -11,8 +11,13 @@ import type { Component } from '../types'
 
 import { resolveProps } from '@velin-dev/core/render-shared'
 import { usePrompt } from '@velin-dev/vue'
-import { computed, reactive, ref, watch } from 'vue'
+import { useDark } from '@vueuse/core'
+import { Pane, Splitpanes } from 'splitpanes'
+import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 
+import { injectKeyProps } from '../types/vue-repl'
+import Editor from './Editor/index.vue'
+import { useStore } from './Editor/store'
 import Input from './Input.vue'
 import Switch from './Switch.vue'
 
@@ -33,6 +38,23 @@ const resolvedProps = computed<Component[]>(() => {
           : '',
     } as Component
   })
+})
+
+const isDark = useDark()
+const replTheme = computed(() => {
+  return isDark.value ? 'dark' : 'light'
+})
+
+const store = useStore()
+store.init()
+
+provide(injectKeyProps, {
+  ...toRefs(props),
+  // @ts-expect-error - TODO: fix this
+  store: ref(store),
+  theme: replTheme,
+  editorOptions: ref({}),
+  autoSave: true,
 })
 
 // Create a reactive state object to store form values
@@ -65,58 +87,54 @@ watch([resolvedProps, formValues], () => {
 
 <template>
   <div class="font-sans" flex gap-4 w-full>
-    <div
-      flex-1 px-4 py-3
-      bg="white dark:neutral-900"
-      rounded-lg
-    >
-      <!-- <h2 class="text-xl font-semibold opacity-50">
-        Prompt
-      </h2> -->
-      <div class="whitespace-pre-wrap">
-        {{ renderedPrompt }}
-      </div>
-    </div>
-
-    <div
-      flex flex-col gap-3 min-w="25%" px-4 py-3
-      bg="neutral-50 dark:neutral-800"
-      rounded-lg
-    >
-      <h2 class="text-xl font-semibold opacity-20">
-        Props
-      </h2>
-      <div
-        v-for="component in resolvedProps"
-        :key="component.key"
-        class="grid grid-cols-2 gap-2 items-center"
-      >
-        <div font-mono opacity-70>
-          {{ component.key }}
-        </div>
-        <template v-if="component.type === 'string' || component.type === 'unknown'">
-          <Input
-            type="text"
-            :model-value="formValues[component.title]"
-            @update:model-value="(val) => { formValues[component.title] = val }"
-          />
-        </template>
-        <template v-if="component.type === 'boolean'">
-          <div flex justify-end>
-            <Switch
-              :model-value="formValues[component.title]"
-              @update:model-value="(val) => { formValues[component.title] = val }"
-            />
+    <Splitpanes>
+      <Pane :size="25" :min-size="25">
+        <Editor filename="src/App.vue" />
+      </Pane>
+      <Pane :size="75" :min-size="25">
+        <div px-4 py-3 bg="white dark:neutral-900" rounded-lg>
+          <!-- <h2 class="text-xl font-semibold opacity-50">
+            Prompt
+          </h2> -->
+          <div class="whitespace-pre-wrap">
+            {{ renderedPrompt }}
           </div>
-        </template>
-        <template v-if="component.type === 'number'">
-          <Input
-            type="number"
-            :model-value="formValues[component.title]"
-            @update:model-value="(val) => { formValues[component.title] = Number(val) }"
-          />
-        </template>
-      </div>
-    </div>
+        </div>
+      </Pane>
+      <Pane :size="25" :min-size="25">
+        <div flex flex-col gap-3 px-4 py-3 bg="neutral-50 dark:neutral-800" rounded-lg>
+          <h2 class="text-xl font-semibold opacity-20">
+            Props
+          </h2>
+          <div v-for="component in resolvedProps" :key="component.key" class="grid grid-cols-2 gap-2 items-center">
+            <div font-mono opacity-70>
+              {{ component.key }}
+            </div>
+            <template v-if="component.type === 'string' || component.type === 'unknown'">
+              <Input
+                type="text"
+                :model-value="formValues[component.title]"
+                @update:model-value="(val) => { formValues[component.title] = val }"
+              />
+            </template>
+            <template v-if="component.type === 'boolean'">
+              <div flex justify-end>
+                <Switch
+                  :model-value="formValues[component.title]"
+                  @update:model-value="(val) => { formValues[component.title] = val }"
+                />
+              </div>
+            </template>
+            <template v-if="component.type === 'number'">
+              <Input
+                type="number"
+                :model-value="String(formValues[component.title])"
+                @update:model-value="(val) => { formValues[component.title] = Number(val) }"
+              />
+            </template>
+          </div>
+        </div>
+      </Pane>
+    </Splitpanes>
   </div>
 </template>

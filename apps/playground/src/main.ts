@@ -7,6 +7,7 @@ import App from './App.vue'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 import './styles/themes.css'
+import 'splitpanes/dist/splitpanes.css'
 
 const router = createRouter({ history: createWebHashHistory(), routes })
 
