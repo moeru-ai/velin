@@ -32,9 +32,21 @@
       "types": "./dist/from-md/index.d.ts",
       "import": "./dist/from-md/index.mjs"
     },
-    "./import": {
-      "types": "./dist/import/index.d.ts",
-      "import": "./dist/import/index.mjs"
+    "./import-browser": {
+      "types": "./dist/import-browser/index.d.ts",
+      "import": "./dist/import-browser/index.mjs"
+    },
+    "./import-node": {
+      "types": "./dist/import-node/index.d.ts",
+      "import": "./dist/import-node/index.mjs"
+    },
+    "./transformers/vue": {
+      "types": "./dist/transformers/vue/index.d.ts",
+      "import": "./dist/transformers/vue/index.mjs"
+    },
+    "./transformers/typescript": {
+      "types": "./dist/transformers/typescript/index.d.ts",
+      "import": "./dist/transformers/typescript/index.mjs"
     },
     "./to-md": {
       "types": "./dist/to-md/index.d.ts",
@@ -57,6 +69,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@vue/compiler-sfc": "^3.5.13",
     "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
@@ -66,7 +79,11 @@
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.1",
     "remark-stringify": "^11.0.0",
+    "sucrase": "^3.35.0",
     "unified": "^11.0.5",
     "unist-util-remove": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.27.1"
   }
 }

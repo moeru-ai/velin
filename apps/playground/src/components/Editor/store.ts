@@ -15,7 +15,6 @@ import {
   reactive,
   ref,
   shallowRef,
-
   watch,
   watchEffect,
 } from 'vue'
@@ -91,24 +90,6 @@ export function useStore(
         setImportMap(mergeImportMap(getImportMap(), builtinImportMap.value))
       },
       { deep: true },
-    )
-
-    watch(
-      vueVersion,
-      async (version) => {
-        if (version) {
-          const compilerUrl = `https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@${version}/dist/compiler-sfc.esm-browser.js`
-          loading.value = true
-          compiler.value = await import(/* @vite-ignore */ compilerUrl).finally(
-            () => (loading.value = false),
-          )
-        }
-        else {
-          // reset to default
-          compiler.value = defaultCompiler
-        }
-      },
-      { immediate: true },
     )
 
     watch(

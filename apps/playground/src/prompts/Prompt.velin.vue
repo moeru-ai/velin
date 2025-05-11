@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script setup>
 import { useCounter } from '@vueuse/core'
 
-defineProps<{
-  text: string
-  number: number
-  check: boolean
-}>()
+defineProps({
+  text: String,
+  number: Number,
+  check: Boolean,
+})
 
 const { count } = useCounter()
 </script>

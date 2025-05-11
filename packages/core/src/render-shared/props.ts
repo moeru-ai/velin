@@ -1,42 +1,100 @@
 import type { App, ComponentInternalInstance, DefineComponent } from 'vue'
 
+export interface ComponentPropText {
+  type: 'string'
+  value?: string
+}
+
+export interface ComponentPropBool {
+  type: 'boolean'
+  value?: boolean
+}
+
+export interface ComponentPropNumber {
+  type: 'number'
+  value?: number
+}
+
+export interface ComponentPropUnknown {
+  type: 'unknown'
+  value?: unknown
+}
+
+export type ComponentProp = (ComponentPropText | ComponentPropBool | ComponentPropNumber | ComponentPropUnknown) & {
+  title: string
+  key: string
+}
+
+function willTurnIntoNumber(value: unknown): boolean {
+  if (value === Number) {
+    return true
+  }
+
+  return false
+}
+
+function willTurnIntoBoolean(value: unknown): boolean {
+  if (value === Boolean) {
+    return true
+  }
+
+  return false
+}
+
+function willTurnIntoString(value: unknown): boolean {
+  if (value === String) {
+    return true
+  }
+
+  return false
+}
+
+function inferType(propDef:
+  | {
+    // eslint-disable-next-line ts/no-unsafe-function-type
+    type: Function
+  }
+  | typeof String
+  | typeof Number
+  | typeof Boolean
+  | unknown) {
+  let type: 'unknown' | 'string' | 'number' | 'boolean' = 'unknown'
+
+  if (willTurnIntoString(propDef)) {
+    type = 'string'
+  }
+  else if (willTurnIntoNumber(propDef)) {
+    type = 'number'
+  }
+  else if (willTurnIntoBoolean(propDef)) {
+    type = 'boolean'
+  }
+
+  return type
+}
+
 /**
  * @see https://github.com/vuejs/devtools/blob/e7dffa24fe98b212404a1451818b6c66739f88ee/packages/devtools-kit/src/core/component/state/process.ts#L62
  * @see https://github.com/vuejs/devtools/blob/e7dffa24fe98b212404a1451818b6c66739f88ee/packages/devtools-kit/src/core/app/index.ts#L14
  *
  * @param component
  */
-export function resolveProps(component: DefineComponent | App<any>) {
+export function resolveProps(component: DefineComponent | App<any>): ComponentProp[] {
   if (component._component && component._component.props && typeof component._component.props === 'object') {
-    return Object.entries(component._component.props).map(([key, value]) => {
+    return Object.entries(component._component.props).map(([key, propDef]) => {
       return {
         key,
-        type: value === Number
-          ? 'number'
-          : value === String
-            ? 'string'
-            : value === Boolean
-              ? 'boolean'
-              : 'unknown',
+        title: key,
+        type: inferType(propDef),
       }
     })
   }
   else if ((component as unknown as ComponentInternalInstance).props && typeof (component as unknown as ComponentInternalInstance).props === 'object') {
-    return Object.entries((component as unknown as ComponentInternalInstance).props).map(([key, value]) => {
-      const propDef = value as {
-        // eslint-disable-next-line ts/no-unsafe-function-type
-        type: Function
-      }
-
+    return Object.entries((component as unknown as ComponentInternalInstance).props).map(([key, propDef]) => {
       return {
         key,
-        type: propDef.type === Number
-          ? 'number'
-          : propDef.type === String
-            ? 'string'
-            : propDef.type === Boolean
-              ? 'boolean'
-              : 'unknown',
+        title: key,
+        type: inferType(propDef),
       }
     })
   }

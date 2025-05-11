@@ -60,6 +60,7 @@ onMounted(() => {
   if (!containerRef.value) {
     throw new Error('Cannot find containerRef')
   }
+
   editorInstance = monaco.editor.create(containerRef.value, {
     ...(props.readonly
       ? { value: props.value, language: lang.value }
@@ -79,6 +80,7 @@ onMounted(() => {
     fixedOverflowWidgets: true,
     ...editorOptions.value.monacoOptions,
   })
+
   editor.value = editorInstance
 
   // Support for semantic highlighting
@@ -180,17 +182,20 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="container"
-    class="editor"
+    relative w-full h-full overflow-hidden
     @keydown.ctrl.s.prevent="emitChangeEvent"
     @keydown.meta.s.prevent="emitChangeEvent"
   />
 </template>
 
 <style>
-.editor {
-  position: relative;
-  height: 100%;
-  width: 100%;
+.monaco-editor {
+  border-radius: 0.5rem;
   overflow: hidden;
+  outline: none;
+}
+
+.monaco-editor .slider {
+  border-radius: 999px;
 }
 </style>

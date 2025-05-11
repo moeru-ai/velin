@@ -48,7 +48,7 @@
     "@volar/jsdelivr": "^2.4.13",
     "@volar/monaco": "^2.4.13",
     "@vue/language-service": "^2.2.10",
-    "@vue/repl": "^4.5.1",
+    "@vue/server-renderer": "^3.5.13",
     "@vueuse/core": "^13.1.0",
     "@vueuse/motion": "^3.0.3",
     "defu": "^6.1.4",
