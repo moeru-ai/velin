@@ -136,22 +136,19 @@ function handleEditorChange(updated: string) {
         <Editor filename="src/App.vue" @change="handleEditorChange" />
       </Pane>
       <Pane :size="40" :min-size="25">
-        <div mx-2 px-4 py-3 bg="white dark:neutral-900" rounded-lg>
-          <!-- <h2 class="text-xl font-semibold opacity-50">
-            Prompt
-          </h2> -->
+        <div mx-2 px-4 py-3 bg="white dark:neutral-900" rounded-lg border="2 solid neutral-100 dark:neutral-900" shadow-sm>
           <div class="whitespace-pre-wrap">
             {{ renderedPrompt }}
           </div>
         </div>
       </Pane>
       <Pane :size="20" :min-size="25">
-        <div flex flex-col gap-3 px-4 py-3 bg="neutral-50 dark:neutral-800" rounded-lg>
-          <h2 class="text-xl font-semibold opacity-20">
+        <div flex flex-col gap-3 px-4 py-3 bg="neutral-200/30 dark:neutral-900" rounded-lg transition="all duration-500 ease-in-out">
+          <h2 class="text-xl font-semibold opacity-45">
             Props
           </h2>
           <div v-for="component in resolvedProps" :key="component.key" class="grid grid-cols-2 gap-2 items-center">
-            <div font-mono opacity-70>
+            <div font-mono opacity-90>
               {{ component.key }}
             </div>
             <template v-if="component.type === 'string' || component.type === 'unknown'">

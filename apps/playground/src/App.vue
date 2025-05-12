@@ -57,12 +57,12 @@ body,
 }
 
 html {
-  background: #fff;
   transition: all 0.3s ease-in-out;
+  --at-apply: bg-neutral-50;
 }
 
 html.dark {
-  background: #121212;
   color-scheme: dark;
+  --at-apply: bg-neutral-800;
 }
 </style>
