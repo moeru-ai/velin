@@ -17,6 +17,7 @@ export function usePrompt<
   props: InputProps<ResolvedProps>,
 ) {
   const prompt = ref('')
+  const rendering = ref(false)
 
   const onPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
   const onUnPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
@@ -30,9 +31,13 @@ export function usePrompt<
   }
 
   function renderEffect() {
+    rendering.value = true
+
     renderComponent(promptComponent, props).then((md) => {
       prompt.value = md
       onPromptedCallbacks.value.forEach(cb => cb())
+    }).finally(() => {
+      rendering.value = false
     })
   }
 
@@ -68,6 +73,7 @@ export function usePrompt<
 
   return {
     prompt,
+    rendering,
     dispose,
     onPrompted,
     onUnprompted,

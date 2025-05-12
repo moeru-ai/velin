@@ -18,6 +18,7 @@ export function usePrompt<
 ) {
   const prompt = ref('')
   const promptProps = ref<ComponentProp[]>([])
+  const rendering = ref(false)
 
   const onPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
   const onUnPromptedCallbacks = ref<(() => Promise<void> | void)[]>([])
@@ -31,10 +32,14 @@ export function usePrompt<
   }
 
   function renderEffect() {
+    rendering.value = true
+
     renderSFCString(toValue(promptComponent), props).then((renderedResults) => {
       prompt.value = renderedResults.rendered
       promptProps.value = renderedResults.props
       onPromptedCallbacks.value.forEach(cb => cb())
+    }).finally(() => {
+      rendering.value = false
     })
   }
 
@@ -78,6 +83,7 @@ export function usePrompt<
   return {
     prompt,
     promptProps,
+    rendering,
     dispose,
     onPrompted,
     onUnprompted,

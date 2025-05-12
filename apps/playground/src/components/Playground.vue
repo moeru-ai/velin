@@ -23,6 +23,7 @@ const props = defineProps<{
   prompt: string
 }>()
 
+const initializing = ref(true)
 const inputPrompt = ref<string>(props.prompt)
 const renderedPrompt = ref<string>('')
 const resolvedProps = ref<ComponentProp[]>([])
@@ -73,26 +74,31 @@ provide(injectKeyProps, {
 
 // Initialize the prompt and props
 function initializePrompt() {
-  const { prompt, onPrompted, promptProps } = usePrompt(
-    inputPrompt,
-    formValues,
-  )
+  return new Promise<void>((resolve) => {
+    const { prompt, onPrompted, promptProps } = usePrompt(
+      inputPrompt,
+      formValues,
+    )
 
-  // Handle the initial props resolution and initialization
-  onPrompted(() => {
-    renderedPrompt.value = prompt.value
-    resolvedProps.value = promptProps.value
+    // Handle the initial props resolution and initialization
+    onPrompted(() => {
+      renderedPrompt.value = prompt.value
+      resolvedProps.value = promptProps.value
 
-    // Only initialize form values if they haven't been set yet
-    if (!isPropsInitialized.value) {
-      promptProps.value.forEach((prop) => {
-        // Initialize only if not already defined
-        if (!(prop.title in formValues)) {
-          formValues[prop.title] = prop.value
-        }
-      })
-      isPropsInitialized.value = true
-    }
+      // Only initialize form values if they haven't been set yet
+      if (!isPropsInitialized.value) {
+        promptProps.value.forEach((prop) => {
+          // Initialize only if not already defined
+          if (!(prop.title in formValues)) {
+            formValues[prop.title] = prop.value
+          }
+        })
+
+        isPropsInitialized.value = true
+      }
+
+      resolve()
+    })
   })
 }
 
@@ -114,8 +120,10 @@ watch(formValues, () => {
 })
 
 // Initialize on component mount
-onMounted(() => {
-  initializePrompt()
+onMounted(async () => {
+  initializing.value = true
+  await initializePrompt()
+  initializing.value = false
 })
 
 // Re-initialize when prompt changes
@@ -135,45 +143,54 @@ function handleEditorChange(updated: string) {
       <Pane :size="40" :min-size="25">
         <Editor filename="src/App.vue" @change="handleEditorChange" />
       </Pane>
-      <Pane :size="40" :min-size="25">
-        <div mx-2 px-4 py-3 bg="white dark:neutral-900" rounded-lg border="2 solid neutral-100 dark:neutral-900" shadow-sm>
-          <div class="whitespace-pre-wrap">
-            {{ renderedPrompt }}
-          </div>
-        </div>
-      </Pane>
-      <Pane :size="20" :min-size="25">
-        <div flex flex-col gap-3 px-4 py-3 bg="neutral-200/30 dark:neutral-900" rounded-lg transition="all duration-500 ease-in-out">
-          <h2 class="text-xl font-semibold opacity-45">
-            Props
-          </h2>
-          <div v-for="component in resolvedProps" :key="component.key" class="grid grid-cols-2 gap-2 items-center">
-            <div font-mono opacity-90>
-              {{ component.key }}
-            </div>
-            <template v-if="component.type === 'string' || component.type === 'unknown'">
-              <Input
-                type="text"
-                :model-value="formValues[component.title]"
-                @update:model-value="(val) => { formValues[component.title] = val }"
-              />
-            </template>
-            <template v-if="component.type === 'boolean'">
-              <div flex justify-end>
-                <Switch
-                  :model-value="formValues[component.title]"
-                  @update:model-value="(val) => { formValues[component.title] = val }"
-                />
-              </div>
-            </template>
-            <template v-if="component.type === 'number'">
-              <Input
-                type="number"
-                :model-value="String(formValues[component.title])"
-                @update:model-value="(val) => { formValues[component.title] = Number(val) }"
-              />
-            </template>
-          </div>
+      <Pane :size="60" :min-size="50">
+        <div relative h-full>
+          <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" translate-x="-50%" />
+          <template v-else>
+            <Splitpanes>
+              <Pane :size="40" :min-size="25">
+                <div mx-2 px-4 py-3 bg="white dark:neutral-900" rounded-lg border="2 solid neutral-100 dark:neutral-900" shadow-sm>
+                  <div class="whitespace-pre-wrap">
+                    {{ renderedPrompt }}
+                  </div>
+                </div>
+              </Pane>
+              <Pane :size="20" :min-size="25">
+                <div flex flex-col gap-3 px-4 py-3 bg="neutral-200/30 dark:neutral-900" rounded-lg transition="all duration-500 ease-in-out">
+                  <h2 class="text-xl font-semibold opacity-45">
+                    Props
+                  </h2>
+                  <div v-for="component in resolvedProps" :key="component.key" class="grid grid-cols-2 gap-2 items-center">
+                    <div font-mono opacity-90>
+                      {{ component.key }}
+                    </div>
+                    <template v-if="component.type === 'string' || component.type === 'unknown'">
+                      <Input
+                        type="text"
+                        :model-value="formValues[component.title]"
+                        @update:model-value="(val) => { formValues[component.title] = val }"
+                      />
+                    </template>
+                    <template v-if="component.type === 'boolean'">
+                      <div flex justify-end>
+                        <Switch
+                          :model-value="formValues[component.title]"
+                          @update:model-value="(val) => { formValues[component.title] = val }"
+                        />
+                      </div>
+                    </template>
+                    <template v-if="component.type === 'number'">
+                      <Input
+                        type="number"
+                        :model-value="String(formValues[component.title])"
+                        @update:model-value="(val) => { formValues[component.title] = Number(val) }"
+                      />
+                    </template>
+                  </div>
+                </div>
+              </Pane>
+            </Splitpanes>
+          </template>
         </div>
       </Pane>
     </Splitpanes>
