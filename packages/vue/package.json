@@ -27,6 +27,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
+    },
+    "./repl": {
+      "types": "./dist/repl/index.d.ts",
+      "import": "./dist/repl/index.mjs"
     }
   },
   "main": "./dist/index.mjs",

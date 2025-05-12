@@ -32,6 +32,10 @@
       "types": "./dist/render-browser/index.d.ts",
       "import": "./dist/render-browser/index.mjs"
     },
+    "./render-repl": {
+      "types": "./dist/render-repl/index.d.ts",
+      "import": "./dist/render-repl/index.mjs"
+    },
     "./render-node": {
       "types": "./dist/render-node/index.d.ts",
       "import": "./dist/render-node/index.mjs"

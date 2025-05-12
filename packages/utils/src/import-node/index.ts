@@ -1,8 +1,8 @@
 // https://github.com/nolebase/obsidian-plugin-vue/blob/main/src/import.ts
+
 import { createRequire } from 'node:module'
 
-// https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L5
-const AsyncFunction = Object.getPrototypeOf(async () => { }).constructor
+import { AsyncFunction, exportDefaultRegex, exportRegex, importAsRegex, importDefaultRegex, importObjectRegex, importRegex } from '../import-shared'
 
 // https://github.com/unocss/unocss/blob/6d94efc56b0c966f25f46d8988b3fd30ebc189aa/packages/shared-docs/src/config.ts#L31-L33
 async function wrappedImport(name: string, basePath?: string) {
@@ -27,16 +27,6 @@ async function dynamicImportAnyModule(name: string, basePath?: string): Promise<
     console.error(`Failed to import module ${name}`, error)
   }
 }
-
-// https://github.com/unocss/unocss/blob/main/packages/shared-docs/src/config.ts
-const importObjectRegex = /import\s*\{([\s\S]*?)\}\s*from\s*(['"])([\w@/.:-]+)\2/g
-const importDefaultRegex = /import\s(.*?)\sfrom\s*(['"])([\w@/.:-]+)\2/g
-const exportDefaultRegex = /export default /
-const exportRegex = /export\s(.*?)\s/g
-const importRegex = /\bimport\s*\(/g
-
-// New regex to handle `as` to `:` transformation
-const importAsRegex = /(\w+)\s+as\s+(\w+)/g
 
 // https://github.com/unocss/unocss/blob/main/packages/shared-docs/src/config.ts
 export async function evaluateAnyModule<T>(configCode: string, basePath?: string): Promise<T | undefined> {
