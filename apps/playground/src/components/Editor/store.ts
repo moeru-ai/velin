@@ -10,6 +10,7 @@ import type {
 import type { OutputModes } from '../../types/vue-repl'
 import type { ImportMap } from './import-map'
 
+import { File as VueFile } from '@velin-dev/utils/transformers/vue'
 import {
   computed,
   reactive,
@@ -27,6 +28,10 @@ import { compileFile } from './transform'
 
 export const importMapFile = 'import-map.json'
 export const tsconfigFile = 'tsconfig.json'
+
+export class File extends VueFile {
+  editorViewState: editor.ICodeEditorViewState | null = null
+}
 
 export function useStore(
   {
@@ -504,38 +509,6 @@ export type Store = Pick<
   | 'getImportMap'
   | 'getTsConfig'
 >
-
-export class File {
-  compiled = {
-    js: '',
-    css: '',
-    ssr: '',
-  }
-
-  editorViewState: editor.ICodeEditorViewState | null = null
-
-  constructor(
-    public filename: string,
-    public code = '',
-    public hidden = false,
-  ) {}
-
-  get language() {
-    if (this.filename.endsWith('.vue')) {
-      return 'vue'
-    }
-    if (this.filename.endsWith('.html')) {
-      return 'html'
-    }
-    if (this.filename.endsWith('.css')) {
-      return 'css'
-    }
-    if (this.filename.endsWith('.ts')) {
-      return 'typescript'
-    }
-    return 'javascript'
-  }
-}
 
 function addSrcPrefix(file: string) {
   return file === importMapFile

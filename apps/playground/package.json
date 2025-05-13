@@ -44,6 +44,7 @@
     "@shikijs/themes": "^3.4.0",
     "@unocss/reset": "^66.1.1",
     "@velin-dev/core": "workspace:^",
+    "@velin-dev/utils": "workspace:^",
     "@velin-dev/vue": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.4",
     "@volar/jsdelivr": "^2.4.13",

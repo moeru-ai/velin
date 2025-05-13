@@ -135,6 +135,9 @@ importers:
       '@velin-dev/core':
         specifier: workspace:^
         version: link:../../packages/core
+      '@velin-dev/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils
       '@velin-dev/vue':
         specifier: workspace:^
         version: link:../../packages/vue
