@@ -2,7 +2,7 @@
 
 import type { CompilerOptions, SFCScriptBlock, SFCTemplateCompileResults } from '@vue/compiler-sfc'
 
-import { testTs } from '@velin-dev/utils/transformers/typescript'
+import { testTs, transformTS } from '@velin-dev/utils/transformers/typescript'
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc'
 
 import { isUseInlineTemplate } from './template'
@@ -44,6 +44,10 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
       expressionPlugins,
     },
   })
+
+  if (isTS) {
+    scriptResult.content = transformTS(scriptResult.content)
+  }
 
   return {
     template: templateResult,

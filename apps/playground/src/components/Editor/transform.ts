@@ -2,7 +2,6 @@
 
 // https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/transform.ts
 
-import type { Transform } from 'sucrase'
 import type {
   BindingMetadata,
   CompilerOptions,
@@ -10,8 +9,8 @@ import type {
 } from 'vue/compiler-sfc'
 import type { File, Store } from './store'
 
+import { transformTS } from '@velin-dev/utils/transformers/typescript'
 import hashId from 'hash-sum'
-import { transform } from 'sucrase'
 
 export const COMP_IDENTIFIER = `__sfc__`
 
@@ -21,13 +20,6 @@ function testTs(filename: string | undefined | null) {
 }
 function testJsx(filename: string | undefined | null) {
   return !!(filename && /(\.|\b)[jt]sx$/.test(filename))
-}
-
-function transformTS(src: string, isJSX?: boolean) {
-  return transform(src, {
-    transforms: ['typescript', ...(isJSX ? (['jsx'] as Transform[]) : [])],
-    jsxRuntime: 'preserve',
-  }).code
 }
 
 export async function compileFile(
@@ -320,6 +312,7 @@ async function doCompileScript(
         },
       },
     })
+
     let code = compiledScript.content
     if (isTS) {
       code = await transformTS(code, isJSX)

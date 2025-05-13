@@ -183,12 +183,6 @@ importers:
       splitpanes:
         specifier: ^4.0.3
         version: 4.0.3(vue@3.5.13(typescript@5.8.3))
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      superjson:
-        specifier: ^2.2.2
-        version: 2.2.2
       unplugin-vue-router:
         specifier: ^0.12.0
         version: 0.12.0(vue-router@4.5.1(vue@3.5.13(typescript@5.8.3)))(vue@3.5.13(typescript@5.8.3))
