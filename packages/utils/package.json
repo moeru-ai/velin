@@ -1,7 +1,7 @@
 {
   "name": "@velin-dev/utils",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
     "name": "RainbowBird",
