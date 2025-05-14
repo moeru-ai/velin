@@ -6,8 +6,8 @@ import { unified } from 'unified'
 
 export async function toMarkdown(html: string): Promise<string> {
   const htmlToMarkdownProcessor = unified()
-    .use(rehypeRemoveComments)
     .use(rehypeParse)
+    .use(rehypeRemoveComments)
     .use(rehypeRemark)
     .use(remarkStringify, { bullet: '-' })
 
