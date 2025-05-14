@@ -32,14 +32,6 @@
       "types": "./dist/from-md/index.d.ts",
       "import": "./dist/from-md/index.mjs"
     },
-    "./import-browser": {
-      "types": "./dist/import-browser/index.d.ts",
-      "import": "./dist/import-browser/index.mjs"
-    },
-    "./import-node": {
-      "types": "./dist/import-node/index.d.ts",
-      "import": "./dist/import-node/index.mjs"
-    },
     "./transformers/vue": {
       "types": "./dist/transformers/vue/index.d.ts",
       "import": "./dist/transformers/vue/index.mjs"

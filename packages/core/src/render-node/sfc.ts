@@ -1,7 +1,7 @@
 import type { DefineComponent } from '@vue/runtime-core'
 import type { InputProps } from '../types'
 
-import { evaluateAnyModule } from '@velin-dev/utils/import-node'
+import { evaluate } from '@unrteljs/eval/node'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { renderToString } from '@vue/server-renderer'
 import ErrorStackParser from 'error-stack-parser'
@@ -23,7 +23,7 @@ export async function evaluateSFC(
   }
 
   // TODO: evaluate setup when not <script setup>
-  return await evaluateAnyModule<DefineComponent>(`${script.content}`, basePath)
+  return await evaluate<DefineComponent>(`${script.content}`, basePath)
 }
 
 export async function resolvePropsFromString(content: string) {

@@ -2,7 +2,7 @@ import type { DefineComponent } from 'vue'
 import type { ComponentProp } from '../render-shared'
 import type { InputProps } from '../types'
 
-import { evaluateAnyModule } from '@velin-dev/utils/import-browser'
+import { evaluate } from '@unrteljs/eval/browser'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileModulesForPreview } from '@velin-dev/utils/transformers/vue'
 import { renderToString } from '@vue/server-renderer'
@@ -35,7 +35,7 @@ export async function evaluateSFC(
   })
 
   // The compiled code now returns the module's default export directly
-  return evaluateAnyModule<DefineComponent>(`
+  return evaluate<DefineComponent>(`
     const __modules__ = {};
     return (async function() {
       ${compiled.join('\n')}
