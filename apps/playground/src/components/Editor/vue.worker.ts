@@ -12,11 +12,11 @@ import {
 } from '@volar/monaco/worker'
 import {
   createVueLanguagePlugin,
+  getDefaultCompilerOptions,
   getFullLanguageServicePlugins,
-  resolveVueCompilerOptions,
-
 } from '@vue/language-service'
 import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker'
+import * as typescript from 'typescript'
 import { URI } from 'vscode-uri'
 
 export interface CreateData {
@@ -27,14 +27,12 @@ export interface CreateData {
   dependencies: Record<string, string>
 }
 
-let ts: typeof import('typescript')
 let locale: string | undefined
 
 // eslint-disable-next-line no-restricted-globals
 self.onmessage = async (msg: MessageEvent<WorkerMessage>) => {
   if (msg.data?.event === 'init') {
     locale = msg.data.tsLocale
-    ts = await importTsFromCdn(msg.data.tsVersion)
     // eslint-disable-next-line no-restricted-globals
     self.postMessage('inited')
     return
@@ -71,16 +69,17 @@ self.onmessage = async (msg: MessageEvent<WorkerMessage>) => {
         ),
       }
 
-      const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(
+      const { options: compilerOptions } = typescript.convertCompilerOptionsFromJson(
         tsconfig?.compilerOptions || {},
         '',
       )
-      const vueCompilerOptions = resolveVueCompilerOptions(
-        tsconfig.vueCompilerOptions || {},
+      const vueCompilerOptions = getDefaultCompilerOptions(
+        tsconfig.vueCompilerOptions?.target,
+        tsconfig.vueCompilerOptions?.lib,
       )
 
       return createTypeScriptWorkerLanguageService({
-        typescript: ts,
+        typescript,
         compilerOptions,
         workerContext: ctx,
         env,
@@ -90,27 +89,17 @@ self.onmessage = async (msg: MessageEvent<WorkerMessage>) => {
         },
         languagePlugins: [
           createVueLanguagePlugin(
-            ts,
+            typescript,
             compilerOptions,
             vueCompilerOptions,
             asFileName,
           ),
         ],
-        languageServicePlugins: getFullLanguageServicePlugins(ts),
+        languageServicePlugins: getFullLanguageServicePlugins(typescript),
         setup({ project }) {
           project.vue = { compilerOptions: vueCompilerOptions }
         },
       })
     },
   )
-}
-
-async function importTsFromCdn(tsVersion: string) {
-  const _module = globalThis.module
-  ;(globalThis as any).module = { exports: {} }
-  const tsUrl = `https://cdn.jsdelivr.net/npm/typescript@${tsVersion}/lib/typescript.js`
-  await import(/* @vite-ignore */ tsUrl)
-  const ts = globalThis.module.exports
-  globalThis.module = _module
-  return ts as typeof import('typescript')
 }
