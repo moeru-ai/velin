@@ -30,6 +30,14 @@ function willTurnIntoNumber(value: unknown): boolean {
     return true
   }
 
+  // it is possible value is { type: Number() }
+  if (typeof value === 'object' && value !== null && 'type' in value) {
+    // check if value.type is Number()
+    if (typeof (value as { type: unknown }).type === 'function' && (value as { type: unknown }).type === Number) {
+      return true
+    }
+  }
+
   return false
 }
 
@@ -38,12 +46,28 @@ function willTurnIntoBoolean(value: unknown): boolean {
     return true
   }
 
+  // it is possible value is { type: Boolean() }
+  if (typeof value === 'object' && value !== null && 'type' in value) {
+    // check if value.type is Boolean()
+    if (typeof (value as { type: unknown }).type === 'function' && (value as { type: unknown }).type === Boolean) {
+      return true
+    }
+  }
+
   return false
 }
 
 function willTurnIntoString(value: unknown): boolean {
   if (value === String) {
     return true
+  }
+
+  // it is possible value is { type: String() }
+  if (typeof value === 'object' && value !== null && 'type' in value) {
+    // check if value.type is String()
+    if (typeof (value as { type: unknown }).type === 'function' && (value as { type: unknown }).type === String) {
+      return true
+    }
   }
 
   return false
@@ -59,7 +83,6 @@ function inferType(propDef:
   | typeof Boolean
   | unknown) {
   let type: 'unknown' | 'string' | 'number' | 'boolean' = 'unknown'
-
   if (willTurnIntoString(propDef)) {
     type = 'string'
   }
@@ -69,7 +92,6 @@ function inferType(propDef:
   else if (willTurnIntoBoolean(propDef)) {
     type = 'boolean'
   }
-
   return type
 }
 
