@@ -329,6 +329,9 @@ importers:
       rehype-remark:
         specifier: ^10.0.1
         version: 10.0.1
+      rehype-remove-comments:
+        specifier: ^6.1.1
+        version: 6.1.1
       remark-stringify:
         specifier: ^11.0.0
         version: 11.0.0
@@ -3008,6 +3011,9 @@ packages:
   hast-util-is-body-ok-link@3.0.1:
     resolution: {integrity: sha512-0qpnzOBLztXHbHQenVB8uNuxTnm/QBFUOmdOSsEn7GnBtyY07+ENTWVFBAnXd/zEgd9/SUG3lRY7hSIBWRgGpQ==}
 
+  hast-util-is-conditional-comment@3.0.1:
+    resolution: {integrity: sha512-RWpXL//CiEWwOh4OeAvr2fFeoBbX/sAnPnaYN9x4Nv6O4VPdFf/3Dq64mIybctblVA498SgVjfNc0/mN9S4IQw==}
+
   hast-util-is-element@3.0.0:
     resolution: {integrity: sha512-Val9mnv2IWpLbNPqc/pUem+a7Ipj2aHacCwgNfTiK0vJKl0LF+4Ba4+v1oPHFpf3bLYmreq0/l3Gud9S5OH42g==}
 
@@ -4112,6 +4118,9 @@ packages:
 
   rehype-remark@10.0.1:
     resolution: {integrity: sha512-EmDndlb5NVwXGfUa4c9GPK+lXeItTilLhE6ADSaQuHr4JUlKw9MidzGzx4HpqZrNCt6vnHmEifXQiiA+CEnjYQ==}
+
+  rehype-remove-comments@6.1.1:
+    resolution: {integrity: sha512-O3OAvqpV8IUJf6+Q4s5nqaKQqrgeXdU/+0fjUHMO0KAB4SwkMdN34NJQC9hexwvjYE00tX/xB8GvnVJI8Cdf6g==}
 
   reka-ui@2.2.1:
     resolution: {integrity: sha512-oLHiyBn6gTIQGnTnv8G5LQuFp9j8HuUNl0qdnW3XPhFb/07hrxzFpjo2kt/jxOZive+n/XWDbOjSj2h9Hih3qA==}
@@ -8165,6 +8174,10 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
 
+  hast-util-is-conditional-comment@3.0.1:
+    dependencies:
+      '@types/hast': 3.0.4
+
   hast-util-is-element@3.0.0:
     dependencies:
       '@types/hast': 3.0.4
@@ -9450,6 +9463,12 @@ snapshots:
       hast-util-to-mdast: 10.1.2
       unified: 11.0.5
       vfile: 6.0.3
+
+  rehype-remove-comments@6.1.1:
+    dependencies:
+      '@types/hast': 3.0.4
+      hast-util-is-conditional-comment: 3.0.1
+      unist-util-visit: 5.0.0
 
   reka-ui@2.2.1(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
