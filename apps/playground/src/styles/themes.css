@@ -1,5 +1,5 @@
 :root {
-  --theme-colors-hue: 159; /* Vue theme */
+  --theme-colors-hue: 270;
   --theme-colors-chroma: calc(0.18 + (cos(var(--theme-colors-hue) * 3.14159265 / 180) * 0.04));
   --theme-colors-chroma-50: calc(var(--theme-colors-chroma) * 0.3);
   --theme-colors-chroma-100: calc(var(--theme-colors-chroma) * 0.5);

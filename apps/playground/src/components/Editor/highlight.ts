@@ -6,8 +6,8 @@ import langJsx from '@shikijs/langs/jsx'
 import langTsx from '@shikijs/langs/tsx'
 import langVue from '@shikijs/langs/vue'
 import { shikiToMonaco } from '@shikijs/monaco'
-import themeDark from '@shikijs/themes/dark-plus'
-import themeLight from '@shikijs/themes/light-plus'
+import themeLight from '@shikijs/themes/catppuccin-latte'
+import themeDark from '@shikijs/themes/catppuccin-mocha'
 import * as monaco from 'monaco-editor-core'
 
 let registered = false

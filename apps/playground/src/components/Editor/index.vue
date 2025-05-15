@@ -193,7 +193,7 @@ onBeforeUnmount(() => {
   border-radius: 0.5rem;
   overflow: hidden;
   outline: none;
-  --at-apply: border-2 border-solid border-neutral-100 dark:border-neutral-900 shadow-sm;
+  --at-apply: border-2 border-solid border-gray-100 dark:border-gray-900 shadow-sm;
 }
 
 .dark .monaco-editor {

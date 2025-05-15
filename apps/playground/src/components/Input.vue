@@ -17,14 +17,14 @@ const modelValue = defineModel<string>({ required: true })
     shadow="sm"
     :class="[
       props.inverted
-        ? 'bg-neutral-700 dark:bg-neutral-50 focus:bg-neutral-900 dark:focus:bg-neutral-50'
-        : 'neutral-50 dark:bg-neutral-700 focus:white dark:focus:bg-neutral-900',
+        ? 'bg-[#242436] dark:bg-gray-50 focus:bg-gray-900 dark:focus:bg-gray-50'
+        : 'gray-50 dark:bg-[#242436] focus:white dark:focus:bg-gray-900',
       props.inverted
-        ? 'focus:border-primary-400/50 dark:focus:border-primary-300 border-2 border-solid border-neutral-600 dark:border-neutral-300'
-        : 'focus:border-primary-300 dark:focus:border-primary-400/50 border-2 border-solid border-neutral-300 dark:border-neutral-600',
+        ? 'focus:border-primary-400/50 dark:focus:border-primary-300 border-2 border-solid border-[#242436] dark:border-gray-300'
+        : 'focus:border-primary-300 dark:focus:border-primary-400/50 border-2 border-solid border-gray-300 dark:border-[#242436]',
       props.inverted
-        ? 'disabled:text-neutral-600 dark:disabled:text-neutral-400'
-        : 'disabled:text-neutral-400 dark:disabled:text-neutral-600',
+        ? 'disabled:text-gray-600 dark:disabled:text-gray-400'
+        : 'disabled:text-gray-400 dark:disabled:text-gray-600',
     ]"
   >
 </template>

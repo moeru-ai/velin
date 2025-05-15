@@ -145,18 +145,18 @@ function handleEditorChange(updated: string) {
       </Pane>
       <Pane :size="60" :min-size="50">
         <div relative h-full>
-          <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" translate-x="-50%" />
+          <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" trangray-x="-50%" />
           <template v-else>
             <Splitpanes>
               <Pane :size="40" :min-size="25">
-                <div mx-2 px-4 py-3 bg="white dark:neutral-900" rounded-lg border="2 solid neutral-100 dark:neutral-900" shadow-sm>
+                <div mx-2 px-4 py-3 bg="white dark:[#2e2e3b]" rounded-lg border="2 solid gray-100 dark:[#272733]" shadow-sm>
                   <div class="whitespace-pre-wrap">
                     {{ renderedPrompt }}
                   </div>
                 </div>
               </Pane>
               <Pane :size="20" :min-size="25">
-                <div flex flex-col gap-3 px-4 py-3 bg="neutral-200/30 dark:neutral-900" rounded-lg transition="all duration-500 ease-in-out">
+                <div flex flex-col gap-3 px-4 py-3 bg="indigo-100/20 dark:[#323242]" rounded-lg transition="all duration-500 ease-in-out">
                   <h2 class="text-xl font-semibold opacity-45">
                     Props
                   </h2>
