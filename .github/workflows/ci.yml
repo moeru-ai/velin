@@ -44,6 +44,7 @@ jobs:
       - name: Build
         run: |
           pnpm run build
+          pnpm run packages:attw
 
   unit-test:
     name: Unit Test

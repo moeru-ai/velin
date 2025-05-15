@@ -53,6 +53,8 @@
     "@vue/server-renderer": "^3.5.13",
     "@vueuse/core": "^13.1.0",
     "@vueuse/motion": "^3.0.3",
+    "@xsai/shared": "^0.2.2",
+    "@xsai/stream-text": "^0.2.2",
     "defu": "^6.1.4",
     "es-toolkit": "^1.37.2",
     "fflate": "^0.8.2",

@@ -21,9 +21,13 @@ export class File {
     if (this.filename.endsWith('.css')) {
       return 'css'
     }
-    if (this.filename.endsWith('.ts')) {
+    if (this.filename.endsWith('.ts') || this.filename.endsWith('.mts')) {
       return 'typescript'
     }
+    if (this.filename.endsWith('.js') || this.filename.endsWith('.mjs')) {
+      return 'javascript'
+    }
+
     return 'javascript'
   }
 }

@@ -58,7 +58,8 @@
     "dev": "unbuild",
     "stub": "unbuild",
     "build": "unbuild",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
     "@unrteljs/eval": "^0.0.3",
