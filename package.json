@@ -2,7 +2,7 @@
   "name": "@velin-dev/root",
   "type": "module",
   "version": "0.2.2",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.11.0",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
     "name": "RainbowBird",
@@ -49,12 +49,12 @@
     "@iconify/utils": "^2.3.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.15.17",
-    "@unocss/eslint-config": "^66.1.1",
-    "@unocss/eslint-plugin": "^66.1.1",
-    "@unocss/preset-mini": "^66.1.1",
+    "@types/node": "^22.15.18",
+    "@unocss/eslint-config": "^66.1.2",
+    "@unocss/eslint-plugin": "^66.1.2",
+    "@unocss/preset-mini": "^66.1.2",
     "bumpp": "^10.1.0",
-    "changelogithub": "^13.13.0",
+    "changelogithub": "^13.14.0",
     "eslint": "^9.26.0",
     "pkgroll": "^2.12.2",
     "rollup": "^4.40.2",
@@ -78,6 +78,11 @@
       "safer-buffer": "npm:@nolyfill/safer-buffer@^1.0.44",
       "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
       "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1.0.44"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "unrs-resolver",
+      "vue-demi"
+    ]
   }
 }

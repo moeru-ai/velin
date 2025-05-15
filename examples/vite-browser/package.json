@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@velin-dev/core": "workspace:^",
-    "vue": "^3.5.13"
+    "vue": "^3.5.14"
   },
   "devDependencies": {
-    "@unocss/reset": "^66.1.1",
+    "@unocss/reset": "^66.1.2",
     "@velin-dev/vue": "workspace:^",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue-macros/volar": "^3.0.0-beta.12",
-    "@vue/shared": "^3.5.13",
-    "@vueuse/core": "^13.1.0",
+    "@vue/shared": "^3.5.14",
+    "@vueuse/core": "^13.2.0",
     "@vueuse/motion": "^3.0.3",
     "unplugin-vue-macros": "^2.14.5",
     "unplugin-vue-markdown": "^28.3.1",

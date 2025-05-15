@@ -23,7 +23,7 @@ export async function evaluateSFC(
   }
 
   // TODO: evaluate setup when not <script setup>
-  return await evaluate<DefineComponent>(`${script.content}`, basePath)
+  return await evaluate<DefineComponent>(`${script.content}`, { base: basePath })
 }
 
 export async function resolvePropsFromString(content: string) {
