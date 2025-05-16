@@ -12,6 +12,20 @@
 
 Develop prompts with Vue SFC or Markdown like pro.
 
+<p align="center">
+  <picture>
+    <source
+      srcset="https://github.com/user-attachments/assets/7a0d89bb-472c-43b3-bac8-11640a158efb"
+      media="(prefers-color-scheme: dark)"
+    />
+    <source
+      srcset="https://github.com/user-attachments/assets/b05d8ac0-62b8-459e-9bff-c2d038e05cec"
+      media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+    />
+    <img src="https://github.com/user-attachments/assets/b05d8ac0-62b8-459e-9bff-c2d038e05cec" />
+  </picture>
+</p>
+
 ### Quick Start
 
 Try it by running following command under your `pnpm`/`npm` project.
