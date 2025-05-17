@@ -12,6 +12,8 @@
 
 Develop prompts with Vue SFC or Markdown like pro.
 
+We got a playground too, check it out:
+
 <p align="center">
   <picture>
     <source
