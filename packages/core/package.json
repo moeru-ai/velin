@@ -73,6 +73,7 @@
     "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "path-browserify-esm": "^1.0.6",
+    "std-env": "^3.9.0",
     "vue": "^3.5.14"
   }
 }
