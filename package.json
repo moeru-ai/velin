@@ -42,22 +42,22 @@
     "nolyfill": "pnpm dlx nolyfill"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.13.0",
-    "@antfu/ni": "^24.3.0",
+    "@antfu/eslint-config": "^4.13.2",
+    "@antfu/ni": "^24.4.0",
     "@antfu/nip": "^0.1.0",
     "@arethetypeswrong/cli": "^0.18.1",
     "@iconify/utils": "^2.3.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.15.18",
+    "@types/node": "^22.15.21",
     "@unocss/eslint-config": "^66.1.2",
     "@unocss/eslint-plugin": "^66.1.2",
     "@unocss/preset-mini": "^66.1.2",
-    "bumpp": "^10.1.0",
+    "bumpp": "^10.1.1",
     "changelogithub": "^13.14.0",
-    "eslint": "^9.26.0",
+    "eslint": "^9.27.0",
     "pkgroll": "^2.12.2",
-    "rollup": "^4.40.2",
+    "rollup": "^4.41.0",
     "taze": "^19.1.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
@@ -65,8 +65,8 @@
     "unocss": "66.1.1",
     "unocss-preset-scrollbar": "^3.2.0",
     "vite": "^6.3.5",
-    "vite-plugin-inspect": "^11.0.1",
-    "vitest": "^3.1.3"
+    "vite-plugin-inspect": "^11.1.0",
+    "vitest": "^3.1.4"
   },
   "pnpm": {
     "overrides": {
