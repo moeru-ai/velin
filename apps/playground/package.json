@@ -55,7 +55,6 @@
     "@vueuse/motion": "^3.0.3",
     "@xsai/shared": "^0.2.2",
     "@xsai/stream-text": "^0.2.2",
-    "defu": "^6.1.4",
     "es-toolkit": "^1.37.2",
     "fflate": "^0.8.2",
     "hash-sum": "^2.0.0",

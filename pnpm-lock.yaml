@@ -171,9 +171,6 @@ importers:
       '@xsai/stream-text':
         specifier: ^0.2.2
         version: 0.2.2
-      defu:
-        specifier: ^6.1.4
-        version: 6.1.4
       es-toolkit:
         specifier: ^1.37.2
         version: 1.37.2
@@ -296,9 +293,6 @@ importers:
       '@vue/shared':
         specifier: ^3.5.14
         version: 3.5.14
-      defu:
-        specifier: ^6.1.4
-        version: 6.1.4
       error-stack-parser:
         specifier: ^2.1.4
         version: 2.1.4

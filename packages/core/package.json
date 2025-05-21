@@ -69,7 +69,6 @@
     "@vue/runtime-core": "^3.5.14",
     "@vue/server-renderer": "^3.5.14",
     "@vue/shared": "^3.5.14",
-    "defu": "^6.1.4",
     "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "path-browserify-esm": "^1.0.6",
