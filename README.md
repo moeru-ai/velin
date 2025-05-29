@@ -100,6 +100,64 @@ watch(prompt, () => {
 </script>
 ```
 
+## Development
+
+### Clone
+
+```shell
+git clone https://github.com/luoling8192/velin.git
+cd airi
+```
+
+### Install dependencies
+
+```shell
+corepack enable
+pnpm install
+```
+
+> [!NOTE]
+>
+> We would recommend to install [@antfu/ni](https://github.com/antfu-collective/ni) to make your script simpler.
+>
+> ```shell
+> corepack enable
+> npm i -g @antfu/ni
+> ```
+>
+> Once installed, you can
+>
+> - use `ni` for `pnpm install`, `npm install` and `yarn install`.
+> - use `nr` for `pnpm run`, `npm run` and `yarn run`.
+>
+> You don't need to care about the package manager, `ni` will help you choose the right one.
+
+```shell
+pnpm dev
+```
+
+> [!NOTE]
+>
+> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
+>
+> ```shell
+> nr dev
+> ```
+
+### Build
+
+```shell
+pnpm build
+```
+
+> [!NOTE]
+>
+> For [@antfu/ni](https://github.com/antfu-collective/ni) users, you can
+>
+> ```shell
+> nr build
+> ```
+
 ## License
 
 MIT
