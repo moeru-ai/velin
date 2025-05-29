@@ -105,7 +105,7 @@ watch(prompt, () => {
 ### Clone
 
 ```shell
-git clone https://github.com/<your-github-username>/airi.git
+git clone https://github.com/luoling8192/velin.git
 cd airi
 ```
 
