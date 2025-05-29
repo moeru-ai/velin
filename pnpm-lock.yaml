@@ -30,6 +30,9 @@ importers:
       '@arethetypeswrong/cli':
         specifier: ^0.18.1
         version: 0.18.1
+      '@catppuccin/palette':
+        specifier: ^1.7.1
+        version: 1.7.1
       '@iconify/utils':
         specifier: ^2.3.0
         version: 2.3.0
@@ -592,6 +595,9 @@ packages:
 
   '@braidai/lang@1.1.1':
     resolution: {integrity: sha512-5uM+no3i3DafVgkoW7ayPhEGHNNBZCSj5TrGDQt0ayEKQda5f3lAXlmQg0MR5E0gKgmTzUUEtSWHsEC3h9jUcg==}
+
+  '@catppuccin/palette@1.7.1':
+    resolution: {integrity: sha512-aRc1tbzrevOTV7nFTT9SRdF26w/MIwT4Jwt4fDMc9itRZUDXCuEDBLyz4TQMlqO9ZP8mf5Hu4Jr6D03NLFc6Gw==}
 
   '@clack/core@0.4.2':
     resolution: {integrity: sha512-NYQfcEy8MWIxrT5Fj8nIVchfRFA26yYKJcvBS7WlUIlw2OmQOY9DhGGXMovyI5J5PpxrCPGkgUi207EBrjpBvg==}
@@ -5258,6 +5264,8 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
   '@braidai/lang@1.1.1': {}
+
+  '@catppuccin/palette@1.7.1': {}
 
   '@clack/core@0.4.2':
     dependencies:

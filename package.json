@@ -46,6 +46,7 @@
     "@antfu/ni": "^24.4.0",
     "@antfu/nip": "^0.1.0",
     "@arethetypeswrong/cli": "^0.18.1",
+    "@catppuccin/palette": "^1.7.1",
     "@iconify/utils": "^2.3.0",
     "@pnpm/find-workspace-dir": "^1000.1.0",
     "@types/markdown-it": "^14.1.2",
