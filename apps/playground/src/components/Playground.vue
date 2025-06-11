@@ -4,9 +4,7 @@ import type { ComponentProp } from '@velin-dev/core/render-shared'
 import { usePrompt } from '@velin-dev/vue/repl'
 import { useDark } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
-// eslint-disable-next-line import/order
 import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
-
 import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
 import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
 // eslint-disable-next-line perfectionist/sort-imports
