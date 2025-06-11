@@ -42,9 +42,9 @@
     "package.json"
   ],
   "scripts": {
-    "dev": "unbuild",
-    "stub": "unbuild",
-    "build": "unbuild",
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
     "typecheck": "tsc --noEmit",
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
