@@ -25,27 +25,27 @@
   "bugs": "https://github.com/luoling8192/velin/issues",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
     "./render-browser": {
-      "types": "./dist/render-browser/index.d.ts",
+      "types": "./dist/render-browser/index.d.mts",
       "import": "./dist/render-browser/index.mjs"
     },
     "./render-repl": {
-      "types": "./dist/render-repl/index.d.ts",
+      "types": "./dist/render-repl/index.d.mts",
       "import": "./dist/render-repl/index.mjs"
     },
     "./render-node": {
-      "types": "./dist/render-node/index.d.ts",
+      "types": "./dist/render-node/index.d.mts",
       "import": "./dist/render-node/index.mjs"
     },
     "./render-shared": {
-      "types": "./dist/render-shared/index.d.ts",
+      "types": "./dist/render-shared/index.d.mts",
       "import": "./dist/render-shared/index.mjs"
     },
     "./browser": {
-      "types": "./dist/browser.d.ts",
+      "types": "./dist/browser.d.mts",
       "import": "./dist/browser.mjs"
     }
   },
@@ -62,7 +62,7 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "@unrteljs/eval": "^0.2.0",
+    "@unrteljs/eval": "^0.2.1",
     "@velin-dev/utils": "workspace:^",
     "@vue/compiler-sfc": "^3.5.16",
     "@vue/reactivity": "^3.5.16",

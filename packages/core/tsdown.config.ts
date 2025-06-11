@@ -12,4 +12,5 @@ export default defineConfig({
   sourcemap: true,
   unused: true,
   fixedExtension: true,
+  dts: true,
 })
