@@ -25,27 +25,27 @@
   "bugs": "https://github.com/luoling8192/velin/issues",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
     "./from-md": {
-      "types": "./dist/from-md/index.d.ts",
+      "types": "./dist/from-md/index.d.mts",
       "import": "./dist/from-md/index.mjs"
     },
     "./transformers/vue": {
-      "types": "./dist/transformers/vue/index.d.ts",
+      "types": "./dist/transformers/vue/index.d.mts",
       "import": "./dist/transformers/vue/index.mjs"
     },
     "./transformers/typescript": {
-      "types": "./dist/transformers/typescript/index.d.ts",
+      "types": "./dist/transformers/typescript/index.d.mts",
       "import": "./dist/transformers/typescript/index.mjs"
     },
     "./to-md": {
-      "types": "./dist/to-md/index.d.ts",
+      "types": "./dist/to-md/index.d.mts",
       "import": "./dist/to-md/index.mjs"
     },
     "./vue-sfc": {
-      "types": "./dist/vue-sfc/index.d.ts",
+      "types": "./dist/vue-sfc/index.d.mts",
       "import": "./dist/vue-sfc/index.mjs"
     }
   },
@@ -55,19 +55,17 @@
     "package.json"
   ],
   "scripts": {
-    "dev": "unbuild",
-    "stub": "unbuild",
-    "build": "unbuild",
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
     "typecheck": "tsc --noEmit",
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.5.16",
-    "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",
-    "local-pkg": "^1.1.1",
     "markdown-it": "^14.1.0",
     "rehype-parse": "^9.0.1",
     "rehype-remark": "^10.0.1",

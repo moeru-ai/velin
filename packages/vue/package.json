@@ -25,26 +25,26 @@
   "bugs": "https://github.com/luoling8192/velin/issues",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
     "./repl": {
-      "types": "./dist/repl/index.d.ts",
+      "types": "./dist/repl/index.d.mts",
       "import": "./dist/repl/index.mjs"
     }
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "README.md",
     "dist",
     "package.json"
   ],
   "scripts": {
-    "dev": "unbuild",
-    "stub": "unbuild",
-    "build": "unbuild",
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
     "typecheck": "tsc --noEmit",
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },

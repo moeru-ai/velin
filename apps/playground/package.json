@@ -42,7 +42,7 @@
     "@shikijs/langs": "^3.6.0",
     "@shikijs/monaco": "^3.6.0",
     "@shikijs/themes": "^3.6.0",
-    "@unocss/reset": "^66.1.4",
+    "@unocss/reset": "^66.2.0",
     "@velin-dev/core": "workspace:^",
     "@velin-dev/utils": "workspace:^",
     "@velin-dev/vue": "workspace:^",
