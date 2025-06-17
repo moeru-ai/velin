@@ -1,6 +1,7 @@
 // https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/monaco/env.ts
 
 import type { WorkerLanguageService } from '@volar/monaco/worker'
+
 import type { Store } from './store'
 import type { CreateData } from './vue.worker'
 
@@ -10,9 +11,10 @@ import EditorWorker from 'monaco-editor-core/esm/vs/editor/editor.worker?worker'
 import { watchEffect } from 'vue'
 
 import { debounce } from '../../utils/vue-repl'
-import * as languageConfigs from './language-configs'
 import { getOrCreateModel } from './utils'
 import VueWorker from './vue.worker?worker'
+
+import * as languageConfigs from './language-configs'
 
 let initted = false
 export function initMonaco(store: Store) {

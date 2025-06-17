@@ -7,6 +7,7 @@ import type {
   CompilerOptions,
   SFCDescriptor,
 } from 'vue/compiler-sfc'
+
 import type { File, Store } from './store'
 
 import { transformTS } from '@velin-dev/utils/transformers/typescript'

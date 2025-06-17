@@ -7,6 +7,7 @@ import type {
   SFCScriptCompileOptions,
   SFCTemplateCompileOptions,
 } from 'vue/compiler-sfc'
+
 import type { OutputModes } from '../../types/vue-repl'
 import type { ImportMap } from './import-map'
 

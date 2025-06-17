@@ -1,4 +1,5 @@
 import type { DefineComponent } from 'vue'
+
 import type { ComponentProp } from '../render-shared'
 import type { InputProps } from '../types'
 

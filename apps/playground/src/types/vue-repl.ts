@@ -2,6 +2,7 @@
 
 import type { editor } from 'monaco-editor-core'
 import type { Component, InjectionKey, ToRefs } from 'vue'
+
 import type { Store } from '../components/Editor/store'
 
 export type EditorMode = 'js' | 'css' | 'ssr'

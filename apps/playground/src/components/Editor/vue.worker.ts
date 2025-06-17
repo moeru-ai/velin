@@ -3,6 +3,7 @@
 import type { LanguageServiceEnvironment } from '@volar/monaco/worker'
 import type { VueCompilerOptions } from '@vue/language-service'
 import type * as monaco from 'monaco-editor-core'
+
 import type { WorkerHost, WorkerMessage } from './env'
 
 import { createNpmFileSystem } from '@volar/jsdelivr'
