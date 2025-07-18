@@ -13,9 +13,11 @@ words:
   - pkgroll
   - sizecheck
   - taze
+  - testdata
   - tomd
   - tsdown
   - unocss
   - unplugin
+  - unrteljs
   - velin
   - vueuse

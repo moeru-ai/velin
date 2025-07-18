@@ -2,6 +2,9 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   vue: true,
+  ignores: [
+    '**/vue-global-types.d.ts',
+  ],
   rules: {
     'import/order': 'off',
     'antfu/import-dedupe': 'error',

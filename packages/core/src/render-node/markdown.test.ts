@@ -22,4 +22,28 @@ describe('renderMarkdownString', async () => {
     expect(result).not.toBe('')
     expect(result).toBe('Count: 0\n')
   })
+
+  it('should be able to render script setup SFC with lang="ts"', async () => {
+    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.ts.velin.md'), 'utf-8')
+    const result = await renderMarkdownString(content)
+    expect(result).toBeDefined()
+    expect(result).not.toBe('')
+    expect(result).toBe('Count: 0\n')
+  })
+
+  it('should be able to render script setup SFC with props', async () => {
+    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.velin.md'), 'utf-8')
+    const result = await renderMarkdownString(content, { date: '2025-07-01' })
+    expect(result).toBeDefined()
+    expect(result).not.toBe('')
+    expect(result).toBe('# Count: 0\n\n2025-07-01\n')
+  })
+
+  it('should be able to render script setup SFC with props with lang="ts"', async () => {
+    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.ts.velin.md'), 'utf-8')
+    const result = await renderMarkdownString(content, { date: '2025-07-01' })
+    expect(result).toBeDefined()
+    expect(result).not.toBe('')
+    expect(result).toBe('# Count: 0\n\n2025-07-01\n')
+  })
 })

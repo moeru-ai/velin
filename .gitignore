@@ -14,6 +14,7 @@ components.d.ts
 node_modules
 .eslintcache
 **/tsconfig.tsbuildinfo
+**/vue-global-types.d.ts
 
 dist
 out/
