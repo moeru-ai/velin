@@ -1,9 +1,5 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-
-const props = defineProps({
-  date: String,
-})
 
 const count = ref(0)
 </script>
@@ -11,6 +7,5 @@ const count = ref(0)
 <template>
   <div>
     <h1>Count: {{ count }}</h1>
-    <p>{{ props.date }}</p>
   </div>
 </template>

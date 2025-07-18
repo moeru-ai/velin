@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const props = defineProps({
-  date: String,
-})
+const props = defineProps<{
+  date: string
+}>()
 
 const count = ref(0)
 </script>

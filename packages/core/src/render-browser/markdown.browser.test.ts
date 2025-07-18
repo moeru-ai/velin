@@ -6,7 +6,8 @@ import { describe, expect, it } from 'vitest'
 
 import { renderMarkdownString } from './markdown'
 
-describe.skip('renderMarkdownString', async () => {
+// TODO: Browser testing
+describe.todo('renderMarkdownString', async () => {
   it('should be able to render simple SFC', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'simple.velin.md'), 'utf-8')
     const result = await renderMarkdownString(content)

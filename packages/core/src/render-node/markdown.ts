@@ -13,8 +13,8 @@ export async function renderMarkdownString<RawProps = any>(
 ): Promise<string> {
   const html = fromMarkdown(source)
 
-  const { remainingHTML, scriptContent } = scriptFrom(html)
-  const sfcString = createSFC(remainingHTML, scriptContent)
+  const { script, template, lang } = scriptFrom(html)
+  const sfcString = createSFC(template, script, lang)
 
   const renderedHTML = await renderSFC(sfcString, data, basePath)
   const markdownResult = await toMarkdown(renderedHTML)

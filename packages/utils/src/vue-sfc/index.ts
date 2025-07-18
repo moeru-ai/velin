@@ -1,4 +1,4 @@
-export function createSFC(html: string, scriptContent: string): string {
+export function createSFC(html: string, scriptContent: string, lang: string): string {
   return `<template>${html}</template>\n
-<script setup>${scriptContent.trim() || '/* EMPTY */'}</script>`
+<script setup lang="${lang}">${scriptContent.trim() || '/* EMPTY */'}</script>`
 }

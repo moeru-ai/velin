@@ -8,9 +8,7 @@ const props = defineProps({
 const count = ref(0)
 </script>
 
-<template>
-  <div>
-    <h1>Count: {{ count }}</h1>
-    <p>{{ props.date }}</p>
-  </div>
-</template>
+<div>
+  <h1>Count: {{ count }}</h1>
+  <p>{{ props.date }}</p>
+</div>

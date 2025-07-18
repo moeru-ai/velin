@@ -74,5 +74,8 @@
     "path-browserify-esm": "^1.0.6",
     "std-env": "^3.9.0",
     "vue": "^3.5.16"
+  },
+  "devDependencies": {
+    "@types/hast": "^3.0.4"
   }
 }
