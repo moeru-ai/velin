@@ -101,6 +101,10 @@ watch(prompt, () => {
 </script>
 ```
 
+## Similar projects
+
+- [poml](https://github.com/microsoft/poml) / [pomljs](https://github.com/microsoft/poml)
+
 ## Development
 
 ### Clone
