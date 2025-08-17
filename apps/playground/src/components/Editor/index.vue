@@ -2,7 +2,6 @@
 // https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/monaco/Monaco.vue
 import type { EditorMode } from '../../types/vue-repl'
 
-import * as monaco from 'monaco-editor-core'
 import {
   computed,
   inject,
@@ -13,6 +12,8 @@ import {
   useTemplateRef,
   watch,
 } from 'vue'
+
+import * as monaco from 'monaco-editor-core'
 
 import { injectKeyProps } from '../../types/vue-repl'
 import { initMonaco } from './env'

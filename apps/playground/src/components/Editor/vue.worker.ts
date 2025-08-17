@@ -16,9 +16,10 @@ import {
   getDefaultCompilerOptions,
   getFullLanguageServicePlugins,
 } from '@vue/language-service'
+import { URI } from 'vscode-uri'
+
 import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker'
 import * as typescript from 'typescript'
-import { URI } from 'vscode-uri'
 
 export interface CreateData {
   tsconfig: {

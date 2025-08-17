@@ -1,9 +1,10 @@
 import type { Element, Text } from 'hast'
 
+import markdownIt from 'markdown-it'
+
 import { fromHtml } from 'hast-util-from-html'
 import { select } from 'hast-util-select'
 import { toHtml } from 'hast-util-to-html'
-import markdownIt from 'markdown-it'
 import { remove } from 'unist-util-remove'
 
 export function fromMarkdown(markdownString: string): string {

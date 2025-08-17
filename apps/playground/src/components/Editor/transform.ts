@@ -10,8 +10,9 @@ import type {
 
 import type { File, Store } from './store'
 
-import { transformTS } from '@velin-dev/utils/transformers/typescript'
 import hashId from 'hash-sum'
+
+import { transformTS } from '@velin-dev/utils/transformers/typescript'
 
 export const COMP_IDENTIFIER = `__sfc__`
 

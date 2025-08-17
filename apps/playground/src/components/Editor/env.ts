@@ -5,14 +5,17 @@ import type { WorkerLanguageService } from '@volar/monaco/worker'
 import type { Store } from './store'
 import type { CreateData } from './vue.worker'
 
-import * as volar from '@volar/monaco'
-import { editor, languages, Uri } from 'monaco-editor-core'
 import EditorWorker from 'monaco-editor-core/esm/vs/editor/editor.worker?worker'
+
+import { editor, languages, Uri } from 'monaco-editor-core'
 import { watchEffect } from 'vue'
+
+import * as volar from '@volar/monaco'
+
+import VueWorker from './vue.worker?worker'
 
 import { debounce } from '../../utils/vue-repl'
 import { getOrCreateModel } from './utils'
-import VueWorker from './vue.worker?worker'
 
 import * as languageConfigs from './language-configs'
 

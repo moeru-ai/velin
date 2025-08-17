@@ -20,9 +20,11 @@ import {
   watch,
   watchEffect,
 } from 'vue'
+
 import * as defaultCompiler from 'vue/compiler-sfc'
 
 import welcomeSFCCode from '../../prompts/Prompt.velin.vue?raw'
+
 import { atou, utoa } from '../../utils/vue-repl'
 import { mergeImportMap, useVueImportMap } from './import-map'
 import { compileFile } from './transform'

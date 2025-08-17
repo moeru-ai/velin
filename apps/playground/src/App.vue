@@ -7,7 +7,7 @@ const toggleDark = useToggle(isDark)
 </script>
 
 <template>
-  <div mx-auto h-full max-w-screen-2xl flex flex-row gap-2 w-full>
+  <div mx-auto h-full flex flex-row gap-2 w-full overflow-hidden>
     <div flex flex-col items-center gap-2 h-full py-4 px-3>
       <h1 text-xl write-vertical-left text="gray-500 dark:gray-500" font-jura flex-1 text-nowrap py-2 h-full text-right scale--100>
         Velin Playground

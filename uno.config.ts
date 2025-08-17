@@ -61,7 +61,47 @@ export function sharedUnoConfig() {
     presets: [
       presetWind3(),
       presetAttributify(),
-      presetTypography(),
+      presetTypography({
+        cssExtend: {
+          'h1': {
+            margin: '0.5em 0 0.5em 0',
+          },
+          'h2': {
+            margin: '0.5em 0 0.5em 0',
+          },
+          'h3': {
+            margin: '0',
+          },
+          'h4': {
+            margin: '0',
+          },
+          'h5': {
+            margin: '0',
+          },
+          'h6': {
+            margin: '0',
+          },
+          'div': {
+            'margin': '0',
+            'line-height': 1.75,
+          },
+          'p': {
+            'margin': '0',
+            'line-height': 1.75,
+          },
+          'blockquote': {
+            'margin': '0',
+            'line-height': 1.25,
+            'display': 'flex',
+            'flex-direction': 'column',
+            'gap': '12px',
+            'padding': '1em 1em 1em 1em',
+          },
+          'blockquote p': {
+            'line-height': 1,
+          },
+        },
+      }),
       presetWebFonts({
         fonts: {
           sans: 'DM Sans',

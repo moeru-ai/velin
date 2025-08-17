@@ -1,13 +1,15 @@
 // https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/monaco/highlight.ts
 
-import { createHighlighterCoreSync } from '@shikijs/core'
-import { createJavaScriptRegexEngine } from '@shikijs/engine-javascript'
 import langJsx from '@shikijs/langs/jsx'
 import langTsx from '@shikijs/langs/tsx'
 import langVue from '@shikijs/langs/vue'
-import { shikiToMonaco } from '@shikijs/monaco'
 import themeLight from '@shikijs/themes/catppuccin-latte'
 import themeDark from '@shikijs/themes/catppuccin-mocha'
+
+import { createHighlighterCoreSync } from '@shikijs/core'
+import { createJavaScriptRegexEngine } from '@shikijs/engine-javascript'
+import { shikiToMonaco } from '@shikijs/monaco'
+
 import * as monaco from 'monaco-editor-core'
 
 let registered = false
