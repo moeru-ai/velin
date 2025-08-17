@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import type { ComponentProp } from '@velin-dev/core/render-shared'
 
+import vueServerRendererUrl from '@vue/server-renderer/dist/server-renderer.esm-browser.js?url'
+import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
+import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
+
+import { fromMarkdown } from '@velin-dev/utils/from-md'
 import { usePrompt } from '@velin-dev/vue/repl'
 import { useDark } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
-import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
-import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
-// eslint-disable-next-line perfectionist/sort-imports
-import vueServerRendererUrl from '@vue/server-renderer/dist/server-renderer.esm-browser.js?url'
+
+import Editor from './Editor/index.vue'
+import Input from './Input.vue'
+import Switch from './Switch.vue'
 
 import { injectKeyProps } from '../types/vue-repl'
 import { useVueImportMap } from './Editor/import-map'
-import Editor from './Editor/index.vue'
 import { useStore } from './Editor/store'
-import Input from './Input.vue'
-import Switch from './Switch.vue'
 
 const props = defineProps<{
   prompt: string
@@ -24,6 +26,8 @@ const props = defineProps<{
 const initializing = ref(true)
 const inputPrompt = ref<string>(props.prompt)
 const renderedPrompt = ref<string>('')
+const renderedPromptFromMarkdown = computed(() => fromMarkdown(renderedPrompt.value))
+
 const resolvedProps = ref<ComponentProp[]>([])
 
 // Create a reactive state object to store form values
@@ -73,10 +77,7 @@ provide(injectKeyProps, {
 // Initialize the prompt and props
 function initializePrompt() {
   return new Promise<void>((resolve) => {
-    const { prompt, onPrompted, promptProps } = usePrompt(
-      inputPrompt,
-      formValues,
-    )
+    const { prompt, onPrompted, promptProps } = usePrompt(inputPrompt, formValues)
 
     // Handle the initial props resolution and initialization
     onPrompted(() => {
@@ -104,10 +105,7 @@ function initializePrompt() {
 watch(formValues, () => {
   if (isPropsInitialized.value) {
     // Only re-render when changes are made to formValues after initialization
-    const { prompt, onPrompted } = usePrompt(
-      inputPrompt,
-      formValues,
-    )
+    const { prompt, onPrompted } = usePrompt(inputPrompt, formValues)
 
     onPrompted(() => {
       renderedPrompt.value = prompt.value
@@ -143,17 +141,15 @@ function handleEditorChange(updated: string) {
       </Pane>
       <Pane :size="60" :min-size="50">
         <div relative h-full>
-          <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" trangray-x="-50%" />
+          <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" translate-x="-50%" />
           <template v-else>
             <Splitpanes>
-              <Pane :size="40" :min-size="25">
-                <div mx-2 px-4 py-3 bg="white dark:[#2e2e3b]" rounded-lg border="2 solid gray-100 dark:[#272733]" shadow-sm>
-                  <div class="whitespace-pre-wrap">
-                    {{ renderedPrompt }}
-                  </div>
+              <Pane :size="60" :min-size="25">
+                <div mx-2 px-4 py-3 bg="white dark:[#2e2e3b]" rounded-lg border="2 solid gray-100 dark:[#272733]" shadow-sm max-h-full overflow-y-scroll>
+                  <div class="whitespace-pre-wrap prose prose-gray max-w-full!" v-html="renderedPromptFromMarkdown" />
                 </div>
               </Pane>
-              <Pane :size="20" :min-size="25">
+              <Pane :size="40" :min-size="25">
                 <div flex flex-col gap-3 px-4 py-3 bg="indigo-100/20 dark:[#323242]" rounded-lg transition="all duration-500 ease-in-out">
                   <h2 class="text-xl font-semibold opacity-45">
                     Props
