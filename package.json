@@ -1,7 +1,7 @@
 {
   "name": "@velin-dev/root",
   "type": "module",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "packageManager": "pnpm@10.12.1",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
