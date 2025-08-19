@@ -100,6 +100,14 @@ export function sharedUnoConfig() {
           'blockquote p': {
             'line-height': 1,
           },
+          'ul': {
+            'margin': 0,
+            'line-height': 1.25,
+          },
+          'ol': {
+            'margin': 0,
+            'line-height': 1.25,
+          },
         },
       }),
       presetWebFonts({

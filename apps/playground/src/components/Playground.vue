@@ -146,7 +146,7 @@ function handleEditorChange(updated: string) {
             <Splitpanes>
               <Pane :size="60" :min-size="25">
                 <div mx-2 px-4 py-3 bg="white dark:[#2e2e3b]" rounded-lg border="2 solid gray-100 dark:[#272733]" shadow-sm max-h-full overflow-y-scroll>
-                  <div class="whitespace-pre-wrap prose prose-gray max-w-full!" v-html="renderedPromptFromMarkdown" />
+                  <div class="whitespace-pre-wrap prose prose-gray dark:prose-white max-w-full! flex flex-col gap-8" v-html="renderedPromptFromMarkdown" />
                 </div>
               </Pane>
               <Pane :size="40" :min-size="25">
