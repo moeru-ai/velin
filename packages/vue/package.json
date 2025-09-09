@@ -51,6 +51,6 @@
   "dependencies": {
     "@velin-dev/core": "workspace:^",
     "@velin-dev/utils": "workspace:^",
-    "vue": "^3.5.16"
+    "vue": "^3.5.21"
   }
 }
