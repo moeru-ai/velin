@@ -1,4 +1,4 @@
-// https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/monaco/env.ts
+// https://github.com/vuejs/repl/blob/f2b38cf978abb9c21c6c788589b4599b4ff85a7d/src/monaco/env.ts
 
 import type { WorkerLanguageService } from '@volar/monaco/worker'
 
