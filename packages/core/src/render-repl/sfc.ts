@@ -7,9 +7,9 @@ import { evaluate } from '@unrteljs/eval/browser'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { compileModulesForPreview } from '@velin-dev/utils/transformers/vue'
 import { renderToString } from '@vue/server-renderer'
-import { fromHtml } from 'hast-util-from-html'
 
 import { compileSFC, onlyRender, resolveProps } from '../render-shared'
+import { normalizeSFCSource } from '../render-shared/sfc'
 
 export async function evaluateSFC(
   source: string,
@@ -75,11 +75,7 @@ export async function renderSFCString<RawProps = any>(
     props: ComponentProp[]
     rendered: string
   }> {
-  const hastRoot = fromHtml(source, { fragment: true })
-  const hasScript = hastRoot.children.some(node => node.type === 'element' && node.tagName === 'script')
-  if (!hasScript) {
-    source = `${source}\n<script setup>/* EMPTY */</script>`
-  }
+  source = normalizeSFCSource(source)
 
   const { rendered, props } = await renderSFC(source, data, basePath)
   return {
