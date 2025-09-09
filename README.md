@@ -110,7 +110,7 @@ watch(prompt, () => {
 ### Clone
 
 ```shell
-git clone https://github.com/luoling8192/velin.git
+git clone https://github.com/moeru-ai/velin.git
 cd airi
 ```
 
@@ -173,7 +173,7 @@ MIT
 [npm-downloads-href]: https://npmjs.com/package/@velin-dev/core
 [bundle-src]: https://img.shields.io/bundlephobia/minzip/@velin-dev/vue?style=flat&colorA=080f12&colorB=1fa669&label=minzip
 [bundle-href]: https://bundlephobia.com/result?p=@velin-dev/vue
-[license-src]: https://img.shields.io/github/license/luoling8192/velin.svg?style=flat&colorA=080f12&colorB=1fa669
-[license-href]: https://github.com/luoling8192/velin/blob/main/LICENSE
+[license-src]: https://img.shields.io/github/license/moeru-ai/velin.svg?style=flat&colorA=080f12&colorB=1fa669
+[license-href]: https://github.com/moeru-ai/velin/blob/main/LICENSE
 [jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
 [jsdocs-href]: https://www.jsdocs.io/package/@velin-dev/core

@@ -19,7 +19,7 @@ const toggleDark = useToggle(isDark)
         border="2 solid gray-100 dark:gray-900"
       >
         <a
-          href="https://github.com/luoling8192/velin"
+          href="https://github.com/moeru-ai/velin"
           shadow="none hover:md dark:hover:gray-100/5"
           bg="dark:hover:gray-400/10"
           p-2 rounded-full

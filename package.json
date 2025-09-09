@@ -18,12 +18,12 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/luoling8192/velin",
+  "homepage": "https://github.com/moeru-ai/velin",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luoling8192/velin.git"
+    "url": "git+https://github.com/moeru-ai/velin.git"
   },
-  "bugs": "https://github.com/luoling8192/velin/issues",
+  "bugs": "https://github.com/moeru-ai/velin/issues",
   "scripts": {
     "dev": "pnpm -rF=\"./packages/*\" run build && pnpm -rF=\"./apps/*\" run dev",
     "dev:play": "pnpm -F @velin-dev/apps-playground run dev",

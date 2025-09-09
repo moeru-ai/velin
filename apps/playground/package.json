@@ -16,13 +16,13 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/luoling8192/velin",
+  "homepage": "https://github.com/moeru-ai/velin",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luoling8192/velin.git",
+    "url": "git+https://github.com/moeru-ai/velin.git",
     "directory": "playground"
   },
-  "bugs": "https://github.com/luoling8192/velin/issues",
+  "bugs": "https://github.com/moeru-ai/velin/issues",
   "scripts": {
     "build": "vite build",
     "dev": "vite",
