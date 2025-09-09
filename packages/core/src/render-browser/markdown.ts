@@ -1,3 +1,4 @@
+import type { ComponentProp } from '../render-shared/props'
 import type { InputProps } from '../types'
 
 import { fromMarkdown, scriptFrom } from '@velin-dev/utils/from-md'
@@ -9,7 +10,10 @@ export async function renderMarkdownString<RawProps = any>(
   source: string,
   data?: InputProps<RawProps>,
   _basePath?: string,
-): Promise<string> {
+): Promise<{
+    props: ComponentProp[]
+    rendered: string
+  }> {
   const html = fromMarkdown(source)
 
   const { script, template, lang } = scriptFrom(html)

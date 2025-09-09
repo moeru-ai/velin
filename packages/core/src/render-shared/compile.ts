@@ -16,7 +16,7 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
   const { descriptor } = parse(source)
 
   if (!descriptor.template) {
-    throw new Error(`source has no <template> tag.`)
+    return await compileSFC(`${source}\n<template><div /></template>`)
   }
 
   const templateOptions = {

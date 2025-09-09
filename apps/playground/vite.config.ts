@@ -12,6 +12,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['@vue/repl'],
   },
+  build: {
+    rollupOptions: {
+      external: ['vue'],
+    },
+  },
   plugins: [
     // https://github.com/posva/unplugin-vue-router
     VueRouter({

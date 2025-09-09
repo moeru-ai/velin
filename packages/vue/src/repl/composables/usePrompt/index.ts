@@ -5,8 +5,7 @@ import type {
 import type { ComponentProp } from '@velin-dev/core/render-shared'
 import type { ComponentPropsOptions, MaybeRefOrGetter, Reactive, Ref } from 'vue'
 
-import { renderMarkdownString } from '@velin-dev/core/render-browser'
-import { renderSFCString } from '@velin-dev/core/render-repl'
+import { render } from '@velin-dev/core/render-repl'
 import { isReactive, isRef, ref, toRef, toValue, watch, watchEffect } from 'vue'
 
 export function usePrompt<
@@ -32,25 +31,14 @@ export function usePrompt<
     onUnPromptedCallbacks.value.push(cb)
   }
 
-  async function render() {
-    try {
-      return await renderSFCString(toValue(promptComponent), props)
-    }
-    catch (err) {
-      console.error(err)
-
-      const res = await renderMarkdownString(toValue(promptComponent), props)
-      return {
-        rendered: res,
-        props: [],
-      }
-    }
+  async function _render() {
+    return await render(toValue(promptComponent), props)
   }
 
   function renderEffect() {
     rendering.value = true
 
-    render()
+    _render()
       .then((renderedResults) => {
         prompt.value = renderedResults.rendered
         promptProps.value = renderedResults.props
