@@ -13,9 +13,9 @@ export async function renderMarkdownString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   if (isNode) {
     const { renderMarkdownString } = await import('./render-node')
     return renderMarkdownString(source, data, basePath)
@@ -29,9 +29,9 @@ export async function renderSFCString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   if (isNode) {
     const { renderSFCString } = await import('./render-node')
     return renderSFCString(source, data, basePath)

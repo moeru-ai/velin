@@ -1,5 +1,6 @@
 import type { DefineComponent } from '@vue/runtime-core'
 
+import type { ComponentProp } from '../render-shared'
 import type { InputProps } from '../types'
 
 import ErrorStackParser from 'error-stack-parser'
@@ -9,7 +10,7 @@ import { evaluate } from '@unrteljs/eval/browser'
 import { toMarkdown } from '@velin-dev/utils/to-md'
 import { renderToString } from '@vue/server-renderer'
 
-import { compileSFC, type ComponentProp, onlyRender, resolveProps } from '../render-shared'
+import { compileSFC, onlyRender, resolveProps } from '../render-shared'
 import { normalizeSFCSource } from '../render-shared/sfc'
 
 export async function evaluateSFC(
@@ -39,9 +40,9 @@ export async function renderSFC<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   const evaluatedComponent = await evaluateSFC(source, basePath)
   const app = onlyRender(evaluatedComponent, data)
   return {
@@ -55,9 +56,9 @@ export async function renderSFCString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   source = normalizeSFCSource(source)
 
   const { props, rendered } = await renderSFC(source, data, basePath)

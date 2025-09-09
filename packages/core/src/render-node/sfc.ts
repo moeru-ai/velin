@@ -40,9 +40,9 @@ export async function renderSFC<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   const evaluatedComponent = await evaluateSFC(source, basePath)
   const renderFunc = onlyRender(evaluatedComponent, data)
   return {
@@ -56,9 +56,9 @@ export async function renderSFCString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   source = normalizeSFCSource(source)
 
   const { props, rendered } = await renderSFC(source, data, basePath)

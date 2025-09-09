@@ -12,9 +12,9 @@ export async function renderMarkdownString<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   const html = fromMarkdown(source)
 
   const { script, template, lang } = scriptFrom(html)

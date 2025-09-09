@@ -13,9 +13,9 @@ export async function render<RawProps = any>(
   data?: InputProps<RawProps>,
   basePath?: string,
 ): Promise<{
-    props: ComponentProp[]
-    rendered: string
-  }> {
+  props: ComponentProp[]
+  rendered: string
+}> {
   const hastRoot = fromHtml(source, { fragment: true })
 
   const hasTemplate = hastRoot.children.some(node => node.type === 'element' && node.tagName === 'template')
