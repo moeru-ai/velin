@@ -19,6 +19,7 @@ node_modules
 dist
 out/
 *.local
+*.local.*
 *.log
 **/.cache/**
 **/temp/

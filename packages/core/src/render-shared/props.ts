@@ -20,7 +20,12 @@ export interface ComponentPropUnknown {
   value?: unknown
 }
 
-export type ComponentProp = (ComponentPropText | ComponentPropBool | ComponentPropNumber | ComponentPropUnknown) & {
+export interface ComponentPropArray {
+  type: 'array'
+  value?: unknown[]
+}
+
+export type ComponentProp = (ComponentPropText | ComponentPropBool | ComponentPropNumber | ComponentPropArray | ComponentPropUnknown) & {
   title: string
   key: string
 }
@@ -73,16 +78,35 @@ function willTurnIntoString(value: unknown): boolean {
   return false
 }
 
-function inferType(propDef:
-  | {
-    // eslint-disable-next-line ts/no-unsafe-function-type
-    type: Function
+function willTurnIntoArray(value: unknown): boolean {
+  if (value === Array) {
+    return true
   }
-  | typeof String
-  | typeof Number
-  | typeof Boolean
-  | unknown) {
-  let type: 'unknown' | 'string' | 'number' | 'boolean' = 'unknown'
+
+  // it is possible value is { type: Array() }
+  if (typeof value === 'object' && value !== null && 'type' in value) {
+    // check if value.type is Array()
+    if (typeof (value as { type: unknown }).type === 'function' && (value as { type: unknown }).type === Array) {
+      return true
+    }
+  }
+
+  return false
+}
+
+function inferType(
+  propDef:
+    | {
+    // eslint-disable-next-line ts/no-unsafe-function-type
+      type: Function
+    }
+    | typeof String
+    | typeof Number
+    | typeof Boolean
+    | typeof Array
+    | unknown,
+) {
+  let type: 'unknown' | 'string' | 'number' | 'boolean' | 'array' = 'unknown'
   if (willTurnIntoString(propDef)) {
     type = 'string'
   }
@@ -91,6 +115,9 @@ function inferType(propDef:
   }
   else if (willTurnIntoBoolean(propDef)) {
     type = 'boolean'
+  }
+  else if (willTurnIntoArray(propDef)) {
+    type = 'array'
   }
   return type
 }
