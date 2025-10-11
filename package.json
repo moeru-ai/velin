@@ -46,7 +46,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.4.1",
-    "@antfu/ni": "^26.1.0",
     "@antfu/nip": "^0.1.0",
     "@arethetypeswrong/cli": "^0.18.2",
     "@arethetypeswrong/core": "^0.18.2",

@@ -60,7 +60,7 @@
     "es-toolkit": "^1.40.0",
     "fflate": "^0.8.2",
     "hash-sum": "^2.0.0",
-    "monaco-editor-core": "^0.54.0",
+    "monaco-editor-core": "^0.52.2",
     "reka-ui": "^2.5.1",
     "splitpanes": "^4.0.4",
     "unplugin-vue-router": "^0.15.0",
