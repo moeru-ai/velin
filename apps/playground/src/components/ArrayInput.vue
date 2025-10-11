@@ -44,6 +44,8 @@ function updateItem(index: number, value: string) {
 }
 
 const hasItems = computed(() => items.value.length > 0)
+
+const placeholder = `Enter value (e.g., \"text\", 123, {\"key\":\"value\"})`
 </script>
 
 <template>
@@ -56,7 +58,7 @@ const hasItems = computed(() => items.value.length > 0)
       <input
         :value="item"
         type="text"
-        placeholder='Enter value (e.g., "text", 123, {"key":"value"})'
+        :placeholder="placeholder"
         transition="all duration-200 ease-in-out"
         cursor="disabled:not-allowed"
         flex-1 rounded-lg px-2 py-1 text-sm outline-none
