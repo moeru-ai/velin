@@ -62,7 +62,7 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.5.21",
+    "@vue/compiler-sfc": "^3.5.22",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",

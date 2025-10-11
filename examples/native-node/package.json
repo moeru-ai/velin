@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@velin-dev/core": "workspace:^",
-    "vue": "^3.5.21"
+    "vue": "^3.5.22"
   },
   "devDependencies": {
-    "tsx": "^4.20.5"
+    "tsx": "^4.20.6"
   }
 }
