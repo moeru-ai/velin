@@ -1,6 +1,6 @@
 /* eslint-disable regexp/no-unused-capturing-group */
 
-// https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/transform.ts
+// https://github.com/vuejs/repl/blob/69c2ed1dca84132708c3b9a1d0a008e11be2be74/src/transform.ts
 
 import type {
   BindingMetadata,
@@ -13,6 +13,8 @@ import type { File, Store } from './store'
 import hashId from 'hash-sum'
 
 import { transformTS } from '@velin-dev/utils/transformers/typescript'
+
+import { getSourceMap, toVisualizer, trimAnalyzedBindings } from './sourcemap'
 
 export const COMP_IDENTIFIER = `__sfc__`
 
@@ -43,8 +45,8 @@ export async function compileFile(
       code = transformTS(code, isJSX)
     }
     if (isJSX) {
-    //   code = await import('./jsx').then(({ transformJSX }) =>
-    //     transformJSX(code),
+      //   code = await import('./jsx').then(({ transformJSX }) =>
+      //     transformJSX(code),
       //   )
       console.error('JSX transform not supported in the playground')
     }
@@ -114,23 +116,37 @@ export async function compileFile(
   const hasScoped = descriptor.styles.some(s => s.scoped)
   let clientCode = ''
   let ssrCode = ''
+  let ssrScript = ''
+  let clientScriptMap: any
+  let clientTemplateMap: any
+  let ssrScriptMap: any
+  let ssrTemplateMap: any
 
   const appendSharedCode = (code: string) => {
     clientCode += code
     ssrCode += code
   }
 
+  const ceFilter = store.sfcOptions.script?.customElement || /\.ce\.vue$/
+  function isCustomElement(filters: typeof ceFilter): boolean {
+    if (typeof filters === 'boolean') {
+      return filters
+    }
+    if (typeof filters === 'function') {
+      return filters(filename)
+    }
+    return filters.test(filename)
+  }
+  // let isCE = isCustomElement(ceFilter)
+  const isCE = isCustomElement(ceFilter)
+
   let clientScript: string
   let bindings: BindingMetadata | undefined
   try {
-    ;[clientScript, bindings] = await doCompileScript(
-      store,
-      descriptor,
-      id,
-      false,
-      isTS,
-      isJSX,
-    )
+    const res = await doCompileScript(store, descriptor, id, false, isTS, isJSX, isCE)
+    clientScript = res.code
+    bindings = res.bindings
+    clientScriptMap = res.map
   }
   catch (e: any) {
     return [e.stack.split('\n').slice(0, 12).join('\n')]
@@ -150,8 +166,11 @@ export async function compileFile(
         true,
         isTS,
         isJSX,
+        isCE,
       )
-      ssrCode += ssrScriptResult[0]
+      ssrScript = ssrScriptResult.code
+      ssrCode += ssrScript
+      ssrScriptMap = ssrScriptResult.map
     }
     catch (e) {
       ssrCode = `/* SSR compile error: ${e} */`
@@ -178,10 +197,11 @@ export async function compileFile(
       isTS,
       isJSX,
     )
-    if (Array.isArray(clientTemplateResult)) {
-      return clientTemplateResult
+    if (clientTemplateResult.errors.length) {
+      return clientTemplateResult.errors
     }
-    clientCode += `;${clientTemplateResult}`
+    clientCode += `;${clientTemplateResult.code}`
+    clientTemplateMap = clientTemplateResult.map
 
     const ssrTemplateResult = await doCompileTemplate(
       store,
@@ -192,12 +212,13 @@ export async function compileFile(
       isTS,
       isJSX,
     )
-    if (typeof ssrTemplateResult === 'string') {
+    if (ssrTemplateResult.code) {
       // ssr compile failure is fine
-      ssrCode += `;${ssrTemplateResult}`
+      ssrCode += `;${ssrTemplateResult.code}`
+      ssrTemplateMap = ssrTemplateResult.map
     }
     else {
-      ssrCode = `/* SSR compile error: ${ssrTemplateResult[0]} */`
+      ssrCode = `/* SSR compile error: ${ssrTemplateResult.errors[0]} */`
     }
   }
 
@@ -215,19 +236,8 @@ export async function compileFile(
   }
 
   // styles
-  const ceFilter = store.sfcOptions.script?.customElement || /\.ce\.vue$/
-  function isCustomElement(filters: typeof ceFilter): boolean {
-    if (typeof filters === 'boolean') {
-      return filters
-    }
-    if (typeof filters === 'function') {
-      return filters(filename)
-    }
-    return filters.test(filename)
-  }
-  const isCE = isCustomElement(ceFilter)
-
   let css = ''
+  // let styles: string[] = []
   const styles: string[] = []
   for (const style of descriptor.styles) {
     if (style.module) {
@@ -251,8 +261,7 @@ export async function compileFile(
       // proceed even if css compile errors
     }
     else {
-      // eslint-disable-next-line prefer-template
-      isCE ? styles.push(styleResult.code) : (css += styleResult.code + '\n')
+      isCE ? styles.push(styleResult.code) : (css += `${styleResult.code}\n`)
     }
   }
   if (css) {
@@ -270,13 +279,25 @@ export async function compileFile(
       ? `\n${COMP_IDENTIFIER}.styles = ${JSON.stringify(styles)}`
       : ''
     appendSharedCode(
-      // eslint-disable-next-line prefer-template
-      `\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(filename)}`
-      + ceStyles
-      + `\nexport default ${COMP_IDENTIFIER}`,
+      `\n${COMP_IDENTIFIER}.__file = ${JSON.stringify(filename)}${
+        ceStyles
+      }\nexport default ${COMP_IDENTIFIER}`,
     )
     compiled.js = clientCode.trimStart()
     compiled.ssr = ssrCode.trimStart()
+    compiled.clientMap = toVisualizer(
+      trimAnalyzedBindings(compiled.js),
+      getSourceMap(filename, clientScript, clientScriptMap, clientTemplateMap),
+    )
+    compiled.ssrMap = toVisualizer(
+      trimAnalyzedBindings(compiled.ssr),
+      getSourceMap(
+        filename,
+        ssrScript || clientScript,
+        ssrScriptMap,
+        ssrTemplateMap,
+      ),
+    )
   }
 
   return []
@@ -289,7 +310,8 @@ async function doCompileScript(
   ssr: boolean,
   isTS: boolean,
   isJSX: boolean,
-): Promise<[code: string, bindings: BindingMetadata | undefined]> {
+  isCustomElement: boolean,
+): Promise<{ code: string, bindings: BindingMetadata | undefined, map?: any }> {
   if (descriptor.script || descriptor.scriptSetup) {
     const expressionPlugins: CompilerOptions['expressionPlugins'] = []
     if (isTS) {
@@ -298,7 +320,6 @@ async function doCompileScript(
     if (isJSX) {
       expressionPlugins.push('jsx')
     }
-
     const compiledScript = store.compiler.compileScript(descriptor, {
       inlineTemplate: true,
       ...store.sfcOptions?.script,
@@ -313,28 +334,31 @@ async function doCompileScript(
           expressionPlugins,
         },
       },
+      customElement: isCustomElement,
     })
-
     let code = compiledScript.content
     if (isTS) {
       code = await transformTS(code, isJSX)
     }
     if (compiledScript.bindings) {
       code
-        // eslint-disable-next-line prefer-template
         = `/* Analyzed bindings: ${JSON.stringify(
           compiledScript.bindings,
           null,
           2,
-        )} */\n` + code
+        )} */\n${code}`
     }
 
-    return [code, compiledScript.bindings]
+    return { code, bindings: compiledScript.bindings, map: compiledScript.map }
   }
   else {
     // @ts-expect-error TODO remove when 3.6 is out
     const vaporFlag = descriptor.vapor ? '__vapor: true' : ''
-    return [`\nconst ${COMP_IDENTIFIER} = { ${vaporFlag} }`, undefined]
+    return {
+      code: `\nconst ${COMP_IDENTIFIER} = { ${vaporFlag} }`,
+      bindings: {},
+      map: undefined,
+    }
   }
 }
 
@@ -355,7 +379,7 @@ async function doCompileTemplate(
     expressionPlugins.push('jsx')
   }
 
-  let { code, errors } = store.compiler.compileTemplate({
+  const res = store.compiler.compileTemplate({
     isProd: false,
     ...store.sfcOptions?.template,
     // @ts-expect-error TODO remove expect-error after 3.6
@@ -374,8 +398,9 @@ async function doCompileTemplate(
       expressionPlugins,
     },
   })
+  let { code, errors, map } = res
   if (errors.length) {
-    return errors
+    return { code, map, errors }
   }
 
   const fnName = ssr ? `ssrRender` : `render`
@@ -389,5 +414,5 @@ async function doCompileTemplate(
   if (isTS) {
     code = await transformTS(code, isJSX)
   }
-  return code
+  return { code, map, errors: [] }
 }

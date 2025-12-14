@@ -1,4 +1,6 @@
-// https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/store.ts
+/* eslint-disable no-console */
+/* eslint-disable ts/no-use-before-define */
+// https://github.com/vuejs/repl/blob/69c2ed1dca84132708c3b9a1d0a008e11be2be74/src/store.ts
 
 import type { editor } from 'monaco-editor-core'
 import type { ToRefs, UnwrapRef } from 'vue'
@@ -17,6 +19,7 @@ import {
   reactive,
   ref,
   shallowRef,
+
   watch,
   watchEffect,
 } from 'vue'
@@ -68,14 +71,12 @@ export function useStore(
   const loading = ref(false)
 
   function applyBuiltinImportMap() {
-    // eslint-disable-next-line ts/no-use-before-define
     const importMap = mergeImportMap(builtinImportMap.value, getImportMap())
     setImportMap(importMap)
   }
 
   function init() {
     watchEffect(() => {
-      // eslint-disable-next-line ts/no-use-before-define
       compileFile(store, activeFile.value).then(errs => (errors.value = errs))
     })
 
@@ -94,11 +95,44 @@ export function useStore(
     watch(
       builtinImportMap,
       () => {
-        // eslint-disable-next-line ts/no-use-before-define
         setImportMap(mergeImportMap(getImportMap(), builtinImportMap.value))
       },
       { deep: true },
     )
+
+    watch(
+      vueVersion,
+      async (version) => {
+        if (version) {
+          const compilerUrl = `https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@${version}/dist/compiler-sfc.esm-browser.js`
+          loading.value = true
+          compiler.value = await import(/* @vite-ignore */ compilerUrl).finally(
+            () => (loading.value = false),
+          )
+          console.info(`[@vue/repl] Now using Vue version: ${version}`)
+        }
+        else {
+          // reset to default
+          compiler.value = defaultCompiler
+          console.info(`[@vue/repl] Now using default Vue version`)
+        }
+      },
+      { immediate: true },
+    )
+
+    // Recompile all Vue SFC files when the compiler changes.
+    // This ensures that when switching Vue versions (e.g., from <3.6 to >=3.6),
+    // all vue sfc files are recompiled with the new compiler to correctly handle
+    // vapor components.
+    watch(compiler, (_, oldCompiler) => {
+      if (!oldCompiler)
+        return
+      for (const file of Object.values(files.value)) {
+        if (file.filename.endsWith('.vue')) {
+          compileFile(store, file).then(errs => errors.value.push(...errs))
+        }
+      }
+    })
 
     watch(
       sfcOptions,
@@ -108,13 +142,11 @@ export function useStore(
           fileExists(file: string) {
             if (file.startsWith('/'))
               file = file.slice(1)
-            // eslint-disable-next-line ts/no-use-before-define
             return !!store.files[file]
           },
           readFile(file: string) {
             if (file.startsWith('/'))
               file = file.slice(1)
-            // eslint-disable-next-line ts/no-use-before-define
             return store.files[file].code
           },
         }
@@ -126,7 +158,6 @@ export function useStore(
     if (!files.value[tsconfigFile]) {
       files.value[tsconfigFile] = new File(
         tsconfigFile,
-        // eslint-disable-next-line ts/no-use-before-define
         JSON.stringify(tsconfig, undefined, 2),
       )
     }
@@ -135,7 +166,6 @@ export function useStore(
     errors.value = []
     for (const [filename, file] of Object.entries(files.value)) {
       if (filename !== mainFile.value) {
-        // eslint-disable-next-line ts/no-use-before-define
         compileFile(store, file).then(errs => errors.value.push(...errs))
       }
     }
@@ -143,7 +173,6 @@ export function useStore(
 
   function setImportMap(map: ImportMap, merge = false) {
     if (merge) {
-      // eslint-disable-next-line ts/no-use-before-define
       map = mergeImportMap(getImportMap(), map)
     }
 
@@ -230,10 +259,10 @@ export function useStore(
       activeFilename.value = newFilename
     }
     else {
-      // eslint-disable-next-line ts/no-use-before-define
       compileFile(store, file).then(errs => (errors.value = errs))
     }
   }
+
   const getImportMap: Store['getImportMap'] = () => {
     try {
       return JSON.parse(files.value[importMapFile].code)
@@ -253,8 +282,8 @@ export function useStore(
       return {}
     }
   }
+
   const serialize: ReplStore['serialize'] = () => {
-    // eslint-disable-next-line ts/no-use-before-define
     const files = getFiles()
     const importMap = files[importMapFile]
     if (importMap) {
@@ -300,8 +329,8 @@ export function useStore(
     }
     catch (err) {
       console.error(err)
-      console.error('Failed to load code from URL.')
-      // eslint-disable-next-line ts/no-use-before-define
+      // eslint-disable-next-line no-alert
+      alert('Failed to load code from URL.')
       return setDefaultFile()
     }
     for (const filename in saved) {
@@ -329,7 +358,7 @@ export function useStore(
   }
   const setFiles: ReplStore['setFiles'] = async (
     newFiles,
-    mainFile = '',
+    mainFile = store.mainFile,
   ) => {
     const files: Record<string, File> = Object.create(null)
 
@@ -343,18 +372,13 @@ export function useStore(
 
     const errors = []
     for (const file of Object.values(files)) {
-      // eslint-disable-next-line ts/no-use-before-define
       errors.push(...(await compileFile(store, file)))
     }
 
-    // eslint-disable-next-line ts/no-use-before-define
     store.mainFile = mainFile
-    // eslint-disable-next-line ts/no-use-before-define
     store.files = files
-    // eslint-disable-next-line ts/no-use-before-define
     store.errors = errors
     applyBuiltinImportMap()
-    // eslint-disable-next-line ts/no-use-before-define
     setActive(store.mainFile)
   }
   const setDefaultFile = (): void => {
@@ -391,6 +415,7 @@ export function useStore(
     showOutput,
     outputMode,
     sfcOptions,
+    ssrOutput: { html: '', context: '' },
     compiler,
     loading,
     vueVersion,
@@ -413,7 +438,6 @@ export function useStore(
     getFiles,
     setFiles,
   })
-
   return store
 }
 
@@ -453,6 +477,10 @@ export type StoreState = ToRefs<{
   showOutput: boolean
   outputMode: OutputModes
   sfcOptions: SFCOptions
+  ssrOutput: {
+    html: string
+    context: unknown
+  }
   /** `@vue/compiler-sfc` */
   compiler: typeof defaultCompiler
   /* only apply for compiler-sfc */
@@ -498,6 +526,7 @@ export type Store = Pick<
   | 'showOutput'
   | 'outputMode'
   | 'sfcOptions'
+  | 'ssrOutput'
   | 'compiler'
   | 'vueVersion'
   | 'locale'

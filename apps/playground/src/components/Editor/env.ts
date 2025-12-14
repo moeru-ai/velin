@@ -15,7 +15,7 @@ import * as volar from '@volar/monaco'
 import VueWorker from './vue.worker?worker'
 
 import { debounce } from '../../utils/vue-repl'
-import { getOrCreateModel } from './utils'
+import { getOrCreateModel } from './monaco/utils'
 
 import * as languageConfigs from './language-configs'
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ComponentProp } from '@velin-dev/core/render-shared'
 
-import vueServerRendererUrl from '@vue/server-renderer/dist/server-renderer.esm-browser.js?url'
 import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
 import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
 
@@ -42,7 +41,6 @@ const replTheme = computed(() => {
 const { importMap, vueVersion } = useVueImportMap({
   runtimeDev: vueRuntimeUrl,
   runtimeProd: vueRuntimeProdUrl,
-  serverRenderer: vueServerRendererUrl,
 })
 
 const store = useStore({

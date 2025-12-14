@@ -3,6 +3,8 @@ export class File {
     js: '',
     css: '',
     ssr: '',
+    clientMap: '',
+    ssrMap: '',
   }
 
   constructor(
@@ -21,13 +23,9 @@ export class File {
     if (this.filename.endsWith('.css')) {
       return 'css'
     }
-    if (this.filename.endsWith('.ts') || this.filename.endsWith('.mts')) {
+    if (this.filename.endsWith('.ts')) {
       return 'typescript'
     }
-    if (this.filename.endsWith('.js') || this.filename.endsWith('.mjs')) {
-      return 'javascript'
-    }
-
     return 'javascript'
   }
 }

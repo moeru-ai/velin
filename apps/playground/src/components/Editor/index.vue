@@ -18,7 +18,7 @@ import * as monaco from 'monaco-editor-core'
 import { injectKeyProps } from '../../types/vue-repl'
 import { initMonaco } from './env'
 import { registerHighlighter } from './highlight'
-import { getOrCreateModel } from './utils'
+import { getOrCreateModel } from './monaco/utils'
 
 const props = withDefaults(
   defineProps<{

@@ -1,6 +1,16 @@
-// https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/import-map.ts
+// https://github.com/vuejs/repl/blob/69c2ed1dca84132708c3b9a1d0a008e11be2be74/src/import-map.ts
 
 import { computed, version as currentVersion, ref } from 'vue'
+
+export function getVersions(version: string): number[] {
+  return version.split('.').map(v => Number.parseInt(v, 10))
+}
+
+export function isVaporSupported(version: string): boolean {
+  const [major, minor] = getVersions(version)
+  // vapor mode is supported in v3.6+
+  return major > 3 || (major === 3 && minor >= 6)
+}
 
 export function useVueImportMap(
   defaults: {
@@ -18,15 +28,21 @@ export function useVueImportMap(
 
   const productionMode = ref(false)
   const vueVersion = ref<string | null>(defaults.vueVersion || null)
+
+  function getVueURL() {
+    const version = vueVersion.value || currentVersion
+    return isVaporSupported(version)
+      ? `https://cdn.jsdelivr.net/npm/vue@${version}/dist/vue.runtime-with-vapor.esm-browser${productionMode.value ? `.prod` : ``}.js`
+      : `https://cdn.jsdelivr.net/npm/@vue/runtime-dom@${version}/dist/runtime-dom.esm-browser${productionMode.value ? `.prod` : ``}.js`
+  }
+
   const importMap = computed<ImportMap>(() => {
     const vue
       = (!vueVersion.value
         && normalizeDefaults(
           productionMode.value ? defaults.runtimeProd : defaults.runtimeDev,
         ))
-        || `https://cdn.jsdelivr.net/npm/@vue/runtime-dom@${
-          vueVersion.value || currentVersion
-        }/dist/runtime-dom.esm-browser${productionMode.value ? `.prod` : ``}.js`
+        || getVueURL()
 
     const serverRenderer
       = (!vueVersion.value && normalizeDefaults(defaults.serverRenderer))

@@ -27,6 +27,8 @@ export async function evaluateSFC(
           js: script.content,
           ssr: script.content,
           css: '',
+          clientMap: '',
+          ssrMap: '',
         },
         hidden: false,
         language: 'vue',
