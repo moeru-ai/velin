@@ -1,4 +1,4 @@
-name: publish
+name: Publish
 
 on:
   push:
@@ -15,23 +15,25 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           cache: pnpm
           node-version: latest
           registry-url: https://registry.npmjs.org
+
+      # npm 11.5.1 or later is required so update to latest to use OIDC trusted publisher
+      # https://github.com/eslint/config-inspector/pull/174/files
+      # https://github.com/e18e/ecosystem-issues/issues/201
+      - run: npm install -g npm@latest
       - run: pnpm i
       - run: pnpm dlx changelogithub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: pnpm -r build
       - run: pnpm -r publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
