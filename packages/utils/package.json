@@ -62,7 +62,7 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.5.22",
+    "@vue/compiler-sfc": "^3.5.25",
     "hast-util-from-html": "^2.0.3",
     "hast-util-select": "^6.0.4",
     "hast-util-to-html": "^9.0.5",
@@ -71,12 +71,12 @@
     "rehype-remark": "^10.0.1",
     "rehype-remove-comments": "^6.1.1",
     "remark-stringify": "^11.0.0",
-    "sucrase": "^3.35.0",
+    "sucrase": "^3.35.1",
     "unified": "^11.0.5",
     "unist-util-remove": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/types": "^7.28.4",
+    "@babel/types": "^7.28.5",
     "@types/hast": "^3.0.4"
   }
 }

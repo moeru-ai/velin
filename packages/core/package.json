@@ -64,16 +64,16 @@
   "dependencies": {
     "@unrteljs/eval": "^0.2.1",
     "@velin-dev/utils": "workspace:^",
-    "@vue/compiler-sfc": "^3.5.22",
-    "@vue/reactivity": "^3.5.22",
-    "@vue/runtime-core": "^3.5.22",
-    "@vue/server-renderer": "^3.5.22",
-    "@vue/shared": "^3.5.22",
+    "@vue/compiler-sfc": "^3.5.25",
+    "@vue/reactivity": "^3.5.25",
+    "@vue/runtime-core": "^3.5.25",
+    "@vue/server-renderer": "^3.5.25",
+    "@vue/shared": "^3.5.25",
     "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "path-browserify-esm": "^1.0.6",
-    "std-env": "^3.9.0",
-    "vue": "^3.5.22"
+    "std-env": "^3.10.0",
+    "vue": "^3.5.25"
   },
   "devDependencies": {
     "@types/hast": "^3.0.4"
