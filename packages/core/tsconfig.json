@@ -6,6 +6,9 @@
     ],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "types": [
+      "node"
+    ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -14,8 +17,5 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "vueCompilerOptions": {
-    "globalTypesPath": "./vue-global-types.d.ts"
-  }
+  ]
 }

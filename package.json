@@ -60,6 +60,7 @@
     "bumpp": "^11.0.1",
     "changelogithub": "^14.0.0",
     "eslint": "^10.2.0",
+    "eslint-plugin-format": "^2.0.1",
     "taze": "^19.11.0",
     "tsdown": "^0.21.8",
     "tsx": "^4.21.0",

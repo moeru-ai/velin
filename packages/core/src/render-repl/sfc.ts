@@ -48,6 +48,10 @@ export async function evaluateSFC(
 
 export async function resolvePropsFromString(content: string) {
   const component = await evaluateSFC(content)
+  if (!component) {
+    return []
+  }
+
   const renderedComponent = onlyRender(component, {})
   return resolveProps(renderedComponent as any)
 }
@@ -61,11 +65,18 @@ export async function renderSFC<RawProps = any>(
   rendered: string
 }> {
   const evaluatedComponent = await evaluateSFC(source, basePath)
+  if (!evaluatedComponent) {
+    return {
+      props: [],
+      rendered: '',
+    }
+  }
+
   const props = resolveProps(evaluatedComponent)
 
   return {
     props,
-    rendered: await renderToString(onlyRender(evaluatedComponent, data)),
+    rendered: await renderToString(onlyRender(evaluatedComponent, data || {})),
   }
 }
 

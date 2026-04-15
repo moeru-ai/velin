@@ -63,32 +63,32 @@ describe('evaluateSFC', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.velin.vue'), 'utf-8')
     const component = await evaluateSFC(content)
     expect(component).toBeDefined()
-    expect(component.setup).toBeDefined()
-    expect(typeof component.setup).toBe('function')
+    expect(component!.setup).toBeDefined()
+    expect(typeof component!.setup).toBe('function')
   })
 
   it('should be able to evaluate script setup SFC with lang="ts"', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.ts.velin.vue'), 'utf-8')
     const component = await evaluateSFC(content)
     expect(component).toBeDefined()
-    expect(component.setup).toBeDefined()
-    expect(typeof component.setup).toBe('function')
+    expect(component!.setup).toBeDefined()
+    expect(typeof component!.setup).toBe('function')
   })
 
   it('should be able to evaluate script setup SFC with props', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.velin.vue'), 'utf-8')
     const component = await evaluateSFC(content)
     expect(component).toBeDefined()
-    expect(component.setup).toBeDefined()
-    expect(typeof component.setup).toBe('function')
+    expect(component!.setup).toBeDefined()
+    expect(typeof component!.setup).toBe('function')
   })
 
   it('should be able to evaluate script setup SFC with props with lang="ts"', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.ts.velin.vue'), 'utf-8')
     const component = await evaluateSFC(content)
     expect(component).toBeDefined()
-    expect(component.setup).toBeDefined()
-    expect(typeof component.setup).toBe('function')
+    expect(component!.setup).toBeDefined()
+    expect(typeof component!.setup).toBe('function')
   })
 })
 

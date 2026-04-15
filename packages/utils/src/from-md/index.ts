@@ -24,7 +24,7 @@ export function scriptFrom(html: string): { script: string, template: string, la
   const hastTree = fromHtml(html, { fragment: true })
   const scriptNode = asHTMLElement(select('script[setup]', hastTree))
   const lang = String(scriptNode?.properties?.lang || 'js')
-  const script = scriptNode ? asHTMLText(scriptNode.children[0]).value : ''
+  const script = scriptNode ? asHTMLText(scriptNode.children[0])?.value || '' : ''
   if (scriptNode) {
     remove(hastTree, scriptNode)
   }

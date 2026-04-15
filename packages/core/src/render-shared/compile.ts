@@ -37,7 +37,6 @@ export async function compileSFC(source: string): Promise<CompiledResult> {
   }
 
   const scriptResult = compileScript(descriptor, {
-    id: `vue-component-${Date.now()}`,
     inlineTemplate: isUseInlineTemplate(descriptor),
     ...{
       ...templateOptions,

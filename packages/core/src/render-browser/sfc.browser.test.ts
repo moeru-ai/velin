@@ -31,8 +31,8 @@ describe.todo('evaluateSFC', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.velin.vue'), 'utf-8')
     const component = await evaluateSFC(content)
     expect(component).toBeDefined()
-    expect(component.setup).toBeDefined()
-    expect(typeof component.setup).toBe('function')
+    expect(component!.setup).toBeDefined()
+    expect(typeof component!.setup).toBe('function')
   })
 })
 
