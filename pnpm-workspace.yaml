@@ -19,3 +19,4 @@ overrides:
 onlyBuiltDependencies:
   - esbuild
   - unrs-resolver
+  - vue-demi

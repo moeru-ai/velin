@@ -1,4 +1,4 @@
-![](./docs/public/logo.svg)
+![Logo of Velin](./docs/public/logo.svg)
 
 # Velin
 
@@ -24,11 +24,11 @@ We got a playground too, check it out:
       srcset="./docs/assets/light-playground.png"
       media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
     />
-    <img src="./docs/assets/light-playground.png" />
+    <img src="./docs/assets/light-playground.png" alt="Light Theme Playground" />
   </picture>
 </p>
 
-### Quick Start
+## Quick Start
 
 Try it by running following command under your `pnpm`/`npm` project.
 
