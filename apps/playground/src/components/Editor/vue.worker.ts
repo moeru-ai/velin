@@ -40,6 +40,8 @@ import { create as createTypeScriptDirectiveCommentPlugin } from 'volar-service-
 import { create as createTypeScriptSemanticPlugin } from 'volar-service-typescript/lib/plugins/semantic'
 import { URI } from 'vscode-uri'
 
+// TODO:
+// @ts-expect-error - no type
 import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker'
 
 export interface CreateData {
@@ -316,11 +318,11 @@ self.onmessage = async (msg: MessageEvent<WorkerMessage>) => {
 }
 
 async function importTsFromCdn(tsVersion: string) {
-  const _module = globalThis.module
+  const _module = (globalThis as any).module
   ;(globalThis as any).module = { exports: {} }
   const tsUrl = `https://cdn.jsdelivr.net/npm/typescript@${tsVersion}/lib/typescript.js`
   await import(/* @vite-ignore */ tsUrl)
-  const ts = globalThis.module.exports
-  globalThis.module = _module
+  const ts = (globalThis as any).module.exports
+  ;(globalThis as any).module = _module
   return ts as typeof import('typescript')
 }

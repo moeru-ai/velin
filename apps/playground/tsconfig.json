@@ -10,7 +10,8 @@
     "moduleResolution": "bundler",
     "types": [
       "vite/client",
-      "unplugin-vue-router/client"
+      "splitpanes",
+      "hash-sum"
     ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

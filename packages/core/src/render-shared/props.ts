@@ -1,33 +1,41 @@
 import type { App, ComponentInternalInstance, DefineComponent } from 'vue'
 
+import type { InputProps } from '../types'
+
 export interface ComponentPropText {
   type: 'string'
   value?: string
+  required?: boolean
 }
 
 export interface ComponentPropBool {
   type: 'boolean'
   value?: boolean
+  required?: boolean
 }
 
 export interface ComponentPropNumber {
   type: 'number'
   value?: number
+  required?: boolean
 }
 
 export interface ComponentPropUnknown {
   type: 'unknown'
   value?: unknown
+  required?: boolean
 }
 
 export interface ComponentPropArray {
   type: 'array'
   value?: unknown[]
+  required?: boolean
 }
 
 export type ComponentProp = (ComponentPropText | ComponentPropBool | ComponentPropNumber | ComponentPropArray | ComponentPropUnknown) & {
   title: string
   key: string
+  required?: boolean
 }
 
 function willTurnIntoNumber(value: unknown): boolean {
@@ -135,6 +143,7 @@ export function resolveProps(component: DefineComponent | App<any>): ComponentPr
         key,
         title: key,
         type: inferType(propDef),
+        required: propDef != null && typeof propDef === 'object' && 'required' in propDef ? (propDef as { required?: boolean }).required : false,
       }
     })
   }
@@ -144,10 +153,38 @@ export function resolveProps(component: DefineComponent | App<any>): ComponentPr
         key,
         title: key,
         type: inferType(propDef),
+        required: propDef != null && typeof propDef === 'object' && 'required' in propDef ? (propDef as { required?: boolean }).required : false,
       }
     })
   }
   else {
     return []
   }
+}
+
+export function normalizeProps<RawProps = any>(resolvedProps: ComponentProp[], data?: InputProps<RawProps> | null): InputProps<RawProps> {
+  const normalizedData: InputProps<RawProps> = data || {} as InputProps<RawProps>
+
+  resolvedProps.forEach((prop) => {
+    if (prop.required) {
+      const keyData = prop.key as keyof typeof normalizedData
+
+      if (!normalizedData || normalizedData[keyData] == null) {
+        if (prop.type === 'string') {
+          ;(normalizedData[keyData] as any) = ''
+        }
+        else if (prop.type === 'boolean') {
+          ;(normalizedData[keyData] as any) = false
+        }
+        else if (prop.type === 'number') {
+          ;(normalizedData[keyData] as any) = 0
+        }
+        else if (prop.type === 'array') {
+          ;(normalizedData[keyData] as any) = []
+        }
+      }
+    }
+  })
+
+  return normalizedData
 }

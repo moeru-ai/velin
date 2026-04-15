@@ -4,6 +4,7 @@ import type { ComponentProp } from '@velin-dev/core/render-shared'
 import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
 import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
 
+import { normalizeProps } from '@velin-dev/core'
 import { fromMarkdown } from '@velin-dev/utils/from-md'
 import { usePrompt } from '@velin-dev/vue/repl'
 import { useDark } from '@vueuse/core'
@@ -63,9 +64,9 @@ const store = useStore({
 
 store.init()
 
+// @ts-expect-error - no type
 provide(injectKeyProps, {
   ...toRefs(props),
-  // @ts-expect-error - TODO: fix this
   store: ref(store),
   theme: replTheme,
   editorOptions: ref({}),
@@ -91,6 +92,9 @@ function initializePrompt() {
           }
         })
 
+        // sometimes prop.value still have undefined values, here
+        // we will normalize them to ensure they have the type-safe default values
+        normalizeProps(resolvedProps.value, formValues)
         isPropsInitialized.value = true
       }
 
@@ -158,24 +162,21 @@ function handleEditorChange(updated: string) {
                     </div>
                     <template v-if="component.type === 'string' || component.type === 'unknown'">
                       <Input
+                        v-model="formValues[component.title]"
                         type="text"
-                        :model-value="formValues[component.title]"
-                        @update:model-value="(val) => { formValues[component.title] = val }"
                       />
                     </template>
                     <template v-if="component.type === 'boolean'">
                       <div flex justify-end>
                         <Switch
-                          :model-value="formValues[component.title]"
-                          @update:model-value="(val) => { formValues[component.title] = val }"
+                          v-model="formValues[component.title]"
                         />
                       </div>
                     </template>
                     <template v-if="component.type === 'number'">
                       <Input
+                        v-model.number="formValues[component.title]"
                         type="number"
-                        :model-value="String(formValues[component.title])"
-                        @update:model-value="(val) => { formValues[component.title] = Number(val) }"
                       />
                     </template>
                   </div>

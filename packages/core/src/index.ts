@@ -41,6 +41,7 @@ export async function renderSFCString<RawProps = any>(
 }
 
 export {
+  normalizeProps,
   onlyRender,
   onlySetup,
   renderComponent,
