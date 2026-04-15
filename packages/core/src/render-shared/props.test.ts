@@ -14,7 +14,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'name', title: 'name', type: 'string' },
+        { key: 'name', title: 'name', type: 'string', required: false },
       ])
     })
 
@@ -28,7 +28,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'name', title: 'name', type: 'string' },
+        { key: 'name', title: 'name', type: 'string', required: false },
       ])
     })
   })
@@ -44,7 +44,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'age', title: 'age', type: 'number' },
+        { key: 'age', title: 'age', type: 'number', required: false },
       ])
     })
 
@@ -58,7 +58,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'age', title: 'age', type: 'number' },
+        { key: 'age', title: 'age', type: 'number', required: false },
       ])
     })
   })
@@ -74,7 +74,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'active', title: 'active', type: 'boolean' },
+        { key: 'active', title: 'active', type: 'boolean', required: false },
       ])
     })
 
@@ -88,7 +88,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'active', title: 'active', type: 'boolean' },
+        { key: 'active', title: 'active', type: 'boolean', required: false },
       ])
     })
   })
@@ -104,7 +104,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'items', title: 'items', type: 'array' },
+        { key: 'items', title: 'items', type: 'array', required: false },
       ])
     })
 
@@ -118,7 +118,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'items', title: 'items', type: 'array' },
+        { key: 'items', title: 'items', type: 'array', required: false },
       ])
     })
 
@@ -132,7 +132,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'items', title: 'items', type: 'array' },
+        { key: 'items', title: 'items', type: 'array', required: false },
       ])
     })
   })
@@ -151,10 +151,10 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'name', title: 'name', type: 'string' },
-        { key: 'age', title: 'age', type: 'number' },
-        { key: 'active', title: 'active', type: 'boolean' },
-        { key: 'tags', title: 'tags', type: 'array' },
+        { key: 'name', title: 'name', type: 'string', required: false },
+        { key: 'age', title: 'age', type: 'number', required: false },
+        { key: 'active', title: 'active', type: 'boolean', required: false },
+        { key: 'tags', title: 'tags', type: 'array', required: false },
       ])
     })
 
@@ -167,8 +167,8 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'name', title: 'name', type: 'string' },
-        { key: 'items', title: 'items', type: 'array' },
+        { key: 'name', title: 'name', type: 'string', required: false },
+        { key: 'items', title: 'items', type: 'array', required: false },
       ])
     })
   })
@@ -184,7 +184,7 @@ describe('resolveProps', () => {
       }
       const props = resolveProps(component as any)
       expect(props).toEqual([
-        { key: 'custom', title: 'custom', type: 'unknown' },
+        { key: 'custom', title: 'custom', type: 'unknown', required: false },
       ])
     })
   })

@@ -97,7 +97,7 @@ describe('resolvePropsFromString', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.velin.vue'), 'utf-8')
     const props = await resolvePropsFromString(content)
     expect(props).toEqual([
-      { key: 'date', type: 'string', title: 'date' },
+      { key: 'date', type: 'string', title: 'date', required: false },
     ])
   })
 
@@ -105,7 +105,7 @@ describe('resolvePropsFromString', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.ts.velin.vue'), 'utf-8')
     const props = await resolvePropsFromString(content)
     expect(props).toEqual([
-      { key: 'date', type: 'string', title: 'date' },
+      { key: 'date', type: 'string', title: 'date', required: true },
     ])
   })
 })
