@@ -56,6 +56,14 @@ describe('renderSFCString', async () => {
     expect(rendered).not.toBe('')
     expect(rendered).toBe('# Count: 0\n\n2025-07-01\n')
   })
+
+  it('should strip Vue SSR comments like <!--[--> <!--]--> <!--v-if-->', async () => {
+    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'vue-comments.velin.vue'), 'utf-8')
+    const { rendered } = await renderSFCString(content)
+    expect(rendered).not.toContain('<!--')
+    expect(rendered).toContain('Title')
+    expect(rendered).toContain('visible')
+  })
 })
 
 describe('evaluateSFC', async () => {
