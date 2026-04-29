@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.4.1",
   "private": true,
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.33.2",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
     "name": "RainbowBird",
@@ -50,7 +50,7 @@
     "@arethetypeswrong/cli": "^0.18.2",
     "@arethetypeswrong/core": "^0.18.2",
     "@catppuccin/palette": "^1.8.0",
-    "@iconify/utils": "^3.1.0",
+    "@iconify/utils": "^3.1.1",
     "@pnpm/find-workspace-dir": "^1000.1.5",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^25.6.0",
@@ -59,17 +59,17 @@
     "@unocss/preset-mini": "^66.6.8",
     "bumpp": "^11.0.1",
     "changelogithub": "^14.0.0",
-    "eslint": "^10.2.0",
+    "eslint": "^10.2.1",
     "eslint-plugin-format": "^2.0.1",
     "taze": "^19.11.0",
-    "tsdown": "^0.21.8",
+    "tsdown": "^0.21.10",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2",
-    "unocss": "66.1.1",
+    "typescript": "^6.0.3",
+    "unocss": "66.6.8",
     "unocss-preset-scrollbar": "^4.0.0",
     "unplugin-unused": "^0.5.7",
-    "vite": "^8.0.8",
+    "vite": "^8.0.10",
     "vite-plugin-inspect": "^11.3.3",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.5"
   }
 }
