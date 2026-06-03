@@ -15,15 +15,15 @@ export default defineConfig({
         test: {
           name: 'node',
           environment: 'node',
-          include: ['**/*.{spec,test}.ts'],
-          exclude: ['**/*.browser.{spec,test}.ts', '**/node_modules/**'],
+          include: ['**/*.{spec,test}.{ts,tsx}'],
+          exclude: ['**/*.browser.{spec,test}.{ts,tsx}', '**/node_modules/**'],
         },
       },
       {
         extends: true,
         test: {
           name: 'browser',
-          include: ['**/*.browser.{spec,test}.ts'],
+          include: ['**/*.browser.{spec,test}.{ts,tsx}'],
           exclude: ['**/node_modules/**'],
           browser: {
             enabled: true,

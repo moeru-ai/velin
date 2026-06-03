@@ -1,47 +1,45 @@
-import { readFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-
 import { describe, expect, it } from 'vitest'
+
+import scriptSetupWithPropsSfc from './testdata/script-setup-with-props.velin.vue?raw'
+import scriptSetupSfc from './testdata/script-setup.velin.vue?raw'
+import simpleSfc from './testdata/simple.velin.vue?raw'
 
 import { evaluateSFC, renderSFCString, resolvePropsFromString } from './sfc'
 
-// TODO: Browser testing
-describe.todo('renderSFCString', async () => {
+describe('renderSFCString', async () => {
   it('should be able to render simple SFC', async () => {
-    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'simple.velin.vue'), 'utf-8')
-    const result = await renderSFCString(content)
-    expect(result).toBeDefined()
-    expect(result).not.toBe('')
-    expect(result).toBe('# Hello, world!\n')
+    const { props, rendered } = await renderSFCString(simpleSfc)
+    expect(props).toBeDefined()
+    expect(props.length).toBe(0)
+    expect(rendered).toBeDefined()
+    expect(rendered).not.toBe('')
+    expect(rendered).toBe('# Hello, world!\n')
   })
 
   it('should be able to render script setup SFC', async () => {
-    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.velin.vue'), 'utf-8')
-    const result = await renderSFCString(content)
-    expect(result).toBeDefined()
-    expect(result).not.toBe('')
-    expect(result).toBe('# Count: 0\n')
+    const { props, rendered } = await renderSFCString(scriptSetupSfc)
+    expect(props).toBeDefined()
+    expect(props.length).toBe(0)
+    expect(rendered).toBeDefined()
+    expect(rendered).not.toBe('')
+    expect(rendered).toBe('# Count: 0\n')
   })
 })
 
-// TODO: Browser testing
-describe.todo('evaluateSFC', async () => {
+describe('evaluateSFC', async () => {
   it('should be able to evaluate script setup SFC', async () => {
-    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup.velin.vue'), 'utf-8')
-    const component = await evaluateSFC(content)
+    const component = await evaluateSFC(scriptSetupSfc)
     expect(component).toBeDefined()
     expect(component!.setup).toBeDefined()
     expect(typeof component!.setup).toBe('function')
   })
 })
 
-describe.todo('resolvePropsFromString', async () => {
+describe('resolvePropsFromString', async () => {
   it('should be able to render script setup SFC', async () => {
-    const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'script-setup-with-props.velin.vue'), 'utf-8')
-    const props = await resolvePropsFromString(content)
+    const props = await resolvePropsFromString(scriptSetupWithPropsSfc)
     expect(props).toEqual([
-      { key: 'date', type: 'string', title: 'date' },
+      { key: 'date', type: 'string', title: 'date', required: false },
     ])
   })
 })

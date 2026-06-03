@@ -1,0 +1,59 @@
+{
+  "name": "@velin-dev/react",
+  "type": "module",
+  "version": "0.4.1",
+  "description": "React adapter for Velin prompts.",
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling8192"
+  },
+  "contributors": [
+    {
+      "name": "Neko Ayaka",
+      "email": "neko@ayaka.moe",
+      "url": "https://github.com/nekomeowww"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/moeru-ai/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moeru-ai/velin.git",
+    "directory": "packages/react"
+  },
+  "bugs": "https://github.com/moeru-ai/velin/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
+  },
+  "peerDependencies": {
+    "react": "^19.2.1"
+  },
+  "dependencies": {
+    "@velin-dev/core-react": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-test-renderer": "^19.1.0",
+    "react": "^19.2.1",
+    "react-test-renderer": "^19.2.1"
+  }
+}

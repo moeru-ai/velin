@@ -1,0 +1,61 @@
+{
+  "name": "@velin-dev/source-react",
+  "type": "module",
+  "version": "0.4.1",
+  "description": "Convert React TSX and JSX source into prompt components.",
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling8192"
+  },
+  "contributors": [
+    {
+      "name": "Neko Ayaka",
+      "email": "neko@ayaka.moe",
+      "url": "https://github.com/nekomeowww"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/moeru-ai/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moeru-ai/velin.git",
+    "directory": "packages/source-react"
+  },
+  "bugs": "https://github.com/moeru-ai/velin/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
+  },
+  "peerDependencies": {
+    "react": "^19.2.1"
+  },
+  "dependencies": {
+    "@moeru/std": "0.1.0-beta.18",
+    "@unrteljs/eval": "^0.2.1",
+    "esbuild": "^0.27.1",
+    "mlly": "^1.8.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@velin-dev/core-react": "workspace:^",
+    "react": "^19.2.1"
+  }
+}

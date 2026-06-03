@@ -1,0 +1,72 @@
+{
+  "name": "@velin-dev/core-react",
+  "type": "module",
+  "version": "0.4.1",
+  "description": "Develop prompts with Vue SFC or Markdown like pro.",
+  "author": {
+    "name": "RainbowBird",
+    "email": "rbxin2003@outlook.com",
+    "url": "https://github.com/luoling8192"
+  },
+  "contributors": [
+    {
+      "name": "Neko Ayaka",
+      "email": "neko@ayaka.moe",
+      "url": "https://github.com/nekomeowww"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/moeru-ai/velin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moeru-ai/velin.git",
+    "directory": "packages/core-react"
+  },
+  "bugs": "https://github.com/moeru-ai/velin/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./render-browser": {
+      "types": "./dist/render-browser/index.d.mts",
+      "import": "./dist/render-browser/index.mjs"
+    },
+    "./render-node": {
+      "types": "./dist/render-node/index.d.mts",
+      "import": "./dist/render-node/index.mjs"
+    },
+    "./render-shared": {
+      "types": "./dist/render-shared/index.d.mts",
+      "import": "./dist/render-shared/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "tsdown",
+    "stub": "tsdown",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
+  },
+  "peerDependencies": {
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "dependencies": {
+    "@velin-dev/utils": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  }
+}
