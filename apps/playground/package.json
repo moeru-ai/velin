@@ -54,7 +54,7 @@
     "@volar/jsdelivr": "2.4.23",
     "@volar/monaco": "2.4.23",
     "@volar/typescript": "2.4.23",
-    "@vue/babel-plugin-jsx": "^2.0.1",
+    "@vue/babel-plugin-jsx": "^3.0.0",
     "@vue/language-core": "3.0.7-alpha.1",
     "@vue/language-service": "3.0.7-alpha.1",
     "@vue/typescript-plugin": "3.0.7-alpha.1",
