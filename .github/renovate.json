@@ -16,5 +16,11 @@
   ],
   "rangeStrategy": "bump",
   "labels": ["dependencies"],
-  "automergeStrategy": "squash"
+  "automergeStrategy": "squash",
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "3 days"
+    }
+  ]
 }
