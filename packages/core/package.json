@@ -61,6 +61,9 @@
     "typecheck": "tsc --noEmit",
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
+  "peerDependencies": {
+    "vue": ">= 3"
+  },
   "dependencies": {
     "@moeru/std": "0.1.0-beta.18",
     "@unrteljs/eval": "^0.2.1",
@@ -73,8 +76,7 @@
     "error-stack-parser": "^2.1.4",
     "hast-util-from-html": "^2.0.3",
     "path-browserify-esm": "^1.0.6",
-    "std-env": "^4.1.0",
-    "vue": "^3.5.32"
+    "std-env": "^4.1.0"
   },
   "devDependencies": {
     "@types/hast": "^3.0.4"

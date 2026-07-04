@@ -336,7 +336,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       vue:
-        specifier: ^3.5.32
+        specifier: '>= 3'
         version: 3.5.32(typescript@6.0.2)
     devDependencies:
       '@types/hast':
@@ -461,7 +461,7 @@ importers:
         specifier: workspace:^
         version: link:../utils
       vue:
-        specifier: ^3.5.32
+        specifier: '>= 3'
         version: 3.5.32(typescript@6.0.2)
 
 packages:
