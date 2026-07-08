@@ -1,0 +1,186 @@
+name: Cloudflare Workers (Preview) Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - Cloudflare Workers (Preview) Prepare
+    types:
+      - completed
+
+jobs:
+  ask-for-approval:
+    name: Ask for approval to deploy - playground
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Download artifact - metadata
+        uses: dawidd6/action-download-artifact@v19
+        with:
+          workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
+          name: preview-meta
+          path: preview-meta
+          allow_forks: true
+
+      - name: Parse metadata
+        id: meta
+        run: |
+          source preview-meta/preview_meta
+          echo "PR_NUM=$PR_NUM" >> "$GITHUB_OUTPUT"
+          echo "REPO_FULL_NAME=$REPO_FULL_NAME" >> "$GITHUB_OUTPUT"
+          echo "HEAD_REF=$HEAD_REF" >> "$GITHUB_OUTPUT"
+          echo "HEAD_SHA=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "BRANCH_NAME=$HEAD_REF" >> "$GITHUB_ENV"
+
+      - name: Find Comment
+        if: ${{ always() }}
+        uses: peter-evans/find-comment@v4
+        id: fc
+        with:
+          issue-number: ${{ steps.meta.outputs.PR_NUM }}
+          comment-author: github-actions[bot]
+          body-includes: to Cloudflare Workers (Preview) for *playground*
+
+      - name: Comment on require approval
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ steps.meta.outputs.PR_NUM }}
+          edit-mode: replace
+          body: |
+            ## Approval required for deploying to Cloudflare Workers (Preview) for *playground*.
+
+            | Name | Link |
+            |:-----|:-----|
+            | Waiting for approval | For maintainers, approve [here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Deploy - playground
+    runs-on: ubuntu-latest
+    environment: Preview
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Download artifact - metadata
+        uses: dawidd6/action-download-artifact@v19
+        with:
+          workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
+          name: preview-meta
+          path: preview-meta
+          allow_forks: true
+
+      - name: Parse metadata
+        id: meta
+        run: |
+          source preview-meta/preview_meta
+          echo "PR_NUM=$PR_NUM" >> "$GITHUB_OUTPUT"
+          echo "REPO_FULL_NAME=$REPO_FULL_NAME" >> "$GITHUB_OUTPUT"
+          echo "HEAD_REF=$HEAD_REF" >> "$GITHUB_OUTPUT"
+          echo "HEAD_SHA=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "BRANCH_NAME=$HEAD_REF" >> "$GITHUB_ENV"
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.meta.outputs.REPO_FULL_NAME }}
+          ref: ${{ steps.meta.outputs.HEAD_SHA }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - run: pnpm i -g wrangler@4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build playground
+        id: build
+        run: pnpm run build:play
+        continue-on-error: true
+
+      - name: Find Comment
+        if: ${{ always() }}
+        uses: peter-evans/find-comment@v4
+        id: fc
+        with:
+          issue-number: ${{ steps.meta.outputs.PR_NUM }}
+          comment-author: github-actions[bot]
+          body-includes: to Cloudflare Workers (Preview) for *playground*
+
+      - name: Comment on build failure
+        if: ${{ steps.build.outcome != 'success' }}
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ steps.meta.outputs.PR_NUM }}
+          edit-mode: replace
+          body: |
+            ## Deploy to Cloudflare Workers (Preview) for *playground* failed.
+
+            | Name | Link |
+            |:-----|:-----|
+            | Latest deploy log | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |
+
+      - name: Fail if build failed
+        if: ${{ steps.build.outcome != 'success' }}
+        run: |
+          echo "Build step failed; marking workflow as failed."
+          exit 1
+
+      - name: Wrangler Upload
+        if: ${{ steps.build.outcome == 'success' }}
+        id: wrangler-versions-upload
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload -c ./apps/playground/wrangler.toml --preview-alias pr-${{ steps.meta.outputs.PR_NUM }} --message "GitHub Actions uploaded preview for Pull Request ${{ steps.meta.outputs.PR_NUM }}" --tag v0.0.1-pr.${{ steps.meta.outputs.PR_NUM }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare preview URLs
+        if: ${{ steps.build.outcome == 'success' }}
+        id: preview-urls
+        run: |
+          deployment_url="${{ steps.wrangler-versions-upload.outputs.deployment-url }}"
+          if [ -z "$deployment_url" ]; then
+            echo "Deployment URL from wrangler upload is empty." >&2
+            exit 1
+          fi
+
+          host_without_scheme="${deployment_url#https://}"
+          host_without_scheme="${host_without_scheme#http://}"
+          preview_alias_url="https://pr-${{ steps.meta.outputs.PR_NUM }}-${host_without_scheme#*-}"
+
+          echo "deploy_preview_url=$deployment_url" >> "$GITHUB_OUTPUT"
+          echo "pull_request_preview_url=$preview_alias_url" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update comment
+        if: ${{ steps.build.outcome == 'success' }}
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ steps.meta.outputs.PR_NUM }}
+          edit-mode: replace
+          body: |
+            ## Deploy to Cloudflare Workers (Preview) for *playground* ready.
+
+            | Name | Link |
+            |:-----|:-----|
+            | Latest deploy log | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |
+            | Deploy Preview | ${{ steps.preview-urls.outputs.deploy_preview_url }} |
+            | Pull Request Preview | ${{ steps.preview-urls.outputs.pull_request_preview_url }} |
