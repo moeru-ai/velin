@@ -104,12 +104,10 @@ jobs:
           cache: pnpm
 
       - run: pnpm i -g wrangler@4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:packages
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build playground
-        id: build
+      - id: build
         run: pnpm run build:play
         continue-on-error: true
 

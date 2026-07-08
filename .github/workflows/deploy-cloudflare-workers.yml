@@ -33,6 +33,7 @@ jobs:
 
       - run: pnpm i -g wrangler@4
       - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:packages
       - run: pnpm run build:play
 
       - uses: cloudflare/wrangler-action@v3.14.1
