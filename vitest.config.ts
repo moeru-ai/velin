@@ -6,9 +6,9 @@ export default defineConfig({
     projects: [
       {
         extends: true,
-        root: 'packages/core',
+        root: 'packages/core-vue',
         test: {
-          name: 'core-node',
+          name: 'core-vue-node',
           environment: 'node',
           include: ['src/**/*.{spec,test}.ts'],
           exclude: ['**/*.browser.{spec,test}.ts', '**/node_modules/**'],
@@ -16,9 +16,9 @@ export default defineConfig({
       },
       {
         extends: true,
-        root: 'packages/core',
+        root: 'packages/core-vue',
         test: {
-          name: 'core-browser',
+          name: 'core-vue-browser',
           include: ['src/**/*.browser.{spec,test}.ts'],
           exclude: ['**/node_modules/**'],
           browser: {

@@ -2,10 +2,10 @@ import type {
   InputProps,
   RenderComponentInputComponent,
   ResolveRenderComponentInputProps,
-} from '@velin-dev/core'
+} from '@velin-dev/core-vue'
 import type { ComponentPropsOptions, Reactive, Ref } from 'vue'
 
-import { renderComponent } from '@velin-dev/core/browser'
+import { renderComponent } from '@velin-dev/core-vue/browser'
 import { isReactive, isRef, ref, toRef, watch, watchEffect } from 'vue'
 
 export function usePrompt<

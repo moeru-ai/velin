@@ -1,11 +1,11 @@
 import type {
   InputProps,
   ResolveRenderComponentInputProps,
-} from '@velin-dev/core'
-import type { ComponentProp } from '@velin-dev/core/render-shared'
+} from '@velin-dev/core-vue'
+import type { ComponentProp } from '@velin-dev/core-vue/render-shared'
 import type { ComponentPropsOptions, MaybeRefOrGetter, Reactive, Ref } from 'vue'
 
-import { render } from '@velin-dev/core/render-repl'
+import { render } from '@velin-dev/core-vue/render-repl'
 import { isReactive, isRef, ref, toRef, toValue, watch, watchEffect } from 'vue'
 
 export function usePrompt<

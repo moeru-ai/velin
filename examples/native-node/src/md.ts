@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 
-import { renderMarkdownString } from '@velin-dev/core'
+import { renderMarkdownString } from '@velin-dev/core-vue'
 import { ref } from 'vue'
 
 async function main() {

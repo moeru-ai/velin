@@ -10,7 +10,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@velin-dev/core": "workspace:^",
+    "@velin-dev/core-vue": "workspace:^",
     "vue": "^3.5.32"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 {
-  "name": "@velin-dev/core",
+  "name": "@velin-dev/core-vue",
   "type": "module",
   "version": "0.5.0",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
@@ -20,7 +20,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moeru-ai/velin.git",
-    "directory": "packages/core"
+    "directory": "packages/core-vue"
   },
   "bugs": "https://github.com/moeru-ai/velin/issues",
   "exports": {

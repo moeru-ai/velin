@@ -1,4 +1,4 @@
-import type { ComponentProp } from '@velin-dev/core/render-shared'
+import type { ComponentProp } from '@velin-dev/core-vue/render-shared'
 import type { ComputedRef, Ref } from 'vue'
 
 import type { FrameworkDefinition } from '../types'

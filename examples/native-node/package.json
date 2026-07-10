@@ -8,7 +8,7 @@
     "run:md": "tsx src/md.ts"
   },
   "dependencies": {
-    "@velin-dev/core": "workspace:^",
+    "@velin-dev/core-vue": "workspace:^",
     "vue": "^3.5.32"
   },
   "devDependencies": {

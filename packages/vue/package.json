@@ -52,7 +52,7 @@
     "vue": ">= 3"
   },
   "dependencies": {
-    "@velin-dev/core": "workspace:^",
+    "@velin-dev/core-vue": "workspace:^",
     "@velin-dev/utils": "workspace:^"
   }
 }

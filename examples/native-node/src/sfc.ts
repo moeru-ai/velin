@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 
-import { renderSFCString } from '@velin-dev/core'
+import { renderSFCString } from '@velin-dev/core-vue'
 import { ref } from 'vue'
 
 async function main() {

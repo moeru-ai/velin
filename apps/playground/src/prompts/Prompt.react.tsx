@@ -1,4 +1,4 @@
-import type { ComponentProp } from '@velin-dev/core/render-shared'
+import type { ComponentProp } from '@velin-dev/core-vue/render-shared'
 
 export const promptProps: ComponentProp[] = [
   {

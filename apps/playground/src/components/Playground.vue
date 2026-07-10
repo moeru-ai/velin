@@ -142,7 +142,7 @@ function handleEditorChange(updated: string) {
     <Splitpanes>
       <Pane :size="40" :min-size="25">
         <div h-full flex flex-col gap-2>
-          <div flex items-center gap-2 px-2>
+          <div flex items-center gap-2>
             <SelectTab
               v-model="runtime"
               :options="frameworkOptions"

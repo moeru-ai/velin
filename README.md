@@ -37,7 +37,7 @@ Try it by running following command under your `pnpm`/`npm` project.
 npm i @velin-dev/vue
 
 # For Node.js, CI, server rendering and backend users
-npm i @velin-dev/core
+npm i @velin-dev/core-vue
 ```
 
 ## Features
@@ -71,7 +71,7 @@ defineProps<{
 ```ts
 import { readFile } from 'node:fs/promises'
 
-import { renderSFCString } from '@velin-dev/core'
+import { renderSFCString } from '@velin-dev/core-vue'
 import { ref } from 'vue'
 
 const source = await readFile('./Prompt.vue', 'utf-8')
@@ -167,13 +167,13 @@ pnpm build
 
 MIT
 
-[npm-version-src]: https://img.shields.io/npm/v/@velin-dev/core?style=flat&colorA=080f12&colorB=1fa669
-[npm-version-href]: https://npmjs.com/package/@velin-dev/core
-[npm-downloads-src]: https://img.shields.io/npm/dm/@velin-dev/core?style=flat&colorA=080f12&colorB=1fa669
-[npm-downloads-href]: https://npmjs.com/package/@velin-dev/core
+[npm-version-src]: https://img.shields.io/npm/v/@velin-dev/core-vue?style=flat&colorA=080f12&colorB=1fa669
+[npm-version-href]: https://npmjs.com/package/@velin-dev/core-vue
+[npm-downloads-src]: https://img.shields.io/npm/dm/@velin-dev/core-vue?style=flat&colorA=080f12&colorB=1fa669
+[npm-downloads-href]: https://npmjs.com/package/@velin-dev/core-vue
 [bundle-src]: https://img.shields.io/bundlephobia/minzip/@velin-dev/vue?style=flat&colorA=080f12&colorB=1fa669&label=minzip
 [bundle-href]: https://bundlephobia.com/result?p=@velin-dev/vue
 [license-src]: https://img.shields.io/github/license/moeru-ai/velin.svg?style=flat&colorA=080f12&colorB=1fa669
 [license-href]: https://github.com/moeru-ai/velin/blob/main/LICENSE
 [jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-href]: https://www.jsdocs.io/package/@velin-dev/core
+[jsdocs-href]: https://www.jsdocs.io/package/@velin-dev/core-vue
