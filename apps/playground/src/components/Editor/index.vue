@@ -2,6 +2,7 @@
 // https://github.com/vuejs/repl/blob/5e092b6111118f5bb5fc419f0f8f3f84cd539366/src/monaco/Monaco.vue
 import type { EditorMode } from '../../types/vue-repl'
 
+import { KeyCode, KeyMod, editor as monacoEditor, Uri } from 'monaco-editor-core'
 import {
   computed,
   inject,
@@ -12,8 +13,6 @@ import {
   useTemplateRef,
   watch,
 } from 'vue'
-
-import * as monaco from 'monaco-editor-core'
 
 import { injectKeyProps } from '../../types/vue-repl'
 import { initMonaco } from './env'
@@ -39,7 +38,7 @@ const emit = defineEmits<{
 }>()
 
 const containerRef = useTemplateRef<HTMLDivElement>('container')
-const editor = shallowRef<monaco.editor.IStandaloneCodeEditor>()
+const editor = shallowRef<monacoEditor.IStandaloneCodeEditor>()
 const {
   store,
   autoSave,
@@ -51,7 +50,7 @@ initMonaco(store.value)
 
 const lang = computed(() => (props.mode === 'css' ? 'css' : 'javascript'))
 
-let editorInstance: monaco.editor.IStandaloneCodeEditor
+let editorInstance: monacoEditor.IStandaloneCodeEditor
 function emitChangeEvent() {
   emit('change', editorInstance.getValue())
 }
@@ -62,7 +61,7 @@ onMounted(() => {
     throw new Error('Cannot find containerRef')
   }
 
-  editorInstance = monaco.editor.create(containerRef.value, {
+  editorInstance = monacoEditor.create(containerRef.value, {
     ...(props.readonly
       ? { value: props.value, language: lang.value }
       : { model: null }),
@@ -118,7 +117,7 @@ onMounted(() => {
   )
 
   watch(lang, lang =>
-    monaco.editor.setModelLanguage(editorInstance.getModel()!, lang))
+    monacoEditor.setModelLanguage(editorInstance.getModel()!, lang))
 
   if (!props.readonly) {
     watch(
@@ -130,7 +129,7 @@ onMounted(() => {
         if (!file)
           return null
         const model = getOrCreateModel(
-          monaco.Uri.parse(`file:///${props.filename}`),
+          Uri.parse(`file:///${props.filename}`),
           file.language,
           file.code,
         )
@@ -151,7 +150,7 @@ onMounted(() => {
     )
   }
 
-  editorInstance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+  editorInstance.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => {
     // ignore save event
   })
 

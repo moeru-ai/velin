@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "jsx": "react-jsx",
     "lib": [
       "ESNext",
       "DOM",
@@ -23,6 +24,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.mts",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "src/**/*.tsx"
   ]
 }

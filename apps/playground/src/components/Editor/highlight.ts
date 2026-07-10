@@ -9,8 +9,12 @@ import themeDark from '@shikijs/themes/catppuccin-mocha'
 import { createHighlighterCoreSync } from '@shikijs/core'
 import { createJavaScriptRegexEngine } from '@shikijs/engine-javascript'
 import { shikiToMonaco } from '@shikijs/monaco'
+import { editor, languages } from 'monaco-editor-core'
 
-import * as monaco from 'monaco-editor-core'
+const monaco = {
+  editor,
+  languages,
+} as unknown as typeof import('monaco-editor-core')
 
 let registered = false
 export function registerHighlighter() {
@@ -20,7 +24,7 @@ export function registerHighlighter() {
       langs: [langVue, langTsx, langJsx],
       engine: createJavaScriptRegexEngine(),
     })
-    monaco.languages.register({ id: 'vue' })
+    languages.register({ id: 'vue' })
     shikiToMonaco(highlighter, monaco)
     registered = true
   }

@@ -69,6 +69,22 @@ export default defineConfig({
           exclude: ['**/*.browser.{test,spec}.{ts,tsx}', '**/node_modules/**'],
         },
       },
+      {
+        extends: true,
+        root: 'apps/playground',
+        test: {
+          name: 'playground-browser',
+          include: ['src/**/*.browser.{spec,test}.{ts,tsx}'],
+          exclude: ['**/node_modules/**'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            instances: [
+              { browser: 'chromium' },
+            ],
+          },
+        },
+      },
     ],
   },
 })

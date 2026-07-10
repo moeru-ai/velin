@@ -23,8 +23,12 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-
-import * as defaultCompiler from 'vue/compiler-sfc'
+import {
+  compileScript,
+  compileStyleAsync,
+  compileTemplate,
+  parse,
+} from 'vue/compiler-sfc'
 
 import welcomeSFCCode from '../../prompts/Prompt.velin.vue?raw'
 
@@ -34,9 +38,23 @@ import { compileFile } from './transform'
 
 export const importMapFile = 'import-map.json'
 export const tsconfigFile = 'tsconfig.json'
+const defaultCompiler = {
+  compileScript,
+  compileStyleAsync,
+  compileTemplate,
+  parse,
+}
 
 export class File extends VueFile {
   editorViewState: editor.ICodeEditorViewState | null = null
+
+  get language() {
+    if (this.filename.endsWith('.tsx')) {
+      return 'typescript'
+    }
+
+    return super.language
+  }
 }
 
 export function useStore(

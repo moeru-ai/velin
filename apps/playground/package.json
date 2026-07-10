@@ -29,6 +29,13 @@
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit"
   },
+  "dependencies": {
+    "@moeru/std": "0.1.0-beta.18",
+    "@velin-dev/core-react": "workspace:^",
+    "esbuild-wasm": "^0.27.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.20",
     "@iconify-json/line-md": "^1.2.16",
@@ -45,6 +52,8 @@
     "@shikijs/monaco": "^4.0.2",
     "@shikijs/themes": "^4.0.2",
     "@types/hash-sum": "^1.0.2",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
     "@types/splitpanes": "^2.2.6",
     "@unocss/reset": "^66.6.8",
     "@velin-dev/core": "workspace:^",

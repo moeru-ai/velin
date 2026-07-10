@@ -37,7 +37,7 @@ const modelValue = defineModel<T>({ required: true })
   </template>
   <template v-else>
     <input
-      v-model.number="modelValue"
+      v-model="modelValue"
       :type="props.type || 'text'"
       transition="all duration-200 ease-in-out"
       cursor="disabled:not-allowed"

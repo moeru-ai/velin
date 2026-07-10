@@ -7,17 +7,24 @@ import type { CreateData } from './vue.worker'
 
 import EditorWorker from 'monaco-editor-core/esm/vs/editor/editor.worker?worker'
 
+import {
+  activateAutoInsertion,
+  activateMarkers,
+  registerProviders,
+} from '@volar/monaco'
 import { editor, languages, Uri } from 'monaco-editor-core'
 import { watchEffect } from 'vue'
-
-import * as volar from '@volar/monaco'
 
 import VueWorker from './vue.worker?worker'
 
 import { debounce } from '../../utils/vue-repl'
+import {
+  css as cssLanguageConfig,
+  js as jsLanguageConfig,
+  ts as tsLanguageConfig,
+  vue as vueLanguageConfig,
+} from './language-configs'
 import { getOrCreateModel } from './monaco/utils'
-
-import * as languageConfigs from './language-configs'
 
 let initted = false
 export function initMonaco(store: Store) {
@@ -105,20 +112,20 @@ export async function reloadLanguageTools(store: Store) {
   const getSyncUris = () =>
     Object.keys(store.files).map(filename => Uri.parse(`file:///${filename}`))
 
-  const { dispose: disposeMarkers } = volar.activateMarkers(
+  const { dispose: disposeMarkers } = activateMarkers(
     worker,
     languageId,
     'vue',
     getSyncUris,
     editor,
   )
-  const { dispose: disposeAutoInsertion } = volar.activateAutoInsertion(
+  const { dispose: disposeAutoInsertion } = activateAutoInsertion(
     worker,
     languageId,
     getSyncUris,
     editor,
   )
-  const { dispose: disposeProvides } = await volar.registerProviders(
+  const { dispose: disposeProvides } = await registerProviders(
     worker,
     languageId,
     getSyncUris,
@@ -166,10 +173,10 @@ export function loadMonacoEnv(store: Store) {
   languages.register({ id: 'javascript', extensions: ['.js'] })
   languages.register({ id: 'typescript', extensions: ['.ts'] })
   languages.register({ id: 'css', extensions: ['.css'] })
-  languages.setLanguageConfiguration('vue', languageConfigs.vue)
-  languages.setLanguageConfiguration('javascript', languageConfigs.js)
-  languages.setLanguageConfiguration('typescript', languageConfigs.ts)
-  languages.setLanguageConfiguration('css', languageConfigs.css)
+  languages.setLanguageConfiguration('vue', vueLanguageConfig)
+  languages.setLanguageConfiguration('javascript', jsLanguageConfig)
+  languages.setLanguageConfiguration('typescript', tsLanguageConfig)
+  languages.setLanguageConfiguration('css', cssLanguageConfig)
 
   let languageToolsPromise: Promise<void> | undefined
   store.reloadLanguageTools = debounce(async () => {

@@ -8,9 +8,13 @@ const items = ref(['a', 'b', 'c'])
 <template>
   <div>
     <h1>Title</h1>
-    <p v-if="show">visible</p>
+    <p v-if="show">
+      visible
+    </p>
     <ul>
-      <li v-for="item in items" :key="item">{{ item }}</li>
+      <li v-for="item in items" :key="item">
+        {{ item }}
+      </li>
     </ul>
   </div>
 </template>

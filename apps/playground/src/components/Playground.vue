@@ -1,43 +1,65 @@
 <script setup lang="ts">
-import type { ComponentProp } from '@velin-dev/core/render-shared'
+import type { PlaygroundRuntime } from './frameworks'
 
 import vueRuntimeUrl from 'vue/dist/vue.esm-browser.js?url'
 import vueRuntimeProdUrl from 'vue/dist/vue.esm-browser.prod.js?url'
 
-import { normalizeProps } from '@velin-dev/core'
+import { SelectTab } from '@proj-airi/ui/components/form'
 import { fromMarkdown } from '@velin-dev/utils/from-md'
-import { usePrompt } from '@velin-dev/vue/repl'
 import { useDark } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
 
-import Editor from './Editor/index.vue'
 import Input from './Input.vue'
 import Switch from './Switch.vue'
 
 import { injectKeyProps } from '../types/vue-repl'
 import { useVueImportMap } from './Editor/import-map'
 import { useStore } from './Editor/store'
+import { frameworkDefinitions, frameworkOptions } from './frameworks'
+import { useFrameworkPromptRendering } from './frameworks/composables/rendering'
 
 const props = defineProps<{
   prompt: string
 }>()
 
-const initializing = ref(true)
-const inputPrompt = ref<string>(props.prompt)
-const renderedPrompt = ref<string>('')
-const renderedPromptFromMarkdown = computed(() => fromMarkdown(renderedPrompt.value))
-
-const resolvedProps = ref<ComponentProp[]>([])
+const runtime = ref<PlaygroundRuntime>('vue')
+const runtimeSources = reactive(
+  Object.fromEntries(
+    Object.entries(frameworkDefinitions).map(([key, definition]) => [
+      key,
+      key === 'vue' ? props.prompt : definition.source,
+    ]),
+  ) as Record<PlaygroundRuntime, string>,
+)
+const inputPrompt = ref<string>(runtimeSources.vue)
 
 // Create a reactive state object to store form values
 const formValues = reactive<Record<string, any>>({})
-const isPropsInitialized = ref(false)
 
 const isDark = useDark()
 const replTheme = computed(() => {
   return isDark.value ? 'dark' : 'light'
 })
+
+const activeFramework = computed(() => frameworkDefinitions[runtime.value])
+const activeFilename = computed(() => activeFramework.value.filename)
+const {
+  initializing,
+  isApplyingResolvedProps,
+  isPropsInitialized,
+  renderedPrompt,
+  renderError,
+  renderPrompt,
+  resetPropsInitialization,
+  resolvedProps,
+} = useFrameworkPromptRendering({
+  activeFilename,
+  activeFramework,
+  formValues,
+  inputPrompt,
+})
+const renderedPromptFromMarkdown = computed(() => fromMarkdown(renderedPrompt.value))
 
 const { importMap, vueVersion } = useVueImportMap({
   runtimeDev: vueRuntimeUrl,
@@ -73,45 +95,10 @@ provide(injectKeyProps, {
   autoSave: ref(true),
 })
 
-// Initialize the prompt and props
-function initializePrompt() {
-  return new Promise<void>((resolve) => {
-    const { prompt, onPrompted, promptProps } = usePrompt(inputPrompt, formValues)
-
-    // Handle the initial props resolution and initialization
-    onPrompted(() => {
-      renderedPrompt.value = prompt.value
-      resolvedProps.value = promptProps.value
-
-      // Only initialize form values if they haven't been set yet
-      if (!isPropsInitialized.value) {
-        promptProps.value.forEach((prop) => {
-          // Initialize only if not already defined
-          if (!(prop.title in formValues)) {
-            formValues[prop.title] = prop.value
-          }
-        })
-
-        // sometimes prop.value still have undefined values, here
-        // we will normalize them to ensure they have the type-safe default values
-        normalizeProps(resolvedProps.value, formValues)
-        isPropsInitialized.value = true
-      }
-
-      resolve()
-    })
-  })
-}
-
 // Handle updates to formValues after initial setup
 watch(formValues, () => {
-  if (isPropsInitialized.value) {
-    // Only re-render when changes are made to formValues after initialization
-    const { prompt, onPrompted } = usePrompt(inputPrompt, formValues)
-
-    onPrompted(() => {
-      renderedPrompt.value = prompt.value
-    })
+  if (isPropsInitialized.value && !isApplyingResolvedProps.value) {
+    void renderPrompt(false)
   }
 }, {
   deep: true,
@@ -119,19 +106,34 @@ watch(formValues, () => {
 
 // Initialize on component mount
 onMounted(async () => {
-  initializing.value = true
-  await initializePrompt()
-  initializing.value = false
+  await store.setFiles(
+    Object.fromEntries(
+      Object.entries(frameworkDefinitions).map(([key, definition]) => [
+        definition.filename,
+        runtimeSources[key as PlaygroundRuntime],
+      ]),
+    ),
+    activeFilename.value,
+  )
+  await renderPrompt(true)
 })
 
-// Re-initialize when prompt changes
-watch(() => inputPrompt, () => {
-  isPropsInitialized.value = false
-  initializePrompt()
+watch(runtime, async (nextRuntime) => {
+  inputPrompt.value = runtimeSources[nextRuntime]
+  resetPropsInitialization()
+  store.setActive(activeFilename.value)
+  await renderPrompt(true)
 })
 
 function handleEditorChange(updated: string) {
   inputPrompt.value = updated
+  runtimeSources[runtime.value] = updated
+  const file = store.files[activeFilename.value]
+  if (file) {
+    file.code = updated
+  }
+  resetPropsInitialization()
+  void renderPrompt(true)
 }
 </script>
 
@@ -139,11 +141,23 @@ function handleEditorChange(updated: string) {
   <div class="font-sans" flex gap-4 w-full>
     <Splitpanes>
       <Pane :size="40" :min-size="25">
-        <Editor filename="src/App.vue" @change="handleEditorChange" />
+        <div h-full flex flex-col gap-2>
+          <div flex items-center gap-2 px-2>
+            <SelectTab
+              v-model="runtime"
+              :options="frameworkOptions"
+              size="sm"
+            />
+          </div>
+          <component :is="activeFramework.component" :filename="activeFilename" @change="handleEditorChange" />
+        </div>
       </Pane>
       <Pane :size="60" :min-size="50">
         <div relative h-full>
           <div v-if="initializing" class="size-15" i-line-md:loading-loop absolute left="1/2" top="10" translate-x="-50%" />
+          <div v-else-if="renderError" mx-2 px-4 py-3 bg="red-50 dark:red-950/30" text="red-700 dark:red-200" rounded-lg border="1 solid red-200 dark:red-900" whitespace-pre-wrap font-mono text-sm>
+            {{ renderError }}
+          </div>
           <template v-else>
             <Splitpanes>
               <Pane :size="60" :min-size="25">

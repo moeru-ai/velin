@@ -36,13 +36,12 @@ import { getComponentSlots } from '@vue/typescript-plugin/lib/requests/getCompon
 import { getElementAttrs } from '@vue/typescript-plugin/lib/requests/getElementAttrs'
 import { getElementNames } from '@vue/typescript-plugin/lib/requests/getElementNames'
 import { getPropertiesAtLocation } from '@vue/typescript-plugin/lib/requests/getPropertiesAtLocation'
+// TODO:
+// @ts-expect-error - no type
+import { initialize } from 'monaco-editor-core/esm/vs/editor/editor.worker'
 import { create as createTypeScriptDirectiveCommentPlugin } from 'volar-service-typescript/lib/plugins/directiveComment'
 import { create as createTypeScriptSemanticPlugin } from 'volar-service-typescript/lib/plugins/semantic'
 import { URI } from 'vscode-uri'
-
-// TODO:
-// @ts-expect-error - no type
-import * as worker from 'monaco-editor-core/esm/vs/editor/editor.worker'
 
 export interface CreateData {
   tsconfig: {
@@ -68,7 +67,7 @@ self.onmessage = async (msg: MessageEvent<WorkerMessage>) => {
     return
   }
 
-  worker.initialize(
+  initialize(
     (
       ctx: monaco.worker.IWorkerContext<WorkerHost>,
       { tsconfig, dependencies }: CreateData,

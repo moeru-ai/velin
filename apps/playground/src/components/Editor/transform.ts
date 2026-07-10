@@ -44,12 +44,6 @@ export async function compileFile(
     if (testTs(filename)) {
       code = transformTS(code, isJSX)
     }
-    if (isJSX) {
-      //   code = await import('./jsx').then(({ transformJSX }) =>
-      //     transformJSX(code),
-      //   )
-      console.error('JSX transform not supported in the playground')
-    }
     compiled.js = compiled.ssr = code
     return []
   }
@@ -220,13 +214,6 @@ export async function compileFile(
     else {
       ssrCode = `/* SSR compile error: ${ssrTemplateResult.errors[0]} */`
     }
-  }
-
-  if (isJSX) {
-    // const { transformJSX } = await import('./jsx')
-    // clientCode &&= transformJSX(clientCode)
-    // ssrCode &&= transformJSX(ssrCode)
-    console.error('JSX transform not supported in the playground')
   }
 
   if (hasScoped) {
