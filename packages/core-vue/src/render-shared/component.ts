@@ -1,4 +1,4 @@
-import type { ComponentPropsOptions } from '@vue/runtime-core'
+import type { ComponentPropsOptions, SetupContext } from '@vue/runtime-core'
 
 import type {
   InputProps,
@@ -12,6 +12,11 @@ import { toValue } from '@vue/reactivity'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp } from 'vue'
 
+type SetupFunction<Props> = (
+  props: LooseRequiredRenderComponentInputProps<Props>,
+  ctx: SetupContext,
+) => unknown
+
 export function onlySetup<
   RawProps = any,
   ComponentProps = ComponentPropsOptions<RawProps>,
@@ -20,7 +25,10 @@ export function onlySetup<
   promptComponent: RenderComponentInputComponent<ResolvedProps>,
   props: InputProps<ResolvedProps>,
 ) {
-  return promptComponent.setup?.(
+  // WORKAROUND: Vue's DefineComponent setup type includes internal mixin props that TS cannot prove equivalent here.
+  const setup = promptComponent.setup as SetupFunction<ResolvedProps> | undefined
+
+  return setup?.(
     toValue(props) as unknown as LooseRequiredRenderComponentInputProps<ResolvedProps>,
     { attrs: {}, slots: {}, emit: () => { }, expose: () => { } },
   )
