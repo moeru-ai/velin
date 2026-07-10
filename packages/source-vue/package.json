@@ -1,8 +1,8 @@
 {
-  "name": "@velin-dev/utils",
+  "name": "@velin-dev/source-vue",
   "type": "module",
   "version": "0.4.1",
-  "description": "Develop prompts with Vue SFC or Markdown like pro.",
+  "description": "Vue source tooling for Velin.",
   "author": {
     "name": "RainbowBird",
     "email": "rbxin2003@outlook.com",
@@ -20,27 +20,18 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moeru-ai/velin.git",
-    "directory": "packages/utils"
+    "directory": "packages/source-vue"
   },
   "bugs": "https://github.com/moeru-ai/velin/issues",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
-    },
-    "./from-md": {
-      "types": "./dist/from-md/index.d.mts",
-      "import": "./dist/from-md/index.mjs"
-    },
-    "./transformers/typescript": {
-      "types": "./dist/transformers/typescript/index.d.mts",
-      "import": "./dist/transformers/typescript/index.mjs"
-    },
-    "./to-md": {
-      "types": "./dist/to-md/index.d.mts",
-      "import": "./dist/to-md/index.mjs"
     }
   },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
     "README.md",
     "dist",
@@ -54,19 +45,9 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "hast-util-from-html": "^2.0.3",
-    "hast-util-select": "^6.0.4",
-    "hast-util-to-html": "^9.0.5",
-    "markdown-it": "^14.1.1",
-    "rehype-parse": "^9.0.1",
-    "rehype-remark": "^10.0.1",
-    "rehype-remove-comments": "^6.1.1",
-    "remark-stringify": "^11.0.0",
-    "sucrase": "^3.35.1",
-    "unified": "^11.0.5",
-    "unist-util-remove": "^4.0.0"
+    "@vue/compiler-sfc": "^3.5.32"
   },
   "devDependencies": {
-    "@types/hast": "^3.0.4"
+    "@babel/types": "^7.29.0"
   }
 }

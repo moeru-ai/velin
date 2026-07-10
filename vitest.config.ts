@@ -64,6 +64,7 @@ export default defineConfig({
           include: [
             'packages/react/src/**/*.{test,spec}.{ts,tsx}',
             'packages/source-react/src/**/*.{test,spec}.{ts,tsx}',
+            'packages/source-vue/src/**/*.{test,spec}.{ts,tsx}',
             'packages/utils/src/**/*.{test,spec}.{ts,tsx}',
           ],
           exclude: ['**/*.browser.{test,spec}.{ts,tsx}', '**/node_modules/**'],

@@ -13,7 +13,7 @@ import type {
 import type { OutputModes } from '../../types/vue-repl'
 import type { ImportMap } from './import-map'
 
-import { File as VueFile } from '@velin-dev/utils/transformers/vue'
+import { File as VueFile } from '@velin-dev/source-vue'
 import {
   computed,
   reactive,

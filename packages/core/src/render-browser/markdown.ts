@@ -1,8 +1,8 @@
 import type { ComponentProp } from '../render-shared/props'
 import type { InputProps } from '../types'
 
+import { createSFC } from '@velin-dev/source-vue'
 import { fromMarkdown, scriptFrom } from '@velin-dev/utils/from-md'
-import { createSFC } from '@velin-dev/utils/vue-sfc'
 
 import { renderSFCString } from './sfc'
 

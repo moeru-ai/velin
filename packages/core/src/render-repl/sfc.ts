@@ -4,8 +4,8 @@ import type { ComponentProp } from '../render-shared'
 import type { InputProps } from '../types'
 
 import { evaluate } from '@unrteljs/eval/browser'
+import { compileModulesForPreview } from '@velin-dev/source-vue'
 import { toMarkdown } from '@velin-dev/utils/to-md'
-import { compileModulesForPreview } from '@velin-dev/utils/transformers/vue'
 import { renderToString } from '@vue/server-renderer'
 
 import { compileSFC, onlyRender, resolveProps } from '../render-shared'

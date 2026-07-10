@@ -57,6 +57,7 @@
     "@types/splitpanes": "^2.2.6",
     "@unocss/reset": "^66.6.8",
     "@velin-dev/core": "workspace:^",
+    "@velin-dev/source-vue": "workspace:^",
     "@velin-dev/utils": "workspace:^",
     "@velin-dev/vue": "workspace:^",
     "@vitejs/plugin-vue": "^6.0.6",
