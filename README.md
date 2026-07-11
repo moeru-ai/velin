@@ -50,7 +50,7 @@ Develop prompts with Vue SFC, React components, TSX/JSX source, or Markdown like
   <strong>Svelte</strong> in progress
 </p>
 
-We got a playground too, check it out:
+We got a playground too, [check it out](https://velin.dev):
 
 <p align="center">
   <picture>
@@ -290,8 +290,8 @@ MIT
 
 [npm-version-src]: https://img.shields.io/npm/v/@velin-dev/core-vue?style=flat&colorA=080f12&colorB=1fa669
 [npm-version-href]: https://npmjs.com/package/@velin-dev/core-vue
-[npm-downloads-src]: https://img.shields.io/npm/dm/@velin-dev/core-vue?style=flat&colorA=080f12&colorB=1fa669
-[npm-downloads-href]: https://npmjs.com/package/@velin-dev/core-vue
+[npm-downloads-src]: https://img.shields.io/npm/dm/@velin-dev/utils?style=flat&colorA=080f12&colorB=1fa669
+[npm-downloads-href]: https://npmjs.com/package/@velin-dev/utils
 [bundle-src]: https://img.shields.io/bundlephobia/minzip/@velin-dev/vue?style=flat&colorA=080f12&colorB=1fa669&label=minzip
 [bundle-href]: https://bundlephobia.com/result?p=@velin-dev/vue
 [license-src]: https://img.shields.io/github/license/moeru-ai/velin.svg?style=flat&colorA=080f12&colorB=1fa669
