@@ -71,20 +71,13 @@ We got a playground too, [check it out](https://velin.dev):
 Try it by running following command under your `pnpm`/`npm` project.
 
 ```bash
-# For Vue browser users
+# For browser users
 npm i @velin-dev/vue
-
-# For Vue Node.js, CI, server rendering and backend users
-npm i @velin-dev/core-vue
-
-# For React browser users
 npm i @velin-dev/react
 
-# For React Node.js, CI, server rendering and backend users
+# For Node.js, CI, server rendering and backend users
+npm i @velin-dev/core-vue
 npm i @velin-dev/core-react
-
-# For loading trusted TSX/JSX source at runtime
-npm i @velin-dev/source-react
 ```
 
 ## Features
