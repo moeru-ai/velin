@@ -8,9 +8,47 @@
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
-> Have you wondered how it feels if you can develop the prompts of agents and MCP servers with the power of Vue?
+> Have you wondered how it feels if you can develop the prompts of agents and MCP servers with the power of Vue or React?
 
-Develop prompts with Vue SFC or Markdown like pro.
+Develop prompts with Vue SFC, React components, TSX/JSX source, or Markdown like a pro.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Framework Support](#framework-support)
+- [Quick Start](#quick-start)
+- [Features](#features)
+- [How it feels](#how-it-feels)
+- [Similar projects](#similar-projects)
+- [Development](#development)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Framework Support
+
+<p align="center">
+  <a href="https://vuejs.org/">
+    <img src="https://raw.githubusercontent.com/moeru-ai/velin/main/docs/assets/framework-vue.svg" width="48" height="48" alt="Vue logo" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://react.dev/">
+    <img src="https://raw.githubusercontent.com/moeru-ai/velin/main/docs/assets/framework-react.svg" width="48" height="48" alt="React logo" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://svelte.dev/">
+    <img src="https://raw.githubusercontent.com/moeru-ai/velin/main/docs/assets/framework-svelte.svg" width="48" height="48" alt="Svelte logo" />
+  </a>
+</p>
+
+<p align="center">
+  <strong>Vue</strong> supported
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <strong>React</strong> supported
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <strong>Svelte</strong> in progress
+</p>
 
 We got a playground too, check it out:
 
@@ -33,23 +71,36 @@ We got a playground too, check it out:
 Try it by running following command under your `pnpm`/`npm` project.
 
 ```bash
-# For browser users
+# For Vue browser users
 npm i @velin-dev/vue
 
-# For Node.js, CI, server rendering and backend users
+# For Vue Node.js, CI, server rendering and backend users
 npm i @velin-dev/core-vue
+
+# For React browser users
+npm i @velin-dev/react
+
+# For React Node.js, CI, server rendering and backend users
+npm i @velin-dev/core-react
+
+# For loading trusted TSX/JSX source at runtime
+npm i @velin-dev/source-react
 ```
 
 ## Features
 
 - No longer need to fight and format with the non-supported DSL of templating language!
 - Use HTML elements like `<div>` for block elements, `<span>` for inline elements.
-- Directives with native Vue template syntax, `v-if`, `v-else` all works.
-- Compositing other open sourced prompt component or composables over memory system.
+- Directives with native Vue template syntax, such as `v-if` and `v-else`.
+- React component rendering with Node.js and browser-compatible entry points.
+- Trusted TSX/JSX source loading for React prompt components.
+- Compositing other open sourced prompt components or composables over memory systems.
 
 All included...
 
 ## How it feels
+
+### Vue SFC
 
 ```html
 <!-- Prompt.vue -->
@@ -66,7 +117,7 @@ defineProps<{
 </template>
 ```
 
-### In Node.js
+#### In Node.js
 
 ```ts
 import { readFile } from 'node:fs/promises'
@@ -76,13 +127,13 @@ import { ref } from 'vue'
 
 const source = await readFile('./Prompt.vue', 'utf-8')
 const name = ref<string>('Velin')
-const result = await renderSFCString(source, { name })
+const { rendered } = await renderSFCString(source, { name })
 
-console.log(result)
+console.log(rendered)
 // Hello world, this is Velin!
 ```
 
-### In Vue / Browser
+#### In Vue / Browser
 
 ```vue
 <script setup lang="ts">
@@ -91,15 +142,75 @@ import { ref, watch } from 'vue'
 
 import Prompt from './Prompt.vue'
 
-const language = ref<string>('Velin')
-const { prompt, onPrompted } = usePrompt(Prompt, { name })
+const name = ref<string>('Velin')
+const { prompt } = usePrompt(Prompt, { name })
 
 watch(prompt, () => {
   console.log(prompt)
-  // // Hello world, this is Velin!
+  // Hello world, this is Velin!
 })
 </script>
 ```
+
+### React component
+
+```tsx
+import { renderComponent } from '@velin-dev/core-react'
+
+function Prompt({ name }: { name: string }) {
+  return (
+    <article>
+      <h1>{`Hello ${name}`}</h1>
+      <p>Render React components as Markdown prompts.</p>
+    </article>
+  )
+}
+
+const markdown = await renderComponent(Prompt, { name: 'Velin' })
+
+console.log(markdown)
+// # Hello Velin
+//
+// Render React components as Markdown prompts.
+```
+
+#### In React / Browser
+
+```tsx
+import { usePrompt } from '@velin-dev/react'
+
+function Prompt({ name }: { name: string }) {
+  return <div>{`Hello ${name}`}</div>
+}
+
+function PromptPreview() {
+  const { prompt, rendering, dispose } = usePrompt(Prompt, { name: 'Velin' })
+
+  return (
+    <>
+      <pre>{rendering ? 'Rendering...' : prompt}</pre>
+      <button type="button" onClick={dispose}>Dispose</button>
+    </>
+  )
+}
+```
+
+#### From trusted TSX/JSX source
+
+```ts
+import { renderComponent } from '@velin-dev/core-react'
+import { componentFromSource } from '@velin-dev/source-react'
+
+const Prompt = await componentFromSource<{ name: string }>(`
+  export default function Prompt({ name }: { name: string }) {
+    return <div>Hello {name}</div>
+  }
+`)
+
+const markdown = await renderComponent(Prompt, { name: 'Velin' })
+```
+
+`componentFromSource` and `componentFromFile` evaluate transformed ESM and are not a sandbox or security boundary. Use them only with trusted source.
 
 ## Similar projects
 
@@ -111,7 +222,7 @@ watch(prompt, () => {
 
 ```shell
 git clone https://github.com/moeru-ai/velin.git
-cd airi
+cd velin
 ```
 
 ### Install dependencies
@@ -162,6 +273,16 @@ pnpm build
 > ```shell
 > nr build
 > ```
+
+### Documentation
+
+The table of contents above is generated with `doctoc`, following the same README maintenance pattern used in `moeru-ai/alint`. Run this after changing README headings:
+
+```shell
+pnpm docs:update
+```
+
+`docs:update` refreshes the root README TOC. Velin keeps package-level READMEs separate because each published package documents a different framework or runtime entry point.
 
 ## License
 
