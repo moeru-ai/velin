@@ -42,6 +42,10 @@ export default antfu(
           message: 'Do not use namespace imports from `valibot`. Import the used Valibot APIs by name instead.',
           selector: 'ImportDeclaration[source.value=\'valibot\'] ImportNamespaceSpecifier',
         },
+        {
+          message: 'Avoid importing from `./index`. Use `./` instead.',
+          selector: 'ImportDeclaration[source.value=\'./index\']',
+        },
         'TSEnumDeclaration[const=true]',
         'TSExportAssignment',
       ],

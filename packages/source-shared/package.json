@@ -1,8 +1,8 @@
 {
-  "name": "@velin-dev/source-vue",
+  "name": "@velin-dev/source-shared",
   "type": "module",
   "version": "0.6.1",
-  "description": "Vue source tooling for Velin.",
+  "description": "Shared source tooling for Velin.",
   "author": {
     "name": "RainbowBird",
     "email": "rbxin2003@outlook.com",
@@ -20,7 +20,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moeru-ai/velin.git",
-    "directory": "packages/source-vue"
+    "directory": "packages/source-shared"
   },
   "bugs": "https://github.com/moeru-ai/velin/issues",
   "exports": {
@@ -45,16 +45,6 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "@moeru/std": "0.1.0-beta.18",
-    "@unrteljs/eval": "^0.2.1",
-    "@velin-dev/source-shared": "workspace:^",
-    "@velin-dev/utils": "workspace:^",
-    "@vue/compiler-sfc": "^3.5.32"
-  },
-  "peerDependencies": {
-    "vue": ">= 3"
-  },
-  "devDependencies": {
-    "@babel/types": "^7.29.0"
+    "mlly": "^1.8.2"
   }
 }

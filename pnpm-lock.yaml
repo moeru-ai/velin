@@ -392,6 +392,9 @@ importers:
       '@types/hast':
         specifier: ^3.0.4
         version: 3.0.4
+      '@vitejs/plugin-vue':
+        specifier: ^6.0.6
+        version: 6.0.6(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.1)(jiti@2.6.1)(terser@5.39.0)(tsx@4.21.0)(yaml@2.9.0))(vue@3.5.32(typescript@6.0.2))
 
   packages/react:
     dependencies:
@@ -420,12 +423,18 @@ importers:
       '@unrteljs/eval':
         specifier: ^0.2.1
         version: 0.2.1
+      '@velin-dev/source-shared':
+        specifier: workspace:^
+        version: link:../source-shared
       esbuild:
         specifier: ^0.27.1
         version: 0.27.1
       mlly:
         specifier: ^1.8.2
         version: 1.8.2
+      sucrase:
+        specifier: ^3.35.1
+        version: 3.35.1
     devDependencies:
       '@types/react':
         specifier: ^19.2.7
@@ -437,11 +446,32 @@ importers:
         specifier: ^19.2.1
         version: 19.2.7
 
+  packages/source-shared:
+    dependencies:
+      mlly:
+        specifier: ^1.8.2
+        version: 1.8.2
+
   packages/source-vue:
     dependencies:
+      '@moeru/std':
+        specifier: 0.1.0-beta.18
+        version: 0.1.0-beta.18
+      '@unrteljs/eval':
+        specifier: ^0.2.1
+        version: 0.2.1
+      '@velin-dev/source-shared':
+        specifier: workspace:^
+        version: link:../source-shared
+      '@velin-dev/utils':
+        specifier: workspace:^
+        version: link:../utils
       '@vue/compiler-sfc':
         specifier: ^3.5.32
         version: 3.5.39
+      vue:
+        specifier: '>= 3'
+        version: 3.5.32(typescript@6.0.2)
     devDependencies:
       '@babel/types':
         specifier: ^7.29.0

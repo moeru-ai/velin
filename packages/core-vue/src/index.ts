@@ -1,5 +1,5 @@
 import type { ComponentProp } from './render-shared'
-import type { InputProps } from './types'
+import type { InputProps, RenderSFCOptions } from './types'
 
 import { isNode } from 'std-env'
 
@@ -27,17 +27,17 @@ export async function renderMarkdownString<RawProps = any>(
 export async function renderSFCString<RawProps = any>(
   source: string,
   data?: InputProps<RawProps>,
-  basePath?: string,
+  options?: string | RenderSFCOptions,
 ): Promise<{
   props: ComponentProp[]
   rendered: string
 }> {
   if (isNode) {
     const { renderSFCString } = await import('./render-node')
-    return renderSFCString(source, data, basePath)
+    return renderSFCString(source, data, options)
   }
 
-  return renderSFCStringBrowser(source, data, basePath)
+  return renderSFCStringBrowser(source, data, typeof options === 'string' ? options : options?.basePath)
 }
 
 export {

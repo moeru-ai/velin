@@ -95,6 +95,73 @@ describe('componentFromSource', () => {
     await expect(renderComponent(Prompt, { name: 'react' })).resolves.toBe('Hello REACT\n')
   })
 
+  it('loads a TSX source component with relative imports from a virtual file map', async () => {
+    const Prompt = await componentFromSource<{ name: string }>(
+      `
+        import { Label } from './components/Label.tsx'
+
+        export default function Prompt({ name }: { name: string }) {
+          return (
+            <section>
+              <h1>Virtual prompt</h1>
+              <p><Label value={name} /></p>
+            </section>
+          )
+        }
+      `,
+      {
+        filename: 'src/Prompt.tsx',
+        vfs: {
+          'src/components/Label.tsx': `
+            export function Label({ value }: { value: string }) {
+              return <strong>{value.toUpperCase()}</strong>
+            }
+          `,
+        },
+      },
+    )
+
+    await expect(renderComponent(Prompt, { name: 'vfs' })).resolves.toBe(
+      '# Virtual prompt\n\n**VFS**\n',
+    )
+  })
+
+  it('loads a TSX source component with hooks and helpers from a virtual file map', async () => {
+    const Prompt = await componentFromSource<{ name: string }>(
+      `
+        import { useGreeting } from './hooks/useGreeting'
+
+        export default function Prompt({ name }: { name: string }) {
+          const greeting = useGreeting(name)
+
+          return <p>{greeting}</p>
+        }
+      `,
+      {
+        filename: 'src/Prompt.tsx',
+        vfs: {
+          'src/hooks/useGreeting.ts': `
+            import { useMemo } from 'react'
+            import { formatName } from '../utils/format'
+
+            export function useGreeting(name: string) {
+              return useMemo(() => \`Hello \${formatName(name)}\`, [name])
+            }
+          `,
+          'src/utils/format.js': `
+            export function formatName(value) {
+              return value.trim().toUpperCase()
+            }
+          `,
+        },
+      },
+    )
+
+    await expect(renderComponent(Prompt, { name: ' hook vfs ' })).resolves.toBe(
+      'Hello HOOK VFS\n',
+    )
+  })
+
   it('throws a clear error when the default export is missing', async () => {
     await expect(componentFromSource('export const Prompt = () => <div />')).rejects.toThrow(
       '[velin-source.tsx] evaluate: default export must be a React component function',

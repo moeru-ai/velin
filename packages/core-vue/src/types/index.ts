@@ -14,6 +14,12 @@ export type InputProps<T>
     | Record<string, Reactive<any>>
     | Record<string, MaybeRefOrGetter<any>>
 
+export interface RenderSFCOptions {
+  basePath?: string
+  filename?: string
+  vfs?: Record<string, string> | Map<string, string>
+}
+
 export type ResolveRenderComponentInputProps<T = any, P = ComponentPropsOptions<T>>
   = P extends ComponentPropsOptions<T>
     ? ExtractPropTypes<P>
