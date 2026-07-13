@@ -1,9 +1,16 @@
+import type { BuildResult } from 'esbuild'
 import type { ComponentType } from 'react'
+import type { TransformResult } from 'sucrase'
 
 import { pathToFileURL } from 'node:url'
 
 import { evaluate } from '@unrteljs/eval/node'
-import { build, transform } from 'esbuild'
+import {
+  linkVirtualModules,
+  normalizeVirtualPath,
+} from '@velin-dev/source-shared'
+import { build } from 'esbuild'
+import { transform } from 'sucrase'
 
 import {
   assertDefaultExport,
@@ -21,9 +28,17 @@ export interface ComponentFromSourceOptions {
   loader?: ReactSourceLoader
   jsxRuntime?: ReactJsxRuntime
   filename?: string
+  vfs?: Record<string, string> | Map<string, string>
 }
 
 const defaultFilename = 'velin-source.tsx'
+const reactVirtualExtensions = ['.tsx', '.ts', '.jsx', '.js'] as const
+const transformsByLoader = {
+  js: [],
+  jsx: ['jsx'],
+  ts: ['typescript'],
+  tsx: ['typescript', 'jsx'],
+} satisfies Record<ReactSourceLoader, Array<'jsx' | 'typescript'>>
 
 export async function componentFromSource<Props = Record<string, unknown>>(
   source: string,
@@ -34,14 +49,11 @@ export async function componentFromSource<Props = Record<string, unknown>>(
   let code: string
 
   try {
-    const result = await transform(source, {
-      format: 'esm',
-      jsx: jsxRuntime === 'classic' ? 'transform' : 'automatic',
-      loader,
-      sourcefile: filename,
-    })
+    const result = options.vfs
+      ? await buildVirtualSource(source, { filename, jsxRuntime, loader, vfs: options.vfs })
+      : transformReactSource(source, { filename, jsxRuntime, loader })
 
-    code = normalizeDefaultExport(result.code)
+    code = normalizeDefaultExport(compiledCode(result))
   }
   catch (error) {
     throw stageError(filename, 'transform', error)
@@ -144,5 +156,61 @@ function resolveOptions(options: ComponentFromSourceOptions): Required<Component
     filename,
     jsxRuntime,
     loader,
+    vfs: options.vfs ?? {},
   }
+}
+
+function buildVirtualSource(
+  source: string,
+  options: Required<ComponentFromSourceOptions>,
+) {
+  return linkVirtualModules({
+    entry: normalizeVirtualPath(options.filename),
+    extensions: reactVirtualExtensions,
+    source,
+    transformModule(filename, moduleSource) {
+      return transformReactSource(moduleSource, {
+        filename,
+        jsxRuntime: options.jsxRuntime,
+        loader: loaderFromFilename(filename, options.loader),
+      }).code
+    },
+    vfs: options.vfs,
+  })
+}
+
+function compiledCode(result: string | TransformResult | BuildResult): string {
+  if (typeof result === 'string') {
+    return result
+  }
+  if ('code' in result) {
+    return result.code
+  }
+
+  return result.outputFiles?.[0]?.text ?? ''
+}
+
+function transformReactSource(
+  source: string,
+  options: Pick<Required<ComponentFromSourceOptions>, 'filename' | 'jsxRuntime' | 'loader'>,
+) {
+  return transform(source, {
+    filePath: options.filename,
+    jsxRuntime: options.jsxRuntime,
+    production: options.jsxRuntime === 'automatic',
+    transforms: transformsForLoader(options.loader),
+  })
+}
+
+function transformsForLoader(loader: ReactSourceLoader): Array<'jsx' | 'typescript'> {
+  return transformsByLoader[loader]
+}
+
+function loaderFromFilename(filename: string, fallback: ReactSourceLoader): ReactSourceLoader {
+  const extension = filename.match(/\.[^./]+$/)?.[0]
+  if (extension === '.js' || extension === '.jsx' || extension === '.ts' || extension === '.tsx') {
+    return extension.slice(1) as ReactSourceLoader
+  }
+
+  return fallback
 }

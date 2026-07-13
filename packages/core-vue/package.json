@@ -80,6 +80,7 @@
     "std-env": "^4.1.0"
   },
   "devDependencies": {
-    "@types/hast": "^3.0.4"
+    "@types/hast": "^3.0.4",
+    "@vitejs/plugin-vue": "^6.0.6"
   }
 }

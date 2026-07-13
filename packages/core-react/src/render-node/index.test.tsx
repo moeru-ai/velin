@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { ImportedPrompt } from '../testdata/imported-prompt'
-import { renderComponent, renderElement } from './index'
+import { renderComponent, renderElement } from './'
 
 describe('renderComponent from render-node', () => {
   it('should type-check props requirements', () => {

@@ -58,6 +58,7 @@
     "@unocss/eslint-config": "^66.6.8",
     "@unocss/eslint-plugin": "^66.6.8",
     "@unocss/preset-mini": "^66.6.8",
+    "@vitejs/plugin-vue": "^6.0.6",
     "@vitest/browser-playwright": "4.1.4",
     "bumpp": "^11.0.1",
     "changelogithub": "^14.0.0",

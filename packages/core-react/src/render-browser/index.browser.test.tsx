@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { ImportedPrompt } from '../testdata/imported-prompt'
-import { renderComponent, renderElement } from './index'
+import { renderComponent, renderElement } from './'
 
 describe('renderElement from render-browser', () => {
   it('renders a React element to Markdown', async () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { renderComponent, renderElement } from './index'
+import { renderComponent, renderElement } from './'
 
 describe('renderElement from default entry in browser', () => {
   it('renders a React element to Markdown', async () => {

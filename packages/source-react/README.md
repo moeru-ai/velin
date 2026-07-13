@@ -26,6 +26,7 @@ interface ComponentFromSourceOptions {
   loader?: ReactSourceLoader
   jsxRuntime?: 'automatic' | 'classic'
   filename?: string
+  vfs?: Record<string, string> | Map<string, string>
 }
 
 function componentFromSource<Props = Record<string, unknown>>(
@@ -43,12 +44,12 @@ function componentFromFile<Props = Record<string, unknown>>(
 defaults to `velin-source.tsx`. The filename is metadata used in transform and
 error messages.
 
-`componentFromSource` and `componentFromFile` transform source with `esbuild`,
-analyze ESM exports and imports with `mlly`, then evaluate the transformed ESM
-with `@unrteljs/eval`. They are not a sandbox or security boundary and must only
-be used with trusted source.
+`componentFromSource` transforms TS/JSX with `sucrase`. When `vfs` is provided,
+relative imports are resolved from the virtual file map and linked before
+evaluation. `componentFromFile` still uses `esbuild` to bundle real files from
+disk. Both APIs analyze ESM exports and imports with `mlly`, then evaluate the
+transformed ESM with `@unrteljs/eval`.
 
-This first implementation evaluates a single source file. It supports static
-imports for `react`, `react/jsx-runtime`, and `node:` builtins. Other static
-imports are rejected before evaluation. Source must provide a callable default
-export, such as a function or class React component.
+These helpers are not a sandbox or security boundary and must only be used with
+trusted source. Source must provide a callable default export, such as a function
+or class React component.

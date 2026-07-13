@@ -1,2 +1,2 @@
-export * from './moduleCompiler'
+export * from './module-compiler'
 export * from './shared'

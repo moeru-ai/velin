@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import { renderComponent } from '@velin-dev/core-react'
 import { describe, expect, it } from 'vitest'
 
-import { componentFromFile } from './index'
+import { componentFromFile } from './'
 
 describe('componentFromFile', () => {
   it('loads a TSX file and renders it through core-react', async () => {
