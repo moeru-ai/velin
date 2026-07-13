@@ -1,7 +1,5 @@
-import type { DefineComponent } from '@vue/runtime-core'
-
 import type { ComponentProp } from '../render-shared'
-import type { InputProps, RenderSFCOptions } from '../types'
+import type { InputProps, RenderComponentInputComponent, RenderSFCOptions } from '../types'
 
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
@@ -14,7 +12,7 @@ import { renderToString } from '@vue/server-renderer'
 import { compileSFC, onlyRender, resolveProps } from '../render-shared'
 import { normalizeSFCSource } from '../render-shared/sfc'
 
-export async function evaluateSFC(
+export async function evaluateSFC<Props = Record<string, unknown>>(
   source: string,
   basePath?: string,
 ) {
@@ -27,7 +25,7 @@ export async function evaluateSFC(
   }
 
   // TODO: evaluate setup when not <script setup>
-  return await evaluate<DefineComponent>(`${script.content}`, { base: basePath })
+  return await evaluate<RenderComponentInputComponent<Props>>(`${script.content}`, { base: basePath })
 }
 
 export async function resolvePropsFromString(content: string) {
@@ -50,11 +48,11 @@ export async function renderSFC<RawProps = any>(
 }> {
   const resolvedOptions = resolveSFCOptions(options)
   const evaluatedComponent = resolvedOptions.vfs
-    ? await componentFromSource(source, {
+    ? await componentFromSource<RawProps>(source, {
         filename: resolvedOptions.filename,
         vfs: resolvedOptions.vfs,
       })
-    : await evaluateSFC(source, resolvedOptions.basePath)
+    : await evaluateSFC<RawProps>(source, resolvedOptions.basePath)
   if (!evaluatedComponent) {
     return {
       props: [],
@@ -62,9 +60,9 @@ export async function renderSFC<RawProps = any>(
     }
   }
 
-  const renderFunc = onlyRender(evaluatedComponent as any, data || {})
+  const renderFunc = onlyRender<RawProps, RawProps, RawProps>(evaluatedComponent, data ?? {})
   return {
-    props: resolveProps(renderFunc as any),
+    props: resolveProps(renderFunc),
     rendered: await renderToString(renderFunc),
   }
 }
@@ -87,9 +85,5 @@ export async function renderSFCString<RawProps = any>(
 }
 
 function resolveSFCOptions(options: string | RenderSFCOptions | undefined): RenderSFCOptions {
-  if (typeof options === 'string') {
-    return { basePath: options }
-  }
-
-  return options ?? {}
+  return typeof options === 'string' ? { basePath: options } : options ?? {}
 }

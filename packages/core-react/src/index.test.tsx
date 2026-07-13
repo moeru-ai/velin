@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { renderComponent, renderElement } from './index'
+import { renderComponent, renderElement } from './'
 
 describe('renderComponent from default entry', () => {
   it('should type-check props requirements', () => {

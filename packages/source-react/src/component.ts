@@ -33,6 +33,12 @@ export interface ComponentFromSourceOptions {
 
 const defaultFilename = 'velin-source.tsx'
 const reactVirtualExtensions = ['.tsx', '.ts', '.jsx', '.js'] as const
+const transformsByLoader = {
+  js: [],
+  jsx: ['jsx'],
+  ts: ['typescript'],
+  tsx: ['typescript', 'jsx'],
+} satisfies Record<ReactSourceLoader, Array<'jsx' | 'typescript'>>
 
 export async function componentFromSource<Props = Record<string, unknown>>(
   source: string,
@@ -197,17 +203,7 @@ function transformReactSource(
 }
 
 function transformsForLoader(loader: ReactSourceLoader): Array<'jsx' | 'typescript'> {
-  if (loader === 'tsx') {
-    return ['typescript', 'jsx']
-  }
-  if (loader === 'ts') {
-    return ['typescript']
-  }
-  if (loader === 'jsx') {
-    return ['jsx']
-  }
-
-  return []
+  return transformsByLoader[loader]
 }
 
 function loaderFromFilename(filename: string, fallback: ReactSourceLoader): ReactSourceLoader {

@@ -1,6 +1,6 @@
 import type { ReactTestRenderer } from 'react-test-renderer'
 
-import type { usePrompt as usePromptType } from './index'
+import type { usePrompt as usePromptType } from './'
 
 import { useEffect } from 'react'
 import { act, create } from 'react-test-renderer'

@@ -1,7 +1,7 @@
 import { renderComponent } from '@velin-dev/core-react'
 import { describe, expect, it } from 'vitest'
 
-import { componentFromSource } from './index'
+import { componentFromSource } from './'
 
 describe('componentFromSource', () => {
   it('loads a TSX default export component and renders it through core-react', async () => {

@@ -1,7 +1,7 @@
 import type {
   VirtualFileResolver,
   VirtualFilesInput,
-} from './'
+} from './vfs-map'
 
 import { findExports, findStaticImports, parseStaticImport } from 'mlly'
 
@@ -9,7 +9,7 @@ import {
   createVirtualFileResolver,
   isRelativeSpecifier,
   normalizeVirtualPath,
-} from './'
+} from './vfs-map'
 
 export interface LinkVirtualModulesOptions {
   entry: string
