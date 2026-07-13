@@ -46,7 +46,7 @@ export async function renderSFC<RawProps = any>(
   props: ComponentProp[]
   rendered: string
 }> {
-  const resolvedOptions = resolveSFCOptions(options)
+  const resolvedOptions = typeof options === 'string' ? { basePath: options } : options ?? {}
   const evaluatedComponent = resolvedOptions.vfs
     ? await componentFromSource<RawProps>(source, {
         filename: resolvedOptions.filename,
@@ -82,8 +82,4 @@ export async function renderSFCString<RawProps = any>(
     props,
     rendered: await toMarkdown(rendered),
   }
-}
-
-function resolveSFCOptions(options: string | RenderSFCOptions | undefined): RenderSFCOptions {
-  return typeof options === 'string' ? { basePath: options } : options ?? {}
 }
