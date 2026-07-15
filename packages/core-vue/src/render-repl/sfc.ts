@@ -1,7 +1,5 @@
-import type { DefineComponent } from 'vue'
-
 import type { ComponentProp } from '../render-shared'
-import type { InputProps } from '../types'
+import type { InputProps, RenderComponentInputComponent } from '../types'
 
 import { evaluate } from '@unrteljs/eval/browser'
 import { compileModulesForPreview } from '@velin-dev/source-vue'
@@ -38,7 +36,7 @@ export async function evaluateSFC(
   })
 
   // The compiled code now returns the module's default export directly
-  return evaluate<DefineComponent>(`
+  return evaluate<RenderComponentInputComponent<Record<string, unknown>>>(`
     const __modules__ = {};
     return (async function() {
       ${compiled.join('\n')}

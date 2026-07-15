@@ -48,16 +48,16 @@
     "react": "^19.2.1"
   },
   "dependencies": {
-    "@moeru/std": "0.1.0-beta.18",
-    "@unrteljs/eval": "^0.2.1",
+    "@moeru/std": "catalog:",
+    "@unrteljs/eval": "catalog:",
     "@velin-dev/source-shared": "workspace:^",
-    "esbuild": "^0.27.7",
-    "mlly": "^1.8.2",
-    "sucrase": "^3.35.1"
+    "esbuild": "catalog:",
+    "mlly": "catalog:",
+    "sucrase": "catalog:"
   },
   "devDependencies": {
-    "@types/react": "^19.2.17",
+    "@types/react": "catalog:",
     "@velin-dev/core-react": "workspace:^",
-    "react": "^19.2.7"
+    "react": "catalog:"
   }
 }

@@ -65,22 +65,23 @@
     "vue": ">= 3"
   },
   "dependencies": {
-    "@moeru/std": "0.1.0-beta.18",
-    "@unrteljs/eval": "^0.2.1",
+    "@moeru/std": "catalog:",
+    "@unrteljs/eval": "catalog:",
     "@velin-dev/source-vue": "workspace:^",
     "@velin-dev/utils": "workspace:^",
-    "@vue/compiler-sfc": "^3.5.39",
-    "@vue/reactivity": "^3.5.39",
-    "@vue/runtime-core": "^3.5.39",
-    "@vue/server-renderer": "^3.5.39",
-    "@vue/shared": "^3.5.39",
-    "error-stack-parser": "^2.1.4",
-    "hast-util-from-html": "^2.0.3",
-    "path-browserify-esm": "^1.0.6",
-    "std-env": "^4.2.0"
+    "@vue/compiler-sfc": "catalog:",
+    "@vue/reactivity": "catalog:",
+    "@vue/runtime-core": "catalog:",
+    "@vue/server-renderer": "catalog:",
+    "@vue/shared": "catalog:",
+    "error-stack-parser": "catalog:",
+    "hast-util-from-html": "catalog:",
+    "path-browserify-esm": "catalog:",
+    "std-env": "catalog:"
   },
   "devDependencies": {
-    "@types/hast": "^3.0.5",
-    "@vitejs/plugin-vue": "^6.0.6"
+    "@types/hast": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "vue": "catalog:"
   }
 }

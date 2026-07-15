@@ -1,7 +1,5 @@
-import type { DefineComponent } from '@vue/runtime-core'
-
 import type { ComponentProp } from '../render-shared'
-import type { InputProps } from '../types'
+import type { InputProps, RenderComponentInputComponent } from '../types'
 
 import ErrorStackParser from 'error-stack-parser'
 import path from 'path-browserify-esm'
@@ -26,7 +24,7 @@ export async function evaluateSFC(
   }
 
   // TODO: evaluate setup when not <script setup>
-  return await evaluate<DefineComponent>(`${script.content}`, { base: basePath })
+  return await evaluate<RenderComponentInputComponent<Record<string, unknown>>>(`${script.content}`, { base: basePath })
 }
 
 export async function resolvePropsFromString(content: string) {

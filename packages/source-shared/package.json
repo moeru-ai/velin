@@ -45,6 +45,6 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "mlly": "^1.8.2"
+    "mlly": "catalog:"
   }
 }

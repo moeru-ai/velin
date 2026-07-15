@@ -1,6 +1,6 @@
-import type { App, ComponentInternalInstance, DefineComponent } from 'vue'
+import type { App, ComponentInternalInstance } from 'vue'
 
-import type { InputProps } from '../types'
+import type { InputProps, RenderComponentInputComponent } from '../types'
 
 export interface ComponentPropText {
   type: 'string'
@@ -136,7 +136,7 @@ function inferType(
  *
  * @param component
  */
-export function resolveProps(component: DefineComponent | App<any>): ComponentProp[] {
+export function resolveProps(component: RenderComponentInputComponent<any> | App<any>): ComponentProp[] {
   if (component._component && component._component.props && typeof component._component.props === 'object') {
     return Object.entries(component._component.props).map(([key, propDef]) => {
       return {

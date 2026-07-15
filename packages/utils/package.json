@@ -54,19 +54,19 @@
     "attw": "attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm"
   },
   "dependencies": {
-    "hast-util-from-html": "^2.0.3",
-    "hast-util-select": "^6.0.4",
-    "hast-util-to-html": "^9.0.5",
-    "markdown-it": "^14.3.0",
-    "rehype-parse": "^9.0.1",
-    "rehype-remark": "^10.0.1",
-    "rehype-remove-comments": "^6.1.1",
-    "remark-stringify": "^11.0.0",
-    "sucrase": "^3.35.1",
-    "unified": "^11.0.5",
-    "unist-util-remove": "^4.0.0"
+    "hast-util-from-html": "catalog:",
+    "hast-util-select": "catalog:",
+    "hast-util-to-html": "catalog:",
+    "markdown-it": "catalog:",
+    "rehype-parse": "catalog:",
+    "rehype-remark": "catalog:",
+    "rehype-remove-comments": "catalog:",
+    "remark-stringify": "catalog:",
+    "sucrase": "catalog:",
+    "unified": "catalog:",
+    "unist-util-remove": "catalog:"
   },
   "devDependencies": {
-    "@types/hast": "^3.0.5"
+    "@types/hast": "catalog:"
   }
 }
