@@ -1,7 +1,7 @@
 {
   "name": "@velin-dev/core-vue",
   "type": "module",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Develop prompts with Vue SFC or Markdown like pro.",
   "author": {
     "name": "RainbowBird",
