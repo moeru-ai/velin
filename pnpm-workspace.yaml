@@ -61,7 +61,8 @@ catalog:
   '@unocss/reset': ^66.7.5
   '@unrteljs/eval': ^0.2.1
   '@vitejs/plugin-vue': ^6.0.6
-  '@vitest/browser-playwright': 4.1.4
+  '@vitest/browser-playwright': 4.1.10
+  '@vitest/coverage-v8': 4.1.10
   '@volar/jsdelivr': 2.4.23
   '@volar/monaco': 2.4.23
   '@volar/typescript': 2.4.23

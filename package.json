@@ -60,6 +60,7 @@
     "@unocss/preset-mini": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "bumpp": "catalog:",
     "changelogithub": "catalog:",
     "doctoc": "catalog:",
