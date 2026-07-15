@@ -52,9 +52,9 @@
     "@unrteljs/eval": "^0.2.1",
     "@velin-dev/source-shared": "workspace:^",
     "@velin-dev/utils": "workspace:^",
-    "@vue/compiler-sfc": "^3.5.32"
+    "@vue/compiler-sfc": "^3.5.39"
   },
   "devDependencies": {
-    "@babel/types": "^7.29.0"
+    "@babel/types": "^7.29.7"
   }
 }

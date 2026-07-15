@@ -2,6 +2,8 @@ minimumReleaseAge: 4320
 
 shellEmulator: true
 
+fetchTimeout: 600000
+
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - 'chokidar@4.0.3'
