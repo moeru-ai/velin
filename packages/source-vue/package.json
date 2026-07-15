@@ -1,7 +1,7 @@
 {
   "name": "@velin-dev/source-vue",
   "type": "module",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Vue source tooling for Velin.",
   "author": {
     "name": "RainbowBird",
