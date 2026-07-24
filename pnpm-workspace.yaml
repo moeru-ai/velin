@@ -28,7 +28,7 @@ catalog:
   '@antfu/eslint-config': ^9.1.0
   '@arethetypeswrong/cli': ^0.18.5
   '@arethetypeswrong/core': ^0.18.5
-  '@babel/types': ^7.29.7
+  '@babel/types': ^8.0.4
   '@catppuccin/palette': ^1.8.0
   '@iconify-json/carbon': ^1.2.24
   '@iconify-json/line-md': ^1.2.16
