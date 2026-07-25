@@ -189,6 +189,47 @@ describe('resolveProps', () => {
     })
   })
 
+  describe('array declarations', () => {
+    // `defineProps(['city'])` survives compilation as `props: ['city']`.
+    // Enumerating it as an object would name the props after array indices.
+    it('should resolve array-declared props by name', () => {
+      const component = {
+        _component: {
+          props: ['city', 'unit'],
+        },
+      }
+      const props = resolveProps(component as any)
+      expect(props).toEqual([
+        { key: 'city', title: 'city', type: 'unknown', required: false },
+        { key: 'unit', title: 'unit', type: 'unknown', required: false },
+      ])
+    })
+
+    it('should resolve array-declared props from ComponentInternalInstance', () => {
+      const component = { props: ['city'] }
+      const props = resolveProps(component as any)
+      expect(props).toEqual([
+        { key: 'city', title: 'city', type: 'unknown', required: false },
+      ])
+    })
+  })
+
+  describe('description', () => {
+    it('should read a description off the prop options', () => {
+      const component = {
+        _component: {
+          props: {
+            city: { type: String, required: true, description: 'City to look up' },
+          },
+        },
+      }
+      const props = resolveProps(component as any)
+      expect(props).toEqual([
+        { key: 'city', title: 'city', type: 'string', required: true, description: 'City to look up' },
+      ])
+    })
+  })
+
   describe('empty props', () => {
     it('should return empty array when no props defined', () => {
       const component = {}

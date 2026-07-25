@@ -205,6 +205,66 @@ const markdown = await renderComponent(Prompt, { name: 'Velin' })
 
 `componentFromSource` and `componentFromFile` evaluate transformed ESM and are not a sandbox or security boundary. Use them only with trusted source.
 
+### As an LLM tool (Vue)
+
+A prompt component is already most of a tool: its props are the arguments, its script does the work, and what it renders is the answer. `defineTool` closes the gap by deriving the argument schema from the props, so the same component can be handed to a model.
+
+```html
+<!-- GetWeather.vue -->
+<script setup lang="ts">
+import { onServerPrefetch, ref } from 'vue'
+
+const props = defineProps<{ city: string }>()
+
+const forecast = ref('')
+onServerPrefetch(async () => {
+  forecast.value = await fetch(`https://example.com/weather/${props.city}`).then(r => r.text())
+})
+</script>
+
+<template>
+  <div>The weather in {{ city }} is {{ forecast }}.</div>
+</template>
+```
+
+```ts
+import { defineTool } from '@velin-dev/core-vue'
+
+import GetWeather from './GetWeather.vue'
+
+const tool = defineTool(GetWeather, { description: 'Get the current weather for a city.' })
+
+tool.function.parameters
+// { type: 'object', properties: { city: { type: 'string' } }, required: ['city'], additionalProperties: false }
+```
+
+Rendering goes through Vue's server renderer, so `onServerPrefetch` and async `setup` are awaited before the result comes back.
+
+Runners that execute tools themselves take the tool as-is:
+
+```ts
+import { generateText } from '@xsai/generate-text'
+
+await generateText({ ...options, messages, tools: [tool] })
+```
+
+With an SDK that only sends the definition, the tool serializes to the wire object — `execute` is a function, so it drops out — and closes the loop in one call:
+
+```ts
+const completion = await openai.chat.completions.create({ model, messages, tools: [tool] })
+const call = completion.choices[0].message.tool_calls?.[0]
+
+if (call) {
+  // `arguments` arrives as a JSON string; `execute` accepts it directly.
+  const content = await tool.execute(call.function.arguments, { toolCallId: call.id })
+  messages.push({ role: 'tool', tool_call_id: call.id, content })
+}
+```
+
+In a component, `useTool` from `@velin-dev/vue` returns the same tool plus a `pending` ref for the in-flight state.
+
+Arguments the component does not declare are dropped, and missing or mistyped ones raise a `VelinToolInputError` whose message is written to be handed back to the model.
+
 ## Similar projects
 
 - [poml](https://github.com/microsoft/poml) / [pomljs](https://github.com/microsoft/poml)

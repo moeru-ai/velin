@@ -6,7 +6,7 @@ import { fromHtml } from 'hast-util-from-html'
 import { renderMarkdownString } from './markdown'
 import { renderSFCString } from './sfc'
 
-export { renderComponent, resolveProps } from '../render-shared'
+export { defineTool, propsToJsonSchema, renderComponent, resolveProps, useToolContext, velinToolContextKey, VelinToolInputError } from '../render-shared'
 export { renderMarkdownString } from './markdown'
 export { renderSFCString } from './sfc'
 
