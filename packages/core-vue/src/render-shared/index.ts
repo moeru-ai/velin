@@ -1,4 +1,6 @@
 export * from './compile'
 export * from './component'
+export * from './json-schema'
 export * from './props'
 export * from './template'
+export * from './tool'

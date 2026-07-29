@@ -36,6 +36,12 @@ export type ComponentProp = (ComponentPropText | ComponentPropBool | ComponentPr
   title: string
   key: string
   required?: boolean
+  /**
+   * Read from an extra `description` key on the runtime prop options, which Vue
+   * itself ignores. Carried through to the tool argument schema so a model can
+   * be told what a parameter means.
+   */
+  description?: string
 }
 
 function willTurnIntoNumber(value: unknown): boolean {
@@ -130,6 +136,37 @@ function inferType(
   return type
 }
 
+function resolvePropDef(key: string, propDef: unknown): ComponentProp {
+  const options = propDef != null && typeof propDef === 'object'
+    ? propDef as { required?: boolean, description?: string }
+    : undefined
+
+  const prop: ComponentProp = {
+    key,
+    title: key,
+    type: inferType(propDef),
+    required: options && 'required' in options ? options.required : false,
+  }
+
+  if (options && typeof options.description === 'string')
+    prop.description = options.description
+
+  return prop
+}
+
+function resolvePropsOption(props: object): ComponentProp[] {
+  // `defineProps(['city'])` declares names without types. Enumerating it as an
+  // object would yield array indices as prop names, which then travel onwards
+  // as the component's declared prop list.
+  if (Array.isArray(props)) {
+    return props
+      .filter((key): key is string => typeof key === 'string')
+      .map(key => ({ key, title: key, type: 'unknown', required: false }))
+  }
+
+  return Object.entries(props).map(([key, propDef]) => resolvePropDef(key, propDef))
+}
+
 /**
  * @see https://github.com/vuejs/devtools/blob/e7dffa24fe98b212404a1451818b6c66739f88ee/packages/devtools-kit/src/core/component/state/process.ts#L62
  * @see https://github.com/vuejs/devtools/blob/e7dffa24fe98b212404a1451818b6c66739f88ee/packages/devtools-kit/src/core/app/index.ts#L14
@@ -138,24 +175,10 @@ function inferType(
  */
 export function resolveProps(component: RenderComponentInputComponent<any> | App<any>): ComponentProp[] {
   if (component._component && component._component.props && typeof component._component.props === 'object') {
-    return Object.entries(component._component.props).map(([key, propDef]) => {
-      return {
-        key,
-        title: key,
-        type: inferType(propDef),
-        required: propDef != null && typeof propDef === 'object' && 'required' in propDef ? (propDef as { required?: boolean }).required : false,
-      }
-    })
+    return resolvePropsOption(component._component.props)
   }
   else if ((component as unknown as ComponentInternalInstance).props && typeof (component as unknown as ComponentInternalInstance).props === 'object') {
-    return Object.entries((component as unknown as ComponentInternalInstance).props).map(([key, propDef]) => {
-      return {
-        key,
-        title: key,
-        type: inferType(propDef),
-        required: propDef != null && typeof propDef === 'object' && 'required' in propDef ? (propDef as { required?: boolean }).required : false,
-      }
-    })
+    return resolvePropsOption((component as unknown as ComponentInternalInstance).props)
   }
   else {
     return []

@@ -40,11 +40,24 @@ export async function renderSFCString<RawProps = any>(
   return renderSFCStringBrowser(source, data, typeof options === 'string' ? options : options?.basePath)
 }
 
+export type {
+  ComponentProp,
+  DefineToolOptions,
+  JsonSchema,
+  VelinTool,
+  VelinToolExecuteOptions,
+} from './render-shared'
+
 export {
+  defineTool,
   normalizeProps,
   onlyRender,
   onlySetup,
+  propsToJsonSchema,
   renderComponent,
   resolveProps,
+  useToolContext,
+  velinToolContextKey,
+  VelinToolInputError,
 } from './render-shared'
 export * from './types'
