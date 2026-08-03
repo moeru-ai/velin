@@ -94,7 +94,7 @@ catalog:
   hast-util-from-html: ^2.0.3
   hast-util-select: ^6.0.4
   hast-util-to-html: ^9.0.5
-  markdown-it: ^14.3.0
+  markdown-it: ^15.0.0
   mlly: ^1.8.2
   monaco-editor-core: ^0.52.2
   path-browserify-esm: ^1.0.6
