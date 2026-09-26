@@ -1,9 +1,20 @@
+import { createElement } from 'react'
 import { describe, expect, it } from 'vitest'
 
 import { ImportedPrompt } from '../testdata/imported-prompt'
 import { renderComponent, renderElement } from './'
 
 describe('renderComponent from render-node', () => {
+  it('should preserve XML tags while converting their HTML children', async () => {
+    function Prompt() {
+      return createElement('instructions', { priority: 'high' }, <strong>Be concise</strong>, createElement('checkpoint'))
+    }
+
+    await expect(renderComponent(Prompt)).resolves.toBe(
+      '<instructions priority="high">**Be concise**<checkpoint></checkpoint></instructions>\n',
+    )
+  })
+
   it('should type-check props requirements', () => {
     function Prompt() {
       return <div>Hello Velin</div>
