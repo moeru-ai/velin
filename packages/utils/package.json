@@ -57,6 +57,7 @@
     "hast-util-from-html": "catalog:",
     "hast-util-select": "catalog:",
     "hast-util-to-html": "catalog:",
+    "html-tags": "catalog:",
     "markdown-it": "catalog:",
     "rehype-parse": "catalog:",
     "rehype-remark": "catalog:",

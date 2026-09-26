@@ -7,6 +7,16 @@ import { describe, expect, it } from 'vitest'
 import { renderMarkdownString } from './markdown'
 
 describe('renderMarkdownString', async () => {
+  it('should preserve XML tags in Markdown prompts', async () => {
+    const { rendered } = await renderMarkdownString(
+      '<instructions priority="high">Be concise</instructions>',
+      {},
+      fileURLToPath(import.meta.url),
+    )
+
+    expect(rendered).toBe('<instructions priority="high">Be concise</instructions>\n')
+  })
+
   it('should be able to render simple SFC', async () => {
     const content = await readFile(join(dirname(fileURLToPath(import.meta.url)), 'testdata', 'simple.velin.md'), 'utf-8')
     const { props, rendered } = await renderMarkdownString(content)

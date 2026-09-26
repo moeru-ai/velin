@@ -10,6 +10,14 @@ import { renderComponent } from '../render-shared'
 import { evaluateSFC, renderSFCString, resolvePropsFromString } from './sfc'
 
 describe('renderSFCString', async () => {
+  it('should preserve XML tags while converting their HTML children', async () => {
+    const { rendered } = await renderSFCString(
+      '<template><instructions priority="high"><strong>Be concise</strong><checkpoint /></instructions></template>',
+    )
+
+    expect(rendered).toBe('<instructions priority="high">**Be concise**<checkpoint></checkpoint></instructions>\n')
+  })
+
   it('should be able to render simple SFC', async () => {
     const { props, rendered } = await renderSFCString(simpleSfc)
     expect(props).toBeDefined()

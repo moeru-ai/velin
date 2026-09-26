@@ -213,6 +213,9 @@ catalogs:
     hast-util-to-html:
       specifier: ^9.0.5
       version: 9.0.5
+    html-tags:
+      specifier: ^5.1.0
+      version: 5.1.0
     markdown-it:
       specifier: ^15.0.0
       version: 15.0.0
@@ -818,6 +821,9 @@ importers:
       hast-util-to-html:
         specifier: 'catalog:'
         version: 9.0.5
+      html-tags:
+        specifier: 'catalog:'
+        version: 5.1.0
       markdown-it:
         specifier: 'catalog:'
         version: 15.0.0
@@ -4103,6 +4109,10 @@ packages:
 
   html-entities@2.6.0:
     resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
+
+  html-tags@5.1.0:
+    resolution: {integrity: sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ==}
+    engines: {node: '>=20.10'}
 
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
@@ -9681,6 +9691,8 @@ snapshots:
   hookable@6.1.1: {}
 
   html-entities@2.6.0: {}
+
+  html-tags@5.1.0: {}
 
   html-void-elements@3.0.0: {}
 

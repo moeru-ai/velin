@@ -11,6 +11,16 @@ import { evaluateSFC, renderSFCString, resolvePropsFromString } from './sfc'
 const testDir = join(dirname(fileURLToPath(import.meta.url)), 'testdata')
 
 describe('renderSFCString', async () => {
+  it('should preserve XML tags while converting their HTML children', async () => {
+    const { rendered } = await renderSFCString(
+      '<template><instructions priority="high"><strong>Be concise</strong><checkpoint /></instructions></template>',
+      {},
+      fileURLToPath(import.meta.url),
+    )
+
+    expect(rendered).toBe('<instructions priority="high">**Be concise**<checkpoint></checkpoint></instructions>\n')
+  })
+
   it('should be able to render simple SFC', async () => {
     const content = await readFile(join(testDir, 'simple.velin.vue'), 'utf-8')
     const { props, rendered } = await renderSFCString(content)
